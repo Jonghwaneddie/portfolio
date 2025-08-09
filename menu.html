@@ -109,25 +109,19 @@
 
       const submenu1 = document.getElementById('projectSubmenu1');
       const submenu2 = document.getElementById('projectSubmenu2');
-
       const targetSubmenu = document.getElementById(submenuId);
-
       if (!targetSubmenu) return;
 
-      // 열려있는 다른 서브메뉴 닫기
-      if (submenuId === 'projectSubmenu1') {
-        if (submenu2.classList.contains('show')) {
-          submenu2.style.maxHeight = null;
-          submenu2.classList.remove('show');
-        }
-      } else if (submenuId === 'projectSubmenu2') {
-        if (submenu1.classList.contains('show')) {
-          submenu1.style.maxHeight = null;
-          submenu1.classList.remove('show');
-        }
+      // 다른 메뉴 닫기
+      if (submenuId === 'projectSubmenu1' && submenu2.classList.contains('show')) {
+        submenu2.style.maxHeight = null;
+        submenu2.classList.remove('show');
+      } else if (submenuId === 'projectSubmenu2' && submenu1.classList.contains('show')) {
+        submenu1.style.maxHeight = null;
+        submenu1.classList.remove('show');
       }
 
-      // 토글 대상 서브메뉴 열기/닫기
+      // 토글 대상 메뉴 열고 닫기
       if (targetSubmenu.classList.contains('show')) {
         targetSubmenu.style.maxHeight = null;
         targetSubmenu.classList.remove('show');
