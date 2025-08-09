@@ -1,8 +1,9 @@
 <nav>
   <div class="site-name">Jonghwan Lee</div>
   <ul>
-    <li>
-      <a href="#" onclick="toggleProjectMenu(event)">=</a>
+    <li style="display: flex; flex-direction: column; gap: 10px;">
+      <a href="#" onclick="toggleProjectMenu(event, 'projectSubmenu')" class="toggle-btn">ㅡ</a>
+      <a href="#" onclick="toggleProjectMenu(event, 'projectSubmenu')" class="toggle-btn">=</a>
       <div class="submenu" id="projectSubmenu">
         <a href="loggia.html">Loggia (2025)</a>
         <a href="hypercube.html">Hypercube (2023)</a>
@@ -15,10 +16,30 @@
     <li><a href="contact.html">Contact</a></li>
   </ul>
 
+  <style>
+    /* 버튼 스타일 공통 */
+    .toggle-btn {
+      font-size: 10px;
+      font-weight: 300;
+      color: black;
+      letter-spacing: 1.2px;
+      text-decoration: none;
+      cursor: pointer;
+      display: block;
+      width: 100%;
+      transition: color 0.3s ease;
+      padding: 0 4px;
+      user-select: none;
+    }
+    .toggle-btn:hover {
+      color: #555;
+    }
+  </style>
+
   <script>
-    function toggleProjectMenu(e) {
+    function toggleProjectMenu(e, submenuId) {
       e.preventDefault();
-      const submenu = document.getElementById("projectSubmenu");
+      const submenu = document.getElementById(submenuId);
       if (submenu.classList.contains("show")) {
         submenu.style.maxHeight = null;
         submenu.classList.remove("show");
