@@ -95,19 +95,4 @@
       color: #777;
     }
   </style>
-
-  <script>
-    function toggleProjectMenu(e, submenuId) {
-      e.preventDefault();
-      const submenu = document.getElementById(submenuId);
-      if (!submenu) return;
-      if (submenu.classList.contains("show")) {
-        submenu.style.maxHeight = null;
-        submenu.classList.remove("show");
-      } else {
-        submenu.style.maxHeight = submenu.scrollHeight + "px";
-        submenu.classList.add("show");
-      }
-    }
-  </script>
 </nav>
