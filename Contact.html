@@ -1,107 +1,111 @@
-<nav>
-  <div class="site-name">
-    <a href="index.html" style="text-decoration:none; color:black; user-select:none;">Jonghwan Lee</a>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Jonghwan Lee - Contact</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;700&display=swap');
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  body {
+    font-family: 'Montserrat', sans-serif;
+    background: #fff;
+    color: #000;
+    margin-left: 120px; /* 메뉴 공간 확보 */
+    padding: 60px 20px;
+  }
+  h1 {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    margin-bottom: 30px;
+  }
+  .email {
+    font-size: 10px;
+    font-weight: 300;
+    text-decoration: underline;
+    margin-bottom: 20px;
+  }
+  .email a {
+    color: inherit;
+    text-decoration: inherit;
+    cursor: pointer;
+  }
+  .note {
+    font-size: 10px;
+    font-weight: 300;
+    color: #aaa;
+    line-height: 1.6;
+    margin-bottom: 60px;
+  }
+  footer {
+    font-size: 10px;
+    font-weight: 300;
+    color: #222;
+    line-height: 1.6;
+  }
+  footer .copyright {
+    margin-bottom: 20px;
+  }
+</style>
+</head>
+<body>
+
+<div id="menu-container"></div>
+
+<h1>Contact</h1>
+<div class="email">
+  <a href="mailto:enddl1994@gmail.com">enddl1994@gmail.com</a>
+</div>
+<div class="note">
+  ＊연락처를 함께 남겨주세요.<br />
+  ＊Please leave your email address.
+</div>
+
+<footer>
+  <div class="copyright">
+    © 2025. 이종환 Jonghwan Lee All Rights Reserved
   </div>
-  <ul>
-    <li style="display: flex; flex-direction: column; gap: 10px;">
-      <a href="#" class="toggle-btn" onclick="toggleProjectMenu(event, 'projectSubmenu1')">－</a>
-      <a href="#" class="toggle-btn" onclick="toggleProjectMenu(event, 'projectSubmenu2')">≡</a>
+  <div>
+    본 웹사이트에 실린 글과 도판은 작가의 동의없이 임의 목적으로 사용할 수 없습니다.
+  </div>
+</footer>
 
-      <div class="submenu" id="projectSubmenu1">
-        <a href="loggia.html">Loggia (2025)</a>
-        <a href="hypercube.html">Hypercube (2023)</a>
-        <a href="cabinet.html">Cabinet (2023)</a>
-      </div>
+<script>
+  fetch('menu.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('menu-container').innerHTML = data;
+      window.toggleProjectMenu = function(e, submenuId) {
+        e.preventDefault();
 
-      <div class="submenu" id="projectSubmenu2">
-        <a href="project1.html">Project 1</a>
-        <a href="project2.html">Project 2</a>
-        <a href="project3.html">Project 3</a>
-      </div>
-    </li>
-    <li><a href="#">Works</a></li>
-    <li><a href="#">Information</a></li>
-    <li><a href="#">Texts</a></li>
-    <li><a href="contact.html">Contact</a></li>
-  </ul>
+        const submenu1 = document.getElementById('projectSubmenu1');
+        const submenu2 = document.getElementById('projectSubmenu2');
+        const targetSubmenu = document.getElementById(submenuId);
+        if (!targetSubmenu) return;
 
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;700&display=swap');
+        if (submenuId === 'projectSubmenu1' && submenu2.classList.contains('show')) {
+          submenu2.style.maxHeight = null;
+          submenu2.classList.remove('show');
+        } else if (submenuId === 'projectSubmenu2' && submenu1.classList.contains('show')) {
+          submenu1.style.maxHeight = null;
+          submenu1.classList.remove('show');
+        }
 
-    nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 120px;
-      height: 100vh;
-      background: transparent;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      padding: 20px 10px;
-      gap: 40px;
-      font-family: 'Montserrat', sans-serif;
-    }
+        if (targetSubmenu.classList.contains('show')) {
+          targetSubmenu.style.maxHeight = null;
+          targetSubmenu.classList.remove('show');
+        } else {
+          targetSubmenu.style.maxHeight = targetSubmenu.scrollHeight + "px";
+          targetSubmenu.classList.add('show');
+        }
+      }
+    });
+</script>
 
-    .site-name {
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 1.5px;
-      margin-bottom: 40px;
-    }
-
-    ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      width: 100%;
-    }
-
-    li {
-      position: relative;
-    }
-
-    a {
-      font-size: 10px;
-      font-weight: 300;
-      letter-spacing: 1.2px;
-      color: black;
-      text-decoration: none;
-      display: block;
-      width: 100%;
-      cursor: pointer;
-      padding: 0 4px;
-      user-select: none;
-      transition: color 0.3s ease;
-    }
-
-    a:hover {
-      color: #555;
-    }
-
-    .toggle-btn {
-      display: block;
-    }
-
-    .submenu {
-      overflow: hidden;
-      max-height: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-left: 10px;
-      transition: max-height 0.4s ease;
-    }
-
-    .submenu a {
-      color: #333;
-    }
-
-    .submenu a:hover {
-      color: #777;
-    }
-  </style>
-</nav>
+</body>
+</html>
