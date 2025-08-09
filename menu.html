@@ -1,5 +1,7 @@
 <nav>
-  <div class="site-name">Jonghwan Lee</div>
+  <div class="site-name">
+    <a href="/" style="text-decoration:none; color:black; user-select:none;">Jonghwan Lee</a>
+  </div>
   <ul>
     <li style="display: flex; flex-direction: column; gap: 10px;">
       <a href="#" class="toggle-btn" onclick="toggleProjectMenu(event, 'projectSubmenu1')">－</a>
@@ -102,33 +104,4 @@
       color: #777;
     }
   </style>
-
-  <script>
-    function toggleProjectMenu(e, submenuId) {
-      e.preventDefault();
-
-      const submenu1 = document.getElementById('projectSubmenu1');
-      const submenu2 = document.getElementById('projectSubmenu2');
-      const targetSubmenu = document.getElementById(submenuId);
-      if (!targetSubmenu) return;
-
-      // 다른 메뉴 닫기
-      if (submenuId === 'projectSubmenu1' && submenu2.classList.contains('show')) {
-        submenu2.style.maxHeight = null;
-        submenu2.classList.remove('show');
-      } else if (submenuId === 'projectSubmenu2' && submenu1.classList.contains('show')) {
-        submenu1.style.maxHeight = null;
-        submenu1.classList.remove('show');
-      }
-
-      // 토글 대상 메뉴 열고 닫기
-      if (targetSubmenu.classList.contains('show')) {
-        targetSubmenu.style.maxHeight = null;
-        targetSubmenu.classList.remove('show');
-      } else {
-        targetSubmenu.style.maxHeight = targetSubmenu.scrollHeight + "px";
-        targetSubmenu.classList.add('show');
-      }
-    }
-  </script>
 </nav>
