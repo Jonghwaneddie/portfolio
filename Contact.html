@@ -15,7 +15,7 @@
       font-family: 'Montserrat', sans-serif;
       background: #fff;
       color: #000;
-      margin-left: 120px; /* 사이드 메뉴 공간 확보 */
+      margin-left: 120px; /* 메뉴 사이드바 공간 확보 */
       padding: 60px 20px;
     }
     h1 {
@@ -54,6 +54,9 @@
   </style>
 </head>
 <body>
+  <!-- 메뉴 불러올 영역 -->
+  <div id="menu-placeholder"></div>
+
   <h1>Contact</h1>
   <div class="email">
     <a href="mailto:enddl1994@gmail.com">enddl1994@gmail.com</a>
@@ -70,5 +73,14 @@
       본 웹사이트에 실린 글과 도판은 작가의 동의없이 임의 목적으로 사용할 수 없습니다.
     </div>
   </footer>
+
+  <script>
+    fetch('menu.html')
+      .then(response => response.text())
+      .then(html => {
+        document.getElementById('menu-placeholder').innerHTML = html;
+      })
+      .catch(error => console.error('메뉴 로드 실패:', error));
+  </script>
 </body>
 </html>
