@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Information</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;700&display=swap');
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: #fff;
+      color: #000;
+      margin-left: 120px; /* 메뉴 자리 확보 */
+      padding: 60px 20px;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    h1 {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      margin-bottom: 30px;
+    }
+    .content-wrapper {
+      display: flex;
+      gap: 40px;
+      font-size: 10px;
+      font-weight: 300;
+      line-height: 1.6;
+    }
+    .left, .right {
+      width: 50%;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .line {
+      display: flex;
+      gap: 6px;
+    }
+    .number {
+      font-weight: 700;
+      width: 20px;
+      flex-shrink: 0;
+    }
+    .text {
+      flex-grow: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="menu-container"></div>
+
+  <h1>Information</h1>
+
+  <div class="content-wrapper">
+    <div class="left">
+      <div class="line"><div class="number">1.</div> <div class="text">첫 번째 한글 텍스트입니다.</div></div>
+      <div class="line"><div class="number">2.</div> <div class="text">두 번째 한글 텍스트입니다.</div></div>
+      <div class="line"><div class="number">3.</div> <div class="text">세 번째 한글 텍스트입니다.</div></div>
+      <div class="line"><div class="number">4.</div> <div class="text">네 번째 한글 텍스트입니다.</div></div>
+      <div class="line"><div class="number">5.</div> <div class="text">다섯 번째 한글 텍스트입니다.</div></div>
+      <div class="line"><div class="number">6.</div> <div class="text">여섯 번째 한글 텍스트입니다.</div></div>
+      <div class="line"><div class="number">7.</div> <div class="text">일곱 번째 한글 텍스트입니다.</div></div>
+      <div class="line"><div class="number">8.</div> <div class="text">여덟 번째 한글 텍스트입니다.</div></div>
+      <div class="line"><div class="number">9.</div> <div class="text">아홉 번째 한글 텍스트입니다.</div></div>
+      <div class="line"><div class="number">10.</div> <div class="text">열 번째 한글 텍스트입니다.</div></div>
+    </div>
+    <div class="right">
+      <div class="line"><div class="number">1.</div> <div class="text">This is the first English text.</div></div>
+      <div class="line"><div class="number">2.</div> <div class="text">This is the second English text.</div></div>
+      <div class="line"><div class="number">3.</div> <div class="text">This is the third English text.</div></div>
+      <div class="line"><div class="number">4.</div> <div class="text">This is the fourth English text.</div></div>
+      <div class="line"><div class="number">5.</div> <div class="text">This is the fifth English text.</div></div>
+      <div class="line"><div class="number">6.</div> <div class="text">This is the sixth English text.</div></div>
+      <div class="line"><div class="number">7.</div> <div class="text">This is the seventh English text.</div></div>
+      <div class="line"><div class="number">8.</div> <div class="text">This is the eighth English text.</div></div>
+      <div class="line"><div class="number">9.</div> <div class="text">This is the ninth English text.</div></div>
+      <div class="line"><div class="number">10.</div> <div class="text">This is the tenth English text.</div></div>
+    </div>
+  </div>
+
+  <script>
+    fetch('menu.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('menu-container').innerHTML = data;
+
+        window.toggleProjectMenu = function(e, submenuId) {
+          e.preventDefault();
+
+          const submenu1 = document.getElementById('projectSubmenu1');
+          const submenu2 = document.getElementById('projectSubmenu2');
+          const targetSubmenu = document.getElementById(submenuId);
+          if (!targetSubmenu) return;
+
+          if (submenuId === 'projectSubmenu1' && submenu2.classList.contains('show')) {
+            submenu2.style.maxHeight = null;
+            submenu2.classList.remove('show');
+          } else if (submenuId === 'projectSubmenu2' && submenu1.classList.contains('show')) {
+            submenu1.style.maxHeight = null;
+            submenu1.classList.remove('show');
+          }
+
+          if (targetSubmenu.classList.contains('show')) {
+            targetSubmenu.style.maxHeight = null;
+            targetSubmenu.classList.remove('show');
+          } else {
+            targetSubmenu.style.maxHeight = targetSubmenu.scrollHeight + "px";
+            targetSubmenu.classList.add('show');
+          }
+        }
+      });
+  </script>
+
+</body>
+</html>
