@@ -1,0 +1,31 @@
+<nav>
+  <div class="site-name">Jonghwan Lee</div>
+  <ul>
+    <li>
+      <a href="#" onclick="toggleProjectMenu(event)">=</a>
+      <div class="submenu" id="projectSubmenu">
+        <a href="loggia.html">Loggia (2025)</a>
+        <a href="hypercube.html">Hypercube (2023)</a>
+        <a href="cabinet.html">Cabinet (2023)</a>
+      </div>
+    </li>
+    <li><a href="#">Works</a></li>
+    <li><a href="#">Information</a></li>
+    <li><a href="#">Texts</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+
+  <script>
+    function toggleProjectMenu(e) {
+      e.preventDefault(); // 링크 기본 동작 막기
+      const submenu = document.getElementById("projectSubmenu");
+      if (submenu.classList.contains("show")) {
+        submenu.style.maxHeight = null;
+        submenu.classList.remove("show");
+      } else {
+        submenu.style.maxHeight = submenu.scrollHeight + "px";
+        submenu.classList.add("show");
+      }
+    }
+  </script>
+</nav>
