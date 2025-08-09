@@ -1,134 +1,79 @@
-<nav>
-  <div class="site-name">Jonghwan Lee</div>
-  <ul>
-    <li style="display: flex; flex-direction: column; gap: 10px;">
-      <a href="#" class="toggle-btn" onclick="toggleProjectMenu(event, 'projectSubmenu1')">－</a>
-      <a href="#" class="toggle-btn" onclick="toggleProjectMenu(event, 'projectSubmenu2')">≡</a>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Jonghwan Lee - Index</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;700&display=swap');
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  body {
+    font-family: 'Montserrat', sans-serif;
+    background: #fff;
+    color: #000;
+    margin-left: 120px; /* 메뉴 공간 확보 */
+    padding: 60px 20px;
+  }
+  h1 {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    margin-bottom: 30px;
+  }
+  p {
+    font-size: 10px;
+    font-weight: 300;
+    letter-spacing: 1.2px;
+    line-height: 1.6;
+  }
+</style>
+</head>
+<body>
 
-      <div class="submenu" id="projectSubmenu1">
-        <a href="loggia.html">Loggia (2025)</a>
-        <a href="hypercube.html">Hypercube (2023)</a>
-        <a href="cabinet.html">Cabinet (2023)</a>
-      </div>
+<div id="menu-container"></div>
 
-      <div class="submenu" id="projectSubmenu2">
-        <a href="project1.html">Project 1</a>
-        <a href="project2.html">Project 2</a>
-        <a href="project3.html">Project 3</a>
-      </div>
-    </li>
-    <li><a href="#">Works</a></li>
-    <li><a href="#">Information</a></li>
-    <li><a href="#">Texts</a></li>
-    <li><a href="contact.html">Contact</a></li>
-  </ul>
+<h1>Welcome to Jonghwan Lee's Portfolio</h1>
+<p>
+  이곳은 이종환 작가의 포트폴리오 홈페이지입니다.<br />
+  작품과 정보들을 보실 수 있습니다.
+</p>
 
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;700&display=swap');
+<script>
+  fetch('menu.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('menu-container').innerHTML = data;
+      // 메뉴 토글 함수 정의
+      window.toggleProjectMenu = function(e, submenuId) {
+        e.preventDefault();
 
-    nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 120px;
-      height: 100vh;
-      background: transparent;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      padding: 20px 10px;
-      gap: 40px;
-      font-family: 'Montserrat', sans-serif;
-    }
+        const submenu1 = document.getElementById('projectSubmenu1');
+        const submenu2 = document.getElementById('projectSubmenu2');
+        const targetSubmenu = document.getElementById(submenuId);
+        if (!targetSubmenu) return;
 
-    .site-name {
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 1.5px;
-      margin-bottom: 40px;
-    }
+        if (submenuId === 'projectSubmenu1' && submenu2.classList.contains('show')) {
+          submenu2.style.maxHeight = null;
+          submenu2.classList.remove('show');
+        } else if (submenuId === 'projectSubmenu2' && submenu1.classList.contains('show')) {
+          submenu1.style.maxHeight = null;
+          submenu1.classList.remove('show');
+        }
 
-    ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      width: 100%;
-    }
-
-    li {
-      position: relative;
-    }
-
-    a {
-      font-size: 10px;
-      font-weight: 300;
-      letter-spacing: 1.2px;
-      color: black;
-      text-decoration: none;
-      display: block;
-      width: 100%;
-      cursor: pointer;
-      padding: 0 4px;
-      user-select: none;
-      transition: color 0.3s ease;
-    }
-
-    a:hover {
-      color: #555;
-    }
-
-    .toggle-btn {
-      display: block;
-    }
-
-    .submenu {
-      overflow: hidden;
-      max-height: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-left: 10px;
-      transition: max-height 0.4s ease;
-    }
-
-    .submenu a {
-      color: #333;
-    }
-
-    .submenu a:hover {
-      color: #777;
-    }
-  </style>
-
-  <script>
-    function toggleProjectMenu(e, submenuId) {
-      e.preventDefault();
-
-      const submenu1 = document.getElementById('projectSubmenu1');
-      const submenu2 = document.getElementById('projectSubmenu2');
-      const targetSubmenu = document.getElementById(submenuId);
-      if (!targetSubmenu) return;
-
-      // 다른 메뉴 닫기
-      if (submenuId === 'projectSubmenu1' && submenu2.classList.contains('show')) {
-        submenu2.style.maxHeight = null;
-        submenu2.classList.remove('show');
-      } else if (submenuId === 'projectSubmenu2' && submenu1.classList.contains('show')) {
-        submenu1.style.maxHeight = null;
-        submenu1.classList.remove('show');
+        if (targetSubmenu.classList.contains('show')) {
+          targetSubmenu.style.maxHeight = null;
+          targetSubmenu.classList.remove('show');
+        } else {
+          targetSubmenu.style.maxHeight = targetSubmenu.scrollHeight + "px";
+          targetSubmenu.classList.add('show');
+        }
       }
+    });
+</script>
 
-      // 토글 대상 메뉴 열고 닫기
-      if (targetSubmenu.classList.contains('show')) {
-        targetSubmenu.style.maxHeight = null;
-        targetSubmenu.classList.remove('show');
-      } else {
-        targetSubmenu.style.maxHeight = targetSubmenu.scrollHeight + "px";
-        targetSubmenu.classList.add('show');
-      }
-    }
-  </script>
-</nav>
+</body>
+</html>
