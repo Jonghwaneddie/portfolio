@@ -19,21 +19,33 @@
       padding: 60px 20px;
       color: #000;
 
-      /* ✅ 배경: 부드러운 흐름 + 극적인 대비 + 15초 반복 */
-      background: linear-gradient(135deg, #1e1e1e, #eeeeee, #444444, #dddddd);
-      background-size: 400% 400%;
-      animation: gradientShift 15s ease infinite;
+      /* ✅ 쿨그레이 계열 10가지로 부드럽게 전환 */
+      background: linear-gradient(
+        120deg,
+        #f5f7f9,
+        #e4e7ea,
+        #d3d7db,
+        #c1c7cc,
+        #afb8be,
+        #9ea9b0,
+        #8c9aa2,
+        #7b8b94,
+        #697c86,
+        #586d78
+      );
+      background-size: 1000% 1000%;
+      animation: smoothCoolGreyShift 40s ease-in-out infinite;
     }
 
-    @keyframes gradientShift {
+    @keyframes smoothCoolGreyShift {
       0% {
-        background-position: 0% 0%;
+        background-position: 0% 50%;
       }
       50% {
-        background-position: 100% 100%;
+        background-position: 100% 50%;
       }
       100% {
-        background-position: 0% 0%;
+        background-position: 0% 50%;
       }
     }
 
@@ -54,16 +66,13 @@
 </head>
 <body>
 
-  <!-- ✅ 메뉴 영역 -->
   <div id="menu-container"></div>
 
-  <!-- ✅ 페이지 제목 및 내용 -->
   <h1></h1>
   <p>
-    <!-- 이곳에 콘텐츠를 작성하세요 -->
+    <!-- 여기에 텍스트 입력 -->
   </p>
 
-  <!-- ✅ 메뉴 로딩 및 토글 스크립트 -->
   <script>
     fetch('menu.html')
       .then(response => response.text())
