@@ -92,7 +92,7 @@
     const totalFrames = slideDuration / (1000 / fps);
 
     const gap = 6;  // 숫자 사이 간격 (스페이스바 한 칸 정도)
-    const baseY = vh / 2;
+    const baseY = vh / 2 - 100;  // 중앙에서 100px 위로 이동
 
     // 각 숫자 너비 배열
     const widths = yearElems.map(el => el.getBoundingClientRect().width);
@@ -132,12 +132,12 @@
   window.addEventListener('load', () => {
     const yearElems = years.map(({ id }) => document.getElementById(id)).filter(Boolean);
 
-    // 초기 위치는 화면 왼쪽 밖 (y는 화면 세로 중앙)
+    // 초기 위치는 화면 왼쪽 밖 (y는 화면 세로 중앙보다 100px 위)
     const vw = window.innerWidth;
     const vh = window.innerHeight;
     const widths = yearElems.map(el => el.getBoundingClientRect().width);
     const leftStart = -widths[0] - 20;
-    const baseY = vh / 2;
+    const baseY = vh / 2 - 100;
 
     yearElems.forEach(elem => {
       elem.style.transform = `translate(${leftStart}px, ${baseY}px)`;
