@@ -19,7 +19,8 @@
   }
   .year-list a {
     position: fixed;
-    font-size: 28px;
+    font-size: 20px;  /* 글자 크기 축소 */
+    font-family: 'Montserrat', sans-serif; /* 메뉴와 동일한 글꼴 */
     font-weight: 700;
     color: #000;
     text-decoration: none;
@@ -78,7 +79,6 @@
     })
     .catch(err => console.error(err));
 
-
   const years = [
     { id: 'year2025' },
     { id: 'year2024' },
@@ -87,7 +87,6 @@
     { id: 'year2021' },
   ];
 
-  // 텍스트 위치, 크기 기준 뷰포트 내 이동 범위 계산
   function getBounds(elem) {
     const vw = window.innerWidth;
     const vh = window.innerHeight;
@@ -105,7 +104,6 @@
     };
   }
 
-  // 뷰포트 중앙 기준 X 위치 랜덤 범위 (±200px)
   function getCentralRandomX(bounds) {
     const centerX = window.innerWidth / 2;
     const leftLimit = Math.max(bounds.minX, centerX - 200);
@@ -113,12 +111,10 @@
     return Math.random() * (rightLimit - leftLimit) + leftLimit;
   }
 
-  // Y 위치 랜덤 범위 (안전 영역)
   function getRandomY(bounds) {
     return Math.random() * (bounds.maxY - bounds.minY) + bounds.minY;
   }
 
-  // 개별 텍스트 자유 랜덤 움직임 (4~10초)
   function animateMove(elem, bounds) {
     const duration = Math.random() * 6000 + 4000;
     const x = getCentralRandomX(bounds);
@@ -130,28 +126,37 @@
     setTimeout(() => animateMove(elem, bounds), duration);
   }
 
-  // 초기 5초 좌측 → 중앙 좌측 범위까지 이동
+  // 수정된 initialSlide 함수
   function initialSlide(yearElems) {
     const vw = window.innerWidth;
     const slideDuration = 5000;
     const fps = 60;
     const totalFrames = slideDuration / (1000 / fps);
 
-    const gap = 120;
+    const gap = 120;  // 각 숫자 사이 가로 간격
     const baseY = window.innerHeight / 2;
 
-    const startX = -150;
+    // 각 숫자 너비 합산
+    let totalWidth = 0;
+    const widths = yearElems.map(el => el.getBoundingClientRect().width);
+    widths.forEach(w => totalWidth += w);
+    totalWidth += gap * (yearElems.length - 1); // 간격 포함
+
+    // 시작 X는 전체 폭 중간이 뷰포트 중앙 오도록 계산
     const centerX = vw / 2;
-    const endX = centerX - 200;
+    const startX = centerX - totalWidth / 2;
 
     let frame = 0;
 
     function step() {
       const progress = frame / totalFrames;
-      const currentX = startX + (endX - startX) * progress;
+
+      // 현재 X 위치: 시작점 + (중앙 - 시작점) * progress (좌측 밖에서 중앙으로 슬라이드)
+      const leftStart = -150;
+      const currentX = leftStart + (startX - leftStart) * progress;
 
       yearElems.forEach((elem, idx) => {
-        const x = currentX + idx * gap;
+        const x = currentX + widths.slice(0, idx).reduce((a,b) => a+b, 0) + gap * idx;
         elem.style.transition = 'none';
         elem.style.transform = `translate(${x}px, ${baseY}px)`;
       });
@@ -160,16 +165,14 @@
       if(frame <= totalFrames) {
         requestAnimationFrame(step);
       } else {
-        // 5초 후 중앙에 다 모인 상태에서 멈춤 후 순차적 움직임 시작
         setTimeout(() => {
-          sequentialMoveSingle(yearElems.slice().reverse()); // 2021부터 움직임
-        }, 1000); // 잠시 멈춤 1초
+          sequentialMoveSingle(yearElems.slice().reverse());
+        }, 1000);
       }
     }
     step();
   }
 
-  // 한 번에 한 숫자씩만 움직임 시작, 3초 간격으로 다음 숫자 움직임 개시
   function sequentialMoveSingle(yearElems) {
     let idx = 0;
 
@@ -192,9 +195,9 @@
   window.addEventListener('load', () => {
     const yearElems = years.map(({ id }) => document.getElementById(id)).filter(Boolean);
 
-    const baseY = window.innerHeight / 2;
+    // 초기 위치 좌측 바깥에 배치 (임시)
     yearElems.forEach(elem => {
-      elem.style.transform = `translate(-150px, ${baseY}px)`;
+      elem.style.transform = `translate(-150px, ${window.innerHeight / 2}px)`;
     });
 
     initialSlide(yearElems);
