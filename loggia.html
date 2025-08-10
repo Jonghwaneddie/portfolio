@@ -39,9 +39,9 @@
     }
 
     .description {
-      max-width: 900px;
-      width: 80vw;
-      margin-bottom: 20px;
+      width: 70%;
+      max-width: 630px;
+      margin: 0 auto 20px auto;
     }
 
     .description p {
@@ -63,9 +63,6 @@
       width: 70%;
       max-width: 630px;
       margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
     }
 
     .image-item img {
@@ -134,43 +131,18 @@
     </div>
 
     <div class="image-list">
-      <!-- 이미지 + 캡션 묶음 -->
-      <div class="image-item">
-        <img src="loggiaimages/loggia1.jpg" alt="Loggia 1">
-        <div class="caption-container">Photography San Choi<br>사진 최산</div>
-      </div>
-      <div class="image-item">
-        <img src="loggiaimages/loggia2.jpg" alt="Loggia 2">
-        <div class="caption-container">Photography San Choi<br>사진 최산</div>
-      </div>
-      <div class="image-item">
-        <img src="loggiaimages/loggia3.jpg" alt="Loggia 3">
-        <div class="caption-container">Photography San Choi<br>사진 최산</div>
-      </div>
-      <div class="image-item">
-        <img src="loggiaimages/loggia4.jpg" alt="Loggia 4">
-        <div class="caption-container">Photography San Choi<br>사진 최산</div>
-      </div>
-      <div class="image-item">
-        <img src="loggiaimages/loggia5.jpg" alt="Loggia 5">
-        <div class="caption-container">Photography San Choi<br>사진 최산</div>
-      </div>
-      <div class="image-item">
-        <img src="loggiaimages/loggia6.jpg" alt="Loggia 6">
-        <div class="caption-container">Photography San Choi<br>사진 최산</div>
-      </div>
-      <div class="image-item">
-        <img src="loggiaimages/loggia7.jpg" alt="Loggia 7">
-        <div class="caption-container">Photography San Choi<br>사진 최산</div>
-      </div>
-      <div class="image-item">
-        <img src="loggiaimages/loggia8.jpg" alt="Loggia 8">
-        <div class="caption-container">Photography San Choi<br>사진 최산</div>
-      </div>
-      <div class="image-item">
-        <img src="loggiaimages/loggia9.jpg" alt="Loggia 9">
-        <div class="caption-container">Photography San Choi<br>사진 최산</div>
-      </div>
+      <!-- 10개의 이미지 -->
+      <div class="image-item"><img src="loggiaimages/loggia1.jpg" alt="Loggia 1"></div>
+      <div class="image-item"><img src="loggiaimages/loggia2.jpg" alt="Loggia 2"></div>
+      <div class="image-item"><img src="loggiaimages/loggia3.jpg" alt="Loggia 3"></div>
+      <div class="image-item"><img src="loggiaimages/loggia4.jpg" alt="Loggia 4"></div>
+      <div class="image-item"><img src="loggiaimages/loggia5.jpg" alt="Loggia 5"></div>
+      <div class="image-item"><img src="loggiaimages/loggia6.jpg" alt="Loggia 6"></div>
+      <div class="image-item"><img src="loggiaimages/loggia7.jpg" alt="Loggia 7"></div>
+      <div class="image-item"><img src="loggiaimages/loggia8.jpg" alt="Loggia 8"></div>
+      <div class="image-item"><img src="loggiaimages/loggia9.jpg" alt="Loggia 9"></div>
+
+      <!-- 마지막 이미지 + 텍스트 -->
       <div class="image-item">
         <img src="loggiaimages/loggia10.jpg" alt="Loggia 10">
         <div class="caption-container">Photography San Choi<br>사진 최산</div>
@@ -178,6 +150,7 @@
     </div>
   </div>
 
+  <!-- 모달 (확대보기) -->
   <div class="modal" id="imageModal">
     <span class="modal-close" id="modalClose">&times;</span>
     <img id="modalImage" src="" alt="확대 이미지" />
@@ -191,14 +164,68 @@
 
         window.toggleProjectMenu = function(e, submenuId) {
           e.preventDefault();
+
           const submenu1 = document.getElementById('projectSubmenu1');
           const submenu2 = document.getElementById('projectSubmenu2');
           const targetSubmenu = document.getElementById(submenuId);
           if (!targetSubmenu) return;
 
-          if (submenuId === 'projectSubmenu1' && submenu2.classList.contains('show')) {
-            submenu2.style.maxHeight = null;
-            submenu2.classList.remove('show');
-          } else if (submenuId === 'projectSubmenu2' && submenu1.classList.contains('show')) {
-            submenu1.style.maxHeight = null;
-            submenu1.cl
+          if (submenu1 && submenu2) {
+            if (submenuId === 'projectSubmenu1' && submenu2.classList.contains('show')) {
+              submenu2.style.maxHeight = null;
+              submenu2.classList.remove('show');
+            } else if (submenuId === 'projectSubmenu2' && submenu1.classList.contains('show')) {
+              submenu1.style.maxHeight = null;
+              submenu1.classList.remove('show');
+            }
+          }
+
+          if (targetSubmenu.classList.contains('show')) {
+            targetSubmenu.style.maxHeight = null;
+            targetSubmenu.classList.remove('show');
+          } else {
+            targetSubmenu.style.maxHeight = targetSubmenu.scrollHeight + "px";
+            targetSubmenu.classList.add('show');
+          }
+        };
+      });
+
+    // 모달 관련
+    const modal = document.getElementById("imageModal");
+    const modalImg = document.getElementById("modalImage");
+    const closeBtn = document.getElementById("modalClose");
+
+    let currentIndex = 0;
+    const images = document.querySelectorAll('.image-item img');
+
+    images.forEach((img, index) => {
+      img.addEventListener('click', () => {
+        modal.style.display = "flex";
+        modalImg.src = img.src;
+        currentIndex = index;
+      });
+    });
+
+    closeBtn.addEventListener('click', () => modal.style.display = "none");
+
+    modal.addEventListener('click', e => {
+      if (e.target === modal) modal.style.display = "none";
+    });
+
+    document.addEventListener('keydown', e => {
+      if (modal.style.display === "flex") {
+        if (e.key === 'Escape') modal.style.display = "none";
+        if (e.key === 'ArrowRight') {
+          currentIndex = (currentIndex + 1) % images.length;
+          modalImg.src = images[currentIndex].src;
+        }
+        if (e.key === 'ArrowLeft') {
+          currentIndex = (currentIndex - 1 + images.length) % images.length;
+          modalImg.src = images[currentIndex].src;
+        }
+      }
+    });
+  </script>
+
+</body>
+</html>
