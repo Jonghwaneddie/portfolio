@@ -87,6 +87,7 @@
     { id: 'year2021' },
   ];
 
+  // 화면 내 움직임 가능한 범위 반환
   function getBounds(elem) {
     const vw = window.innerWidth;
     const vh = window.innerHeight;
@@ -104,6 +105,7 @@
     };
   }
 
+  // 중앙 영역 X값 랜덤 (중앙 ± 200px)
   function getCentralRandomX(bounds) {
     const centerX = window.innerWidth / 2;
     const leftLimit = Math.max(bounds.minX, centerX - 200);
@@ -111,12 +113,14 @@
     return Math.random() * (rightLimit - leftLimit) + leftLimit;
   }
 
+  // Y값 랜덤
   function getRandomY(bounds) {
     return Math.random() * (bounds.maxY - bounds.minY) + bounds.minY;
   }
 
+  // 각 요소 움직임 애니메이션 재귀 함수
   function animateMove(elem, bounds) {
-    const duration = Math.random() * 6000 + 4000;
+    const duration = Math.random() * 6000 + 4000;  // 4~10초 사이 랜덤
     const x = getCentralRandomX(bounds);
     const y = getRandomY(bounds);
 
@@ -126,24 +130,26 @@
     setTimeout(() => animateMove(elem, bounds), duration);
   }
 
-  // 수정된 initialSlide 함수
+  // 초기 슬라이드: 왼쪽 바깥 -> 중앙 정렬 (전체 숫자 길이 중앙 맞춤)
   function initialSlide(yearElems) {
     const vw = window.innerWidth;
     const slideDuration = 5000;
     const fps = 60;
     const totalFrames = slideDuration / (1000 / fps);
 
-    const gap = 120;  // 각 숫자 사이 가로 간격
+    const gap = 10;  // 숫자 사이 간격
     const baseY = window.innerHeight / 2;
 
-    // 각 숫자 너비 합산
-    let totalWidth = 0;
+    // 각 숫자 너비 배열
     const widths = yearElems.map(el => el.getBoundingClientRect().width);
-    widths.forEach(w => totalWidth += w);
-    totalWidth += gap * (yearElems.length - 1); // 간격 포함
 
-    // 시작 X는 전체 폭 중간이 뷰포트 중앙 오도록 계산
+    // 총 너비 계산 (숫자 너비 합 + 간격 포함)
+    const totalWidth = widths.reduce((a, b) => a + b, 0) + gap * (yearElems.length - 1);
+
+    // 화면 중앙 좌표
     const centerX = vw / 2;
+
+    // 시작 X 좌표는 화면 중앙 - 총 너비 / 2 (그래서 전체 숫자가 중앙에 위치함)
     const startX = centerX - totalWidth / 2;
 
     let frame = 0;
@@ -151,18 +157,19 @@
     function step() {
       const progress = frame / totalFrames;
 
-      // 현재 X 위치: 시작점 + (중앙 - 시작점) * progress (좌측 밖에서 중앙으로 슬라이드)
+      // 시작 좌표는 화면 왼쪽 바깥(-150px)이고, 끝 좌표는 startX (중앙 정렬된 시작점)
       const leftStart = -150;
       const currentX = leftStart + (startX - leftStart) * progress;
 
       yearElems.forEach((elem, idx) => {
+        // 각 숫자의 x 좌표 = currentX + 이전 숫자 너비 합 + 간격 * idx
         const x = currentX + widths.slice(0, idx).reduce((a,b) => a+b, 0) + gap * idx;
         elem.style.transition = 'none';
         elem.style.transform = `translate(${x}px, ${baseY}px)`;
       });
 
       frame++;
-      if(frame <= totalFrames) {
+      if (frame <= totalFrames) {
         requestAnimationFrame(step);
       } else {
         setTimeout(() => {
@@ -170,14 +177,16 @@
         }, 1000);
       }
     }
+
     step();
   }
 
+  // 2021부터 1개씩 3초 간격으로 움직임 시작 (다른 숫자 움직이지 않음)
   function sequentialMoveSingle(yearElems) {
     let idx = 0;
 
     function moveNext() {
-      if(idx >= yearElems.length) return;
+      if (idx >= yearElems.length) return;
 
       const elem = yearElems[idx];
       const bounds = getBounds(elem);
@@ -185,7 +194,7 @@
       animateMove(elem, bounds);
 
       idx++;
-      if(idx < yearElems.length) {
+      if (idx < yearElems.length) {
         setTimeout(moveNext, 3000);
       }
     }
@@ -195,15 +204,17 @@
   window.addEventListener('load', () => {
     const yearElems = years.map(({ id }) => document.getElementById(id)).filter(Boolean);
 
-    // 초기 위치 좌측 바깥에 배치 (임시)
+    // 초기 위치 좌측 바깥에 배치 (y는 중앙)
     yearElems.forEach(elem => {
       elem.style.transform = `translate(-150px, ${window.innerHeight / 2}px)`;
     });
 
+    // 초기 슬라이드 애니메이션 실행
     initialSlide(yearElems);
   });
 
   window.addEventListener('resize', () => {
+    // 리사이즈 시 현재 움직임 중인 요소들의 범위 재설정 위해 한 번씩 호출
     const yearElems = years.map(({ id }) => document.getElementById(id)).filter(Boolean);
     yearElems.forEach(elem => {
       const bounds = getBounds(elem);
