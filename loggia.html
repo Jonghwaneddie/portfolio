@@ -1,9 +1,9 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Loggia (2025)</title>
+  <title>Loggia (2025) </title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;700&display=swap');
 
@@ -17,7 +17,7 @@
       font-family: 'Montserrat', sans-serif;
       background: #fff;
       color: #000;
-      margin-left: 120px;
+      margin-left: 120px; /* 메뉴 공간 확보 */
       padding: 60px 20px;
     }
 
@@ -39,8 +39,8 @@
     }
 
     .description {
-      max-width: 600px; /* 기존 900px의 2/3 */
-      width: 53.33vw;
+      max-width: 900px;
+      width: 80vw;
       margin-bottom: 20px;
     }
 
@@ -54,23 +54,26 @@
     .image-list {
       display: flex;
       flex-direction: column;
-      gap: 20px;
-      max-width: 600px; /* 기존 900px의 2/3 */
-      width: 53.33vw;
+      gap: 15px;
+      max-width: 900px;
+      width: 80vw;
     }
 
     .image-list img {
-      width: 100%;
+      width: 70%;  /* 이전 100%의 70%, 중간 크기 */
+      max-width: 630px; /* 최대 크기 제한 */
       height: auto;
       cursor: pointer;
       border-radius: 4px;
       transition: transform 0.2s;
+      align-self: center;
     }
 
     .image-list img:hover {
-      transform: scale(1.01);
+      transform: scale(1.02);
     }
 
+    /* 모달 (확대보기) */
     .modal {
       display: none;
       position: fixed;
@@ -79,7 +82,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(0,0,0,0.9);
+      background-color: rgba(0,0,0,0.8);
       justify-content: center;
       align-items: center;
     }
@@ -87,7 +90,8 @@
     .modal img {
       max-width: 90vw;
       max-height: 90vh;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      border-radius: 5px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.6);
     }
 
     .modal-close {
@@ -100,37 +104,9 @@
       user-select: none;
     }
 
-    .arrow {
-      position: absolute;
-      top: 50%;
-      font-size: 40px;
-      color: #fff;
-      cursor: pointer;
-      user-select: none;
-      padding: 10px;
-      transform: translateY(-50%);
-    }
+    /* 메뉴 하위 메뉴 스타일 (간단히 예시) */
+    /* 메뉴 HTML 안에 이미 스타일 있을 것으로 예상 */
 
-    .arrow.left {
-      left: 30px;
-    }
-
-    .arrow.right {
-      right: 30px;
-    }
-
-    @media screen and (max-width: 768px) {
-      body {
-        margin-left: 0;
-        padding: 40px 15px;
-      }
-
-      .description,
-      .image-list {
-        width: 100%;
-        max-width: 100%;
-      }
-    }
   </style>
 </head>
 <body>
@@ -141,12 +117,10 @@
 
   <div class="gallery-container">
     <div class="description">
-      <p>
-        해방된 기둥이 있다. 구역을 만들어내는 기둥은 중심에서 장소를 구체화하고 있지만 그 무엇도 지지하지 않고 있다. 정확히는 어디를 지지하고 있는지 말할 수 없다. 기둥의 끝에서 빛이 솟아오른다. 기둥은 저기 있지만 빛은 다가와 마주침을 만들어낸다. 기둥과 빛은 보이지 않는 것을 마주하기 위해 공간과 시간을 뒤섞어 지금 이 자리에 있음을 느끼게 한다. 그곳은 재현되는 것이 아니라 스스로를 드러낸다. 기둥 속에서 반짝이는 추는 반복되는 소리를 흘려보낸다. 그 소리는 이곳이 우리와 또 다른 것임을 알려주는 듯하다.
-      </p>
+      <p>해방된 기둥이 있다. 구역을 만들어내는 기둥은 중심에서 장소를 구체화하고 있지만 그 무엇도 지지하지 않고 있다. 정확히는 어디를 지지하고 있는지 말할 수 없다. 기둥의 끝에서 빛이 솟아오른다. 기둥은 저기 있지만 빛은 다가와 마주침을 만들어낸다. 기둥과 빛은 보이지 않는 것을 마주하기 위해 공간과 시간을 뒤섞어 지금 이 자리에 있음을 느끼게 한다. 그곳은 재현되는 것이 아니라 스스로를 드러낸다. 기둥 속에서 반짝이는 추는 반복되는 소리를 흘려보낸다. 그 소리는 이곳이 우리와 또 다른 것임을 알려주는 듯하다.</p>
     </div>
 
-    <div class="image-list" id="imageList">
+    <div class="image-list">
       <img src="loggiaimages/loggia1.jpg" alt="Loggia 1">
       <img src="loggiaimages/loggia2.jpg" alt="Loggia 2">
       <img src="loggiaimages/loggia3.jpg" alt="Loggia 3">
@@ -160,68 +134,89 @@
     </div>
   </div>
 
-  <!-- 모달 -->
+  <!-- 확대 모달 -->
   <div class="modal" id="imageModal">
     <span class="modal-close" id="modalClose">&times;</span>
-    <span class="arrow left" id="prevArrow">&#10094;</span>
     <img id="modalImage" src="" alt="확대 이미지" />
-    <span class="arrow right" id="nextArrow">&#10095;</span>
   </div>
 
   <script>
-    // 메뉴 불러오기
+    // 메뉴 불러오기 및 토글 함수
     fetch('menu.html')
       .then(res => res.text())
       .then(html => {
         document.getElementById('menu-container').innerHTML = html;
+
+        window.toggleProjectMenu = function(e, submenuId) {
+          e.preventDefault();
+
+          const submenu1 = document.getElementById('projectSubmenu1');
+          const submenu2 = document.getElementById('projectSubmenu2');
+          const targetSubmenu = document.getElementById(submenuId);
+          if (!targetSubmenu) return;
+
+          if (submenuId === 'projectSubmenu1' && submenu2.classList.contains('show')) {
+            submenu2.style.maxHeight = null;
+            submenu2.classList.remove('show');
+          } else if (submenuId === 'projectSubmenu2' && submenu1.classList.contains('show')) {
+            submenu1.style.maxHeight = null;
+            submenu1.classList.remove('show');
+          }
+
+          if (targetSubmenu.classList.contains('show')) {
+            targetSubmenu.style.maxHeight = null;
+            targetSubmenu.classList.remove('show');
+          } else {
+            targetSubmenu.style.maxHeight = targetSubmenu.scrollHeight + "px";
+            targetSubmenu.classList.add('show');
+          }
+        };
       });
 
-    // 모달 기능
+
+    // 이미지 클릭 시 모달 열기
     const modal = document.getElementById("imageModal");
     const modalImg = document.getElementById("modalImage");
     const closeBtn = document.getElementById("modalClose");
-    const prevArrow = document.getElementById("prevArrow");
-    const nextArrow = document.getElementById("nextArrow");
 
-    const images = Array.from(document.querySelectorAll('.image-list img'));
-    let currentIndex = 0;
-
-    function showModal(index) {
-      currentIndex = index;
-      modalImg.src = images[index].src;
-      modalImg.alt = images[index].alt;
-      modal.style.display = "flex";
-    }
-
-    images.forEach((img, idx) => {
-      img.addEventListener('click', () => showModal(idx));
+    document.querySelectorAll('.image-list img').forEach(img => {
+      img.addEventListener('click', () => {
+        modal.style.display = "flex";
+        modalImg.src = img.src;
+        currentIndex = [...document.querySelectorAll('.image-list img')].indexOf(img);
+      });
     });
 
-    function showNext() {
-      currentIndex = (currentIndex + 1) % images.length;
-      showModal(currentIndex);
-    }
-
-    function showPrev() {
-      currentIndex = (currentIndex - 1 + images.length) % images.length;
-      showModal(currentIndex);
-    }
-
-    nextArrow.addEventListener('click', showNext);
-    prevArrow.addEventListener('click', showPrev);
     closeBtn.addEventListener('click', () => modal.style.display = "none");
-
     modal.addEventListener('click', e => {
       if (e.target === modal) modal.style.display = "none";
     });
-
     document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        modal.style.display = "none";
+      }
       if (modal.style.display === "flex") {
-        if (e.key === "ArrowRight") showNext();
-        else if (e.key === "ArrowLeft") showPrev();
-        else if (e.key === "Escape") modal.style.display = "none";
+        if (e.key === "ArrowRight") {
+          showNextImage();
+        }
+        if (e.key === "ArrowLeft") {
+          showPrevImage();
+        }
       }
     });
+
+    let currentIndex = 0;
+    function showNextImage() {
+      const images = document.querySelectorAll('.image-list img');
+      currentIndex = (currentIndex + 1) % images.length;
+      modalImg.src = images[currentIndex].src;
+    }
+
+    function showPrevImage() {
+      const images = document.querySelectorAll('.image-list img');
+      currentIndex = (currentIndex - 1 + images.length) % images.length;
+      modalImg.src = images[currentIndex].src;
+    }
   </script>
 
 </body>
