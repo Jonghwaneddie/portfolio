@@ -17,9 +17,20 @@
     position: relative;
     margin-left: 120px; /* 메뉴 공간 확보 */
   }
+  #movement-boundary {
+    position: fixed;
+    top: 10px;
+    left: 120px; /* 메뉴 공간을 피해 시작 */
+    width: 50vw; /* 뷰포트 가로 절반 */
+    height: 100vh;
+    background: #eee;
+    border: 2px solid #ccc;
+    pointer-events: none; /* 클릭 무시 */
+    z-index: 5;
+  }
   .year-list a {
     position: fixed;
-    font-size: 18px;  /* 글자 크기 축소 */
+    font-size: 16px;  /* 글자 크기 조금 더 축소 */
     font-family: 'Montserrat', sans-serif; /* 메뉴와 동일한 글꼴 */
     font-weight: 300; /* 글자 두께 얇게 */
     color: #000;
@@ -32,23 +43,13 @@
   .year-list a:hover {
     color: #555;
   }
-  /* 움직임 제한 영역 박스 */
-  #movement-boundary {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 50%;
-    width: 400px; /* 중앙 ±200px 이므로 400px 너비 */
-    margin-left: -200px; /* left:50% 기준으로 중앙 정렬 */
-    background-color: rgba(128, 128, 128, 0.2); /* 연한 회색 반투명 */
-    pointer-events: none; /* 클릭 이벤트 무시 */
-    z-index: 1000;
-  }
 </style>
 </head>
 <body>
 
   <div id="menu-container"></div>
+
+  <div id="movement-boundary"></div>
 
   <div class="year-list">
     <a href="2025.html" id="year2025">2025</a>
@@ -57,9 +58,6 @@
     <a href="2022.html" id="year2022">2022</a>
     <a href="2021.html" id="year2021">2021</a>
   </div>
-
-  <!-- 움직임 제한 영역 시각화 박스 -->
-  <div id="movement-boundary"></div>
 
 <script>
   // 메뉴 로딩
@@ -102,20 +100,24 @@
     { id: 'year2021' },
   ];
 
-  // 움직임 제한 영역 정보 가져오기
-  function getMovementBoundary() {
+  // 움직임 제한 영역 정보 가져오기 (숫자 크기 고려해서 조정)
+  function getMovementBoundary(elem) {
     const boundary = document.getElementById('movement-boundary').getBoundingClientRect();
+    const elemRect = elem.getBoundingClientRect();
     return {
       minX: boundary.left + 10,
-      maxX: boundary.right - 10,
-      minY: 10,
-      maxY: window.innerHeight - 10
+      maxX: boundary.right - 10 - elemRect.width, // 숫자 너비만큼 빼서 우측 벗어남 방지
+      minY: boundary.top + 10,
+      maxY: boundary.bottom - 10 - elemRect.height, // 높이도 고려
     };
   }
 
-  // 중앙 영역 X값 랜덤 (movement-boundary 범위 내)
-  function getRandomX(bounds) {
-    return Math.random() * (bounds.maxX - bounds.minX) + bounds.minX;
+  // 중앙 영역 X값 랜덤 (중앙 ± 100px) - 제한 박스 중앙 기준
+  function getCentralRandomX(bounds) {
+    const centerX = (bounds.minX + bounds.maxX) / 2;
+    const leftLimit = Math.max(bounds.minX, centerX - 100);
+    const rightLimit = Math.min(bounds.maxX, centerX + 100);
+    return Math.random() * (rightLimit - leftLimit) + leftLimit;
   }
 
   // Y값 랜덤
@@ -124,26 +126,27 @@
   }
 
   // 각 요소 움직임 애니메이션 재귀 함수
-  function animateMove(elem, bounds) {
-    const duration = Math.random() * 6000 + 4000;  // 4~10초 사이 랜덤
-    const x = getRandomX(bounds);
-    const y = getRandomY(bounds);
+  function animateMove(elem) {
+    const bounds = getMovementBoundary(elem);
+    const duration = Math.random() * 6000 + 8000;  // 8~14초 사이 랜덤 (느리게)
+    const x = Math.random() * (bounds.maxX - bounds.minX) + bounds.minX;
+    const y = Math.random() * (bounds.maxY - bounds.minY) + bounds.minY;
 
     elem.style.transition = `transform ${duration}ms ease-in-out`;
     elem.style.transform = `translate(${x}px, ${y}px)`;
 
-    setTimeout(() => animateMove(elem, bounds), duration);
+    setTimeout(() => animateMove(elem), duration);
   }
 
-  // 초기 슬라이드: 왼쪽 바깥 -> 중앙 제한 영역 중앙 정렬 (전체 숫자 길이 중앙 맞춤)
+  // 초기 슬라이드: 왼쪽 바깥 -> 중앙 정렬 (전체 숫자 길이 중앙 맞춤) — 제한된 영역 내 중앙 기준
   function initialSlide(yearElems) {
-    const boundary = getMovementBoundary();
+    const boundary = document.getElementById('movement-boundary').getBoundingClientRect();
     const slideDuration = 5000;
     const fps = 60;
     const totalFrames = slideDuration / (1000 / fps);
 
-    const gap = 5;  // 숫자 사이 간격 줄임
-    const baseY = window.innerHeight / 2;
+    const gap = 6;  // 숫자 사이 간격 (스페이스바 한 칸 정도)
+    const baseY = (boundary.top + boundary.bottom) / 2;
 
     // 각 숫자 너비 배열
     const widths = yearElems.map(el => el.getBoundingClientRect().width);
@@ -151,19 +154,21 @@
     // 총 너비 계산 (숫자 너비 합 + 간격 포함)
     const totalWidth = widths.reduce((a, b) => a + b, 0) + gap * (yearElems.length - 1);
 
-    // 제한 영역 중앙 좌표
-    const centerX = (boundary.minX + boundary.maxX) / 2;
+    // 제한 박스 중앙 좌표
+    const centerX = (boundary.left + boundary.right) / 2;
 
-    // 시작 X 좌표는 제한 영역 중앙 - 총 너비 / 2 (그래서 전체 숫자가 제한 영역 중앙에 위치함)
+    // 시작 X 좌표는 제한 박스 중앙 - 총 너비 / 2 (그래서 전체 숫자가 중앙에 위치함)
     const startX = centerX - totalWidth / 2;
+
+    // 시작점은 제한 박스 왼쪽 - 숫자 너비 한 개 크기 정도 밖에서 시작
+    const leftStart = boundary.left - widths[0] - 20;
 
     let frame = 0;
 
     function step() {
       const progress = frame / totalFrames;
 
-      // 시작 좌표는 화면 왼쪽 바깥(-150px)이고, 끝 좌표는 startX (중앙 정렬된 시작점)
-      const leftStart = -150;
+      // currentX는 leftStart에서 startX까지 점진 이동
       const currentX = leftStart + (startX - leftStart) * progress;
 
       yearElems.forEach((elem, idx) => {
@@ -194,9 +199,8 @@
       if (idx >= yearElems.length) return;
 
       const elem = yearElems[idx];
-      const bounds = getMovementBoundary();
 
-      animateMove(elem, bounds);
+      animateMove(elem);
 
       idx++;
       if (idx < yearElems.length) {
@@ -209,9 +213,14 @@
   window.addEventListener('load', () => {
     const yearElems = years.map(({ id }) => document.getElementById(id)).filter(Boolean);
 
-    // 초기 위치 좌측 바깥에 배치 (y는 중앙)
+    // 초기 위치 제한 박스 왼쪽 밖에 배치 (y는 제한 박스 중앙)
+    const boundary = document.getElementById('movement-boundary').getBoundingClientRect();
+    const widths = yearElems.map(el => el.getBoundingClientRect().width);
+    const leftStart = boundary.left - widths[0] - 20;
+    const baseY = (boundary.top + boundary.bottom) / 2;
+
     yearElems.forEach(elem => {
-      elem.style.transform = `translate(-150px, ${window.innerHeight / 2}px)`;
+      elem.style.transform = `translate(${leftStart}px, ${baseY}px)`;
     });
 
     // 초기 슬라이드 애니메이션 실행
@@ -219,11 +228,11 @@
   });
 
   window.addEventListener('resize', () => {
-    // 리사이즈 시 움직임 제한 영역 재계산 및 움직임 재실행
+    // 리사이즈 시 현재 움직임 중인 요소들의 범위 재설정 위해 한 번씩 호출
     const yearElems = years.map(({ id }) => document.getElementById(id)).filter(Boolean);
     yearElems.forEach(elem => {
-      const bounds = getMovementBoundary();
-      animateMove(elem, bounds);
+      const bounds = getMovementBoundary(elem);
+      animateMove(elem);
     });
   });
 </script>
