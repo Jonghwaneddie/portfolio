@@ -1,109 +1,227 @@
-<nav>
-  <div class="site-name">
-    <a href="/" style="text-decoration:none; color:black; user-select:none;">Jonghwan Lee</a>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Years Wander</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;700&display=swap');
+  * {
+    margin: 0; padding: 0; box-sizing: border-box;
+  }
+  html, body {
+    width: 100%; height: 100%; overflow: hidden;
+    background: #fff;
+    font-family: 'Montserrat', sans-serif;
+    user-select: none;
+    position: relative;
+    margin-left: 120px; /* 메뉴 공간 확보 */
+  }
+  .year-list a {
+    position: fixed;
+    font-size: 20px;  /* 글자 크기 축소 */
+    font-family: 'Montserrat', sans-serif; /* 메뉴와 동일한 글꼴 */
+    font-weight: 700;
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+    white-space: nowrap;
+    user-select: none;
+    transition: color 0.3s ease;
+  }
+  .year-list a:hover {
+    color: #555;
+  }
+</style>
+</head>
+<body>
+
+  <div id="menu-container"></div>
+
+  <div class="year-list">
+    <a href="2025.html" id="year2025">2025</a>
+    <a href="2024.html" id="year2024">2024</a>
+    <a href="2023.html" id="year2023">2023</a>
+    <a href="2022.html" id="year2022">2022</a>
+    <a href="2021.html" id="year2021">2021</a>
   </div>
-  <ul>
-    <li style="display: flex; flex-direction: column; gap: 10px;">
-      <a href="#" class="toggle-btn" onclick="toggleProjectMenu(event, 'projectSubmenu1')">－</a>
-      <a href="#" class="toggle-btn" onclick="toggleProjectMenu(event, 'projectSubmenu2')">≡</a>
 
-      <div class="submenu" id="projectSubmenu1">
-        <a href="loggia.html">Loggia (2025)</a>
-        <a href="hypercube.html">Hypercube (2023)</a>
-        <a href="cabinet.html">Cabinet (2023)</a>
-      </div>
+<script>
+  // 메뉴 로딩
+  fetch('menu.html')
+    .then(res => res.ok ? res.text() : Promise.reject('Menu load failed'))
+    .then(html => {
+      document.getElementById('menu-container').innerHTML = html;
 
-      <div class="submenu" id="projectSubmenu2">
-        <a href="project1.html">Project 1</a>
-        <a href="project2.html">Project 2</a>
-        <a href="project3.html">Project 3</a>
-      </div>
-    </li>
-    <li><a href="works.html">Works</a></li>
-    <li><a href="Information.html">Information</a></li>
-    <li><a href="texts.html">Texts</a></li>
-    <li><a href="contact.html">Contact</a></li>
-  </ul>
+      window.toggleProjectMenu = function(e, submenuId) {
+        e.preventDefault();
+        const s1 = document.getElementById('projectSubmenu1');
+        const s2 = document.getElementById('projectSubmenu2');
+        const target = document.getElementById(submenuId);
+        if (!target) return;
 
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;700&display=swap');
+        if (submenuId === 'projectSubmenu1' && s2?.classList.contains('show')) {
+          s2.classList.remove('show');
+          s2.style.maxHeight = null;
+        } else if (submenuId === 'projectSubmenu2' && s1?.classList.contains('show')) {
+          s1.classList.remove('show');
+          s1.style.maxHeight = null;
+        }
 
-    nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 120px;
-      height: 100vh;
-      background: transparent;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      padding: 20px 10px;
-      gap: 40px;
-      font-family: 'Montserrat', sans-serif;
+        if (target.classList.contains('show')) {
+          target.classList.remove('show');
+          target.style.maxHeight = null;
+        } else {
+          target.classList.add('show');
+          target.style.maxHeight = target.scrollHeight + "px";
+        }
+      };
+    })
+    .catch(err => console.error(err));
+
+  const years = [
+    { id: 'year2025' },
+    { id: 'year2024' },
+    { id: 'year2023' },
+    { id: 'year2022' },
+    { id: 'year2021' },
+  ];
+
+  // 화면 내 움직임 가능한 범위 반환
+  function getBounds(elem) {
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    const rect = elem.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+
+    return {
+      minX: 10,
+      maxX: vw - width - 10,
+      minY: 10,
+      maxY: vh - height - 10,
+      width,
+      height
+    };
+  }
+
+  // 중앙 영역 X값 랜덤 (중앙 ± 200px)
+  function getCentralRandomX(bounds) {
+    const centerX = window.innerWidth / 2;
+    const leftLimit = Math.max(bounds.minX, centerX - 200);
+    const rightLimit = Math.min(bounds.maxX, centerX + 200);
+    return Math.random() * (rightLimit - leftLimit) + leftLimit;
+  }
+
+  // Y값 랜덤
+  function getRandomY(bounds) {
+    return Math.random() * (bounds.maxY - bounds.minY) + bounds.minY;
+  }
+
+  // 각 요소 움직임 애니메이션 재귀 함수
+  function animateMove(elem, bounds) {
+    const duration = Math.random() * 6000 + 4000;  // 4~10초 사이 랜덤
+    const x = getCentralRandomX(bounds);
+    const y = getRandomY(bounds);
+
+    elem.style.transition = `transform ${duration}ms ease-in-out`;
+    elem.style.transform = `translate(${x}px, ${y}px)`;
+
+    setTimeout(() => animateMove(elem, bounds), duration);
+  }
+
+  // 초기 슬라이드: 왼쪽 바깥 -> 중앙 정렬 (전체 숫자 길이 중앙 맞춤)
+  function initialSlide(yearElems) {
+    const vw = window.innerWidth;
+    const slideDuration = 5000;
+    const fps = 60;
+    const totalFrames = slideDuration / (1000 / fps);
+
+    const gap = 10;  // 숫자 사이 간격
+    const baseY = window.innerHeight / 2;
+
+    // 각 숫자 너비 배열
+    const widths = yearElems.map(el => el.getBoundingClientRect().width);
+
+    // 총 너비 계산 (숫자 너비 합 + 간격 포함)
+    const totalWidth = widths.reduce((a, b) => a + b, 0) + gap * (yearElems.length - 1);
+
+    // 화면 중앙 좌표
+    const centerX = vw / 2;
+
+    // 시작 X 좌표는 화면 중앙 - 총 너비 / 2 (그래서 전체 숫자가 중앙에 위치함)
+    const startX = centerX - totalWidth / 2;
+
+    let frame = 0;
+
+    function step() {
+      const progress = frame / totalFrames;
+
+      // 시작 좌표는 화면 왼쪽 바깥(-150px)이고, 끝 좌표는 startX (중앙 정렬된 시작점)
+      const leftStart = -150;
+      const currentX = leftStart + (startX - leftStart) * progress;
+
+      yearElems.forEach((elem, idx) => {
+        // 각 숫자의 x 좌표 = currentX + 이전 숫자 너비 합 + 간격 * idx
+        const x = currentX + widths.slice(0, idx).reduce((a,b) => a+b, 0) + gap * idx;
+        elem.style.transition = 'none';
+        elem.style.transform = `translate(${x}px, ${baseY}px)`;
+      });
+
+      frame++;
+      if (frame <= totalFrames) {
+        requestAnimationFrame(step);
+      } else {
+        setTimeout(() => {
+          sequentialMoveSingle(yearElems.slice().reverse());
+        }, 1000);
+      }
     }
 
-    .site-name {
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 1.5px;
-      margin-bottom: 40px;
+    step();
+  }
+
+  // 2021부터 1개씩 3초 간격으로 움직임 시작 (다른 숫자 움직이지 않음)
+  function sequentialMoveSingle(yearElems) {
+    let idx = 0;
+
+    function moveNext() {
+      if (idx >= yearElems.length) return;
+
+      const elem = yearElems[idx];
+      const bounds = getBounds(elem);
+
+      animateMove(elem, bounds);
+
+      idx++;
+      if (idx < yearElems.length) {
+        setTimeout(moveNext, 3000);
+      }
     }
+    moveNext();
+  }
 
-    ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      width: 100%;
-    }
+  window.addEventListener('load', () => {
+    const yearElems = years.map(({ id }) => document.getElementById(id)).filter(Boolean);
 
-    li {
-      position: relative;
-    }
+    // 초기 위치 좌측 바깥에 배치 (y는 중앙)
+    yearElems.forEach(elem => {
+      elem.style.transform = `translate(-150px, ${window.innerHeight / 2}px)`;
+    });
 
-    a {
-      font-size: 10px;
-      font-weight: 300;
-      letter-spacing: 1.2px;
-      color: black;
-      text-decoration: none;
-      display: block;
-      width: 100%;
-      cursor: pointer;
-      padding: 0 4px;
-      user-select: none;
-      transition: color 0.3s ease;
-    }
+    // 초기 슬라이드 애니메이션 실행
+    initialSlide(yearElems);
+  });
 
-    a:hover {
-      color: #555;
-    }
+  window.addEventListener('resize', () => {
+    // 리사이즈 시 현재 움직임 중인 요소들의 범위 재설정 위해 한 번씩 호출
+    const yearElems = years.map(({ id }) => document.getElementById(id)).filter(Boolean);
+    yearElems.forEach(elem => {
+      const bounds = getBounds(elem);
+      animateMove(elem, bounds);
+    });
+  });
+</script>
 
-    .toggle-btn {
-      display: block;
-    }
-
-    .submenu {
-      overflow: hidden;
-      max-height: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-left: 10px;
-      transition: max-height 0.4s ease;
-    }
-
-    .submenu a {
-      color: #333;
-    }
-
-    .submenu a:hover {
-      color: #777;
-    }
-  </style>
-</nav>
-
-
+</body>
+</html>
