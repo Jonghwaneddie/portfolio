@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Loggia - Jonghwan Lee</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;700&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      margin-left: 120px;
+      padding: 60px 20px;
+      background: #fff;
+      color: #000;
+    }
+
+    h1 {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      margin-bottom: 10px;
+    }
+
+    .intro {
+      font-size: 12px;
+      font-weight: 300;
+      letter-spacing: 1.2px;
+      line-height: 1.6;
+      margin-bottom: 30px;
+      max-width: 600px;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 20px;
+    }
+
+    .gallery-item {
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border: 1px solid #ccc;
+      object-fit: cover;
+      transition: transform 0.3s;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.02);
+    }
+
+    .caption {
+      font-size: 10px;
+      text-align: center;
+      margin-top: 6px;
+      color: #555;
+    }
+
+    /* 라이트박스 */
+    .lightbox {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    .lightbox.active {
+      display: flex;
+    }
+
+    .lightbox img {
+      max-width: 90%;
+      max-height: 80%;
+    }
+
+    .lightbox-controls {
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      transform: translateY(-50%);
+      padding: 0 20px;
+    }
+
+    .lightbox-controls button {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 2rem;
+      cursor: pointer;
+      padding: 10px;
+      user-select: none;
+    }
+
+    .lightbox-caption {
+      margin-top: 10px;
+      color: #ddd;
+      font-size: 12px;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        margin-left: 0;
+        padding: 40px 15px;
+      }
+
+      .gallery {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="menu-container"></div>
+
+  <h1>Loggia</h1>
+
+  <div class="intro">
+    <p>
+      2025년 서울 Hall 1에서 열린 전시 <em>Loggia</em>는 건축적 공간성과 사적인 심상이 교차하는 지점을 탐색합니다.
+      이번 페이지는 전시 일부를 아카이빙하며, 설치 작업 및 사진 10점을 소개합니다.
+    </p>
+  </div>
+
+  <div class="gallery" id="gallery">
+    <!-- 갤러리 아이템은 자바스크립트에서 생성 -->
+  </div>
+
+  <div class="lightbox" id="lightbox">
+    <div class="lightbox-controls">
+      <button id="prevBtn">&#8592;</button>
+      <button id="nextBtn">&#8594;</button>
+    </div>
+    <img id="lightboxImage" src="" alt="">
+    <div class="lightbox-caption" id="lightboxCaption"></div>
+  </div>
+
+  <script>
+    const images = [
+      { src: 'images/loggia1.jpg', caption: 'Installation View 1' },
+      { src: 'images/loggia2.jpg', caption: 'Installation View 2' },
+      { src: 'images/loggia3.jpg', caption: 'Detail A' },
+      { src: 'images/loggia4.jpg', caption: 'Corner View' },
+      { src: 'images/loggia5.jpg', caption: 'Wall Work' },
+      { src: 'images/loggia6.jpg', caption: 'Space Composition' },
+      { src: 'images/loggia7.jpg', caption: 'Material Detail' },
+      { src: 'images/loggia8.jpg', caption: 'Lighting Atmosphere' },
+      { src: 'images/loggia9.jpg', caption: 'Entrance View' },
+      { src: 'images/loggia10.jpg', caption: 'Exit Perspective' }
+    ];
+
+    const gallery = document.getElementById('gallery');
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImage = document.getElementById('lightboxImage');
+    const lightboxCaption = document.getElementById('lightboxCaption');
+    let currentIndex = 0;
+
+    function openLightbox(index) {
+      currentIndex = index;
+      lightboxImage.src = images[index].src;
+      lightboxCaption.textContent = images[index].caption;
+      lightbox.classList.add('active');
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove('active');
+    }
+
+    function showPrev() {
+      currentIndex = (currentIndex - 1 + images.length) % images.length;
+      openLightbox(currentIndex);
+    }
+
+    function showNext() {
+      currentIndex = (currentIndex + 1) % images.length;
+      openLightbox(currentIndex);
+    }
+
+    document.getElementById('prevBtn').addEventListener('click', e => {
+      e.stopPropagation();
+      showPrev();
+    });
+
+    document.getElementById('nextBtn').addEventListener('click', e => {
+      e.stopPropagation();
+      showNext();
+    });
+
+    document.addEventListener('keydown', e => {
+      if (!lightbox.classList.contains('active')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowRight') showNext();
+      if (e.key === 'ArrowLeft') showPrev();
+    });
+
+    lightbox.addEventListener('click', closeLightbox);
+
+    // 갤러리 렌더링
+    images.forEach((img, index) => {
+      const item = document.createElement('div');
+      item.className = 'gallery-item';
+      item.innerHTML = `
+        <img src="${img.src}" alt="${img.caption}">
+        <div class="caption">${img.caption}</div>
+      `;
+      item.addEventListener('click', () => openLightbox(index));
+      gallery.appendChild(item);
+    });
+
+    // 메뉴 로드
+    fetch('menu.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('menu-container').innerHTML = data;
+      });
+  </script>
+
+</body>
+</html>
