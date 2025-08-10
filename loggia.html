@@ -30,6 +30,10 @@
       font-weight: 700;
       letter-spacing: 1.5px;
       margin-bottom: 20px;
+      width: 70%;
+      max-width: 630px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     .gallery-container {
@@ -55,8 +59,6 @@
       display: flex;
       flex-direction: column;
       gap: 40px;
-      max-width: 900px;
-      width: 80vw;
     }
 
     .image-item {
@@ -131,7 +133,6 @@
     </div>
 
     <div class="image-list">
-      <!-- 10개의 이미지 -->
       <div class="image-item"><img src="loggiaimages/loggia1.jpg" alt="Loggia 1"></div>
       <div class="image-item"><img src="loggiaimages/loggia2.jpg" alt="Loggia 2"></div>
       <div class="image-item"><img src="loggiaimages/loggia3.jpg" alt="Loggia 3"></div>
@@ -150,7 +151,7 @@
     </div>
   </div>
 
-  <!-- 모달 (확대보기) -->
+  <!-- 모달 -->
   <div class="modal" id="imageModal">
     <span class="modal-close" id="modalClose">&times;</span>
     <img id="modalImage" src="" alt="확대 이미지" />
@@ -164,7 +165,6 @@
 
         window.toggleProjectMenu = function(e, submenuId) {
           e.preventDefault();
-
           const submenu1 = document.getElementById('projectSubmenu1');
           const submenu2 = document.getElementById('projectSubmenu2');
           const targetSubmenu = document.getElementById(submenuId);
