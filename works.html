@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Years Wander</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;700&display=swap');
   * {
     margin: 0; padding: 0; box-sizing: border-box;
   }
   html, body {
-    width: 50vw;  /* 뷰포트 가로 반으로 제한 */
+    width: 50vw; /* 뷰포트 가로를 반으로 제한 */
     height: 100%;
     overflow: hidden;
     background: #fff;
@@ -21,16 +21,15 @@
   }
   .year-list a {
     position: fixed;
-    font-size: 14px; /* 글자 크기 더 줄임 */
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 100; /* 더 얇게 */
+    font-size: 16px;  /* 글자 크기 줄임 */
+    font-family: 'Montserrat', sans-serif; /* 메뉴와 동일한 글꼴 */
+    font-weight: 300; /* 글자 두께 얇게 */
     color: #000;
     text-decoration: none;
     cursor: pointer;
     white-space: nowrap;
     user-select: none;
     transition: color 0.3s ease;
-    letter-spacing: 0.3em; /* 숫자 사이 간격 (스페이스바 한 칸 정도) */
   }
   .year-list a:hover {
     color: #555;
@@ -133,15 +132,13 @@
     setTimeout(() => animateMove(elem, bounds), duration);
   }
 
-  // 초기 슬라이드: 왼쪽 바깥 -> 중앙 정렬 (전체 숫자 길이 중앙 맞춤)
+  // 초기 슬라이드: 왼쪽 바깥 -> 중앙 정렬 (전체 숫자 길이 중앙 맞춤, 제한된 영역 기준)
   function initialSlide(yearElems) {
     const vw = window.innerWidth;
-    const slideDuration = 5000;
-    const fps = 60;
-    const totalFrames = slideDuration / (1000 / fps);
+    const vh = window.innerHeight;
 
-    const gap = 10;  // 숫자 사이 간격
-    const baseY = window.innerHeight / 2;
+    const gap = 5;  // 숫자 사이 간격 줄임 (스페이스바 한 칸 정도)
+    const baseY = vh / 2;
 
     // 각 숫자 너비 배열
     const widths = yearElems.map(el => el.getBoundingClientRect().width);
@@ -149,18 +146,26 @@
     // 총 너비 계산 (숫자 너비 합 + 간격 포함)
     const totalWidth = widths.reduce((a, b) => a + b, 0) + gap * (yearElems.length - 1);
 
-    // 화면 중앙 좌표 (뷰포트 50vw 안에서 중앙)
-    const centerX = vw / 2;
+    // 움직임 제한 영역 구하기 (전체 화면 내에서 텍스트가 움직일 수 있는 영역)
+    // 여기서는 첫 번째 요소 기준으로 bounds를 구해도 무방
+    const bounds = getBounds(yearElems[0]);
 
-    // 시작 X 좌표는 화면 중앙 - 총 너비 / 2 (전체 숫자가 중앙에 위치)
-    const startX = centerX - totalWidth / 2;
+    // 제한 영역 내 X 중앙 좌표
+    const restrictedCenterX = (bounds.minX + bounds.maxX) / 2;
+
+    // 중앙 정렬 시작 X 좌표는 제한 영역 중앙 - 전체 숫자 너비 / 2
+    const startX = restrictedCenterX - totalWidth / 2;
+
+    const slideDuration = 5000;
+    const fps = 60;
+    const totalFrames = slideDuration / (1000 / fps);
 
     let frame = 0;
 
     function step() {
       const progress = frame / totalFrames;
 
-      // 시작 좌표를 절반 거리로 줄임 (-75px)
+      // 초기 좌측 시작 위치 (중앙까지 거리의 절반 거리만 이동하게, -75px 정도)
       const leftStart = -75;
       const currentX = leftStart + (startX - leftStart) * progress;
 
@@ -206,14 +211,17 @@
   window.addEventListener('load', () => {
     const yearElems = years.map(({ id }) => document.getElementById(id)).filter(Boolean);
 
+    // 초기 위치 좌측 바깥에 배치 (y는 중앙)
     yearElems.forEach(elem => {
-      elem.style.transform = `translate(-75px, ${window.innerHeight / 2}px)`; // 시작 위치도 맞춤
+      elem.style.transform = `translate(-150px, ${window.innerHeight / 2}px)`;
     });
 
+    // 초기 슬라이드 애니메이션 실행
     initialSlide(yearElems);
   });
 
   window.addEventListener('resize', () => {
+    // 리사이즈 시 현재 움직임 중인 요소들의 범위 재설정 위해 한 번씩 호출
     const yearElems = years.map(({ id }) => document.getElementById(id)).filter(Boolean);
     yearElems.forEach(elem => {
       const bounds = getBounds(elem);
