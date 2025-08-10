@@ -1,234 +1,200 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Loggia - Jonghwan Lee</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;700&display=swap');
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Loggia</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;700&display=swap');
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  body {
+    font-family: 'Montserrat', sans-serif;
+    margin-left: 120px; /* 메뉴 공간 확보 */
+    padding: 60px 20px;
+    background: #f0f0f0;
+  }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+  /* 큰 이미지 컨테이너 */
+  .main-image-container {
+    position: relative;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto 20px auto;
+  }
+  .main-image-container img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    display: block;
+  }
+  
+  /* 좌우 화살표 */
+  .arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(50,50,50,0.5);
+    color: white;
+    font-size: 40px;
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    border-radius: 50%;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.3s;
+    z-index: 10;
+  }
+  .arrow:hover {
+    background: rgba(50,50,50,0.8);
+  }
+  .arrow-left {
+    left: 10px;
+  }
+  .arrow-right {
+    right: 10px;
+  }
 
-    body {
-      font-family: 'Montserrat', sans-serif;
-      margin-left: 120px;
-      padding: 60px 20px;
-      background: #fff;
-      color: #000;
-    }
+  /* 썸네일 컨테이너 */
+  .thumbnail-container {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 10px;
+  }
+  .thumbnail-container::-webkit-scrollbar {
+    height: 6px;
+  }
+  .thumbnail-container::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,0.2);
+    border-radius: 3px;
+  }
 
-    h1 {
-      font-size: 14px;
-      font-weight: 700;
-      letter-spacing: 1.5px;
-      margin-bottom: 10px;
-    }
+  /* 썸네일 이미지 */
+  .thumbnail-container img {
+    width: 80px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 5px;
+    cursor: pointer;
+    opacity: 0.6;
+    transition: opacity 0.3s, transform 0.3s;
+    flex-shrink: 0;
+  }
+  .thumbnail-container img:hover,
+  .thumbnail-container img.active {
+    opacity: 1;
+    transform: scale(1.1);
+  }
 
-    .intro {
-      font-size: 12px;
-      font-weight: 300;
-      letter-spacing: 1.2px;
-      line-height: 1.6;
-      margin-bottom: 30px;
-      max-width: 600px;
-    }
+  /* 텍스트 위쪽에 간단히 */
+  .gallery-text {
+    max-width: 900px;
+    margin: 0 auto 20px auto;
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    text-align: center;
+  }
 
-    .gallery {
-      display: flex;
-      flex-direction: column;
-      gap: 30px;
-    }
-
-    .gallery-item {
-      width: 100%;
-      cursor: pointer;
-    }
-
-    .gallery-item img {
-      width: 100%;
-      height: auto;
-      display: block;
-      border: 1px solid #ccc;
-      object-fit: cover;
-      transition: transform 0.3s;
-    }
-
-    .gallery-item:hover img {
-      transform: scale(1.01);
-    }
-
-    .caption {
-      font-size: 10px;
-      color: #555;
-      margin-top: 6px;
-    }
-
-    /* Lightbox */
-    .lightbox {
-      display: none;
-      position: fixed;
-      z-index: 1000;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.9);
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-    }
-
-    .lightbox.active {
-      display: flex;
-    }
-
-    .lightbox img {
-      max-width: 90%;
-      max-height: 80%;
-    }
-
-    .lightbox-controls {
-      position: absolute;
-      top: 50%;
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      transform: translateY(-50%);
-      padding: 0 20px;
-    }
-
-    .lightbox-controls button {
-      background: none;
-      border: none;
-      color: white;
-      font-size: 2rem;
-      cursor: pointer;
-      padding: 10px;
-      user-select: none;
-    }
-
-    .lightbox-caption {
-      margin-top: 10px;
-      color: #ddd;
-      font-size: 12px;
-    }
-
-    @media (max-width: 768px) {
-      body {
-        margin-left: 0;
-        padding: 40px 15px;
-      }
-    }
-  </style>
+</style>
 </head>
 <body>
 
-  <div id="menu-container"></div>
+<div id="menu-container"></div>
 
-  <h1>Loggia</h1>
+<div class="gallery-text">
+  Loggia Gallery: 아름다운 사진들입니다.
+</div>
 
-  <div class="intro">
-    <p>
-      2025년 서울 Hall 1에서 열린 전시 <em>Loggia</em>는 건축적 공간성과 사적인 심상이 교차하는 지점을 탐색합니다.
-      본 페이지는 전시의 일부를 아카이빙하며, 설치 작업 및 사진 10점을 소개합니다.
-    </p>
-  </div>
+<div class="main-image-container">
+  <div class="arrow arrow-left" id="prev">&#10094;</div>
+  <img id="mainImage" src="images/loggia1.jpg" alt="Loggia Image 1" />
+  <div class="arrow arrow-right" id="next">&#10095;</div>
+</div>
 
-  <div class="gallery" id="gallery">
-    <!-- 자바스크립트로 렌더링됨 -->
-  </div>
+<div class="thumbnail-container" id="thumbnails">
+  <!-- 썸네일 이미지들은 JS로 생성 -->
+</div>
 
-  <div class="lightbox" id="lightbox">
-    <div class="lightbox-controls">
-      <button id="prevBtn">&#8592;</button>
-      <button id="nextBtn">&#8594;</button>
-    </div>
-    <img id="lightboxImage" src="" alt="">
-    <div class="lightbox-caption" id="lightboxCaption"></div>
-  </div>
+<script>
+  // 이미지 데이터 배열 (경로와 설명)
+  const images = [
+    { src: 'loggiaimages/loggia1.jpg', alt: 'Loggia Image 1' },
+    { src: 'loggiaimages/loggia2.jpg', alt: 'Loggia Image 2' },
+    { src: 'loggiaimages/loggia3.jpg', alt: 'Loggia Image 3' },
+    { src: 'loggiaimages/loggia4.jpg', alt: 'Loggia Image 4' },
+    { src: 'loggiaimages/loggia5.jpg', alt: 'Loggia Image 5' },
+    { src: 'loggiaimages/loggia6.jpg', alt: 'Loggia Image 6' },
+    { src: 'loggiaimages/loggia7.jpg', alt: 'Loggia Image 7' },
+    { src: 'loggiaimages/loggia8.jpg', alt: 'Loggia Image 8' },
+    { src: 'loggiaimages/loggia9.jpg', alt: 'Loggia Image 9' },
+    { src: 'loggiaimages/loggia10.jpg', alt: 'Loggia Image 10' }
+  ];
 
-  <script>
-    const images = [
-      { src: 'loggiaimages/loggia1.jpg', caption: 'Installation View 1' },
-      { src: 'loggiaimages/loggia2.jpg', caption: 'Installation View 2' },
-      { src: 'loggiaimages/loggia3.jpg', caption: 'Detail A' },
-      { src: 'loggiaimages/loggia4.jpg', caption: 'Corner View' },
-      { src: 'loggiaimages/loggia5.jpg', caption: 'Wall Work' },
-      { src: 'loggiaimages/loggia6.jpg', caption: 'Space Composition' },
-      { src: 'loggiaimages/loggia7.jpg', caption: 'Material Detail' },
-      { src: 'loggiaimages/loggia8.jpg', caption: 'Lighting Atmosphere' },
-      { src: 'loggiaimages/loggia9.jpg', caption: 'Entrance View' },
-      { src: 'loggiaimages/loggia10.jpg', caption: 'Exit Perspective' }
-    ];
+  const mainImage = document.getElementById('mainImage');
+  const thumbnailsContainer = document.getElementById('thumbnails');
+  const prevBtn = document.getElementById('prev');
+  const nextBtn = document.getElementById('next');
 
-    const gallery = document.getElementById('gallery');
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImage = document.getElementById('lightboxImage');
-    const lightboxCaption = document.getElementById('lightboxCaption');
-    let currentIndex = 0;
+  let currentIndex = 0;
 
-    function openLightbox(index) {
-      currentIndex = index;
-      lightboxImage.src = images[index].src;
-      lightboxCaption.textContent = images[index].caption;
-      lightbox.classList.add('active');
-    }
-
-    function closeLightbox() {
-      lightbox.classList.remove('active');
-    }
-
-    function showPrev() {
-      currentIndex = (currentIndex - 1 + images.length) % images.length;
-      openLightbox(currentIndex);
-    }
-
-    function showNext() {
-      currentIndex = (currentIndex + 1) % images.length;
-      openLightbox(currentIndex);
-    }
-
-    document.getElementById('prevBtn').addEventListener('click', e => {
-      e.stopPropagation();
-      showPrev();
-    });
-
-    document.getElementById('nextBtn').addEventListener('click', e => {
-      e.stopPropagation();
-      showNext();
-    });
-
-    document.addEventListener('keydown', e => {
-      if (!lightbox.classList.contains('active')) return;
-      if (e.key === 'Escape') closeLightbox();
-      if (e.key === 'ArrowRight') showNext();
-      if (e.key === 'ArrowLeft') showPrev();
-    });
-
-    lightbox.addEventListener('click', closeLightbox);
-
-    // 렌더링
+  // 썸네일 생성 함수
+  function createThumbnails() {
     images.forEach((img, index) => {
-      const item = document.createElement('div');
-      item.className = 'gallery-item';
-      item.innerHTML = `
-        <img src="${img.src}" alt="${img.caption}">
-        <div class="caption">${img.caption}</div>
-      `;
-      item.addEventListener('click', () => openLightbox(index));
-      gallery.appendChild(item);
-    });
-
-    // 메뉴 불러오기
-    fetch('menu.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('menu-container').innerHTML = data;
+      const thumb = document.createElement('img');
+      thumb.src = img.src;
+      thumb.alt = img.alt;
+      thumb.classList.add(index === 0 ? 'active' : '');
+      thumb.addEventListener('click', () => {
+        showImage(index);
       });
-  </script>
+      thumbnailsContainer.appendChild(thumb);
+    });
+  }
+
+  // 이미지 보여주기 함수
+  function showImage(index) {
+    currentIndex = index;
+    mainImage.src = images[index].src;
+    mainImage.alt = images[index].alt;
+
+    // 썸네일 active 갱신
+    const thumbs = thumbnailsContainer.querySelectorAll('img');
+    thumbs.forEach((thumb, i) => {
+      if (i === index) thumb.classList.add('active');
+      else thumb.classList.remove('active');
+    });
+  }
+
+  // 이전 이미지 보기
+  function prevImage() {
+    currentIndex = (currentIndex - 1 + images.length) % images.length;
+    showImage(currentIndex);
+  }
+
+  // 다음 이미지 보기
+  function nextImage() {
+    currentIndex = (currentIndex + 1) % images.length;
+    showImage(currentIndex);
+  }
+
+  // 이벤트 리스너 연결
+  prevBtn.addEventListener('click', prevImage);
+  nextBtn.addEventListener('click', nextImage);
+
+  // 초기 썸네일 생성, 첫 이미지 표시
+  createThumbnails();
+  showImage(0);
+
+</script>
 
 </body>
 </html>
-
