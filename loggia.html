@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Loggia Gallery</title>
+<title>Jonghwan Lee - Index</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;700&display=swap');
   * {
@@ -15,37 +15,51 @@
     font-family: 'Montserrat', sans-serif;
     background: #fff;
     color: #000;
-    padding: 40px 20px;
-    display: flex;
-    justify-content: center;
-  }
-  .gallery-container {
+    margin-left: 120px; /* 메뉴 공간 확보 */
+    padding: 60px 20px;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* 왼쪽 정렬 */
-    width: fit-content;
   }
-  #description {
+  h1 {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    margin-bottom: 30px;
+  }
+  p {
+    font-size: 10px;
+    font-weight: 300;
+    letter-spacing: 1.2px;
+    line-height: 1.6;
+  }
+
+  /* === Loggia Gallery 스타일 시작 === */
+  #loggia-gallery {
+    margin-top: 40px;
+    align-self: flex-start; /* 왼쪽 정렬 */
+  }
+  #loggia-gallery #description {
     margin-bottom: 10px;
     font-size: 1.2rem;
     color: #333;
     text-align: left;
-    width: 100%; /* main-image 너비와 같게 */
+    width: 600px;
+    font-weight: 600;
   }
-  .main-image {
+  #loggia-gallery .main-image {
     position: relative;
     width: 600px;
     height: 400px;
     overflow: hidden;
   }
-  .main-image img {
+  #loggia-gallery .main-image img {
     width: 100%;
     height: 100%;
     object-fit: contain;
     display: block;
   }
-  /* 화살표 버튼 */
-  .arrow {
+  #loggia-gallery .arrow {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -60,55 +74,61 @@
     cursor: pointer;
     user-select: none;
   }
-  .arrow:hover {
+  #loggia-gallery .arrow:hover {
     background: rgba(255,255,255,0.9);
   }
-  .arrow-left {
+  #loggia-gallery .arrow-left {
     left: 10px;
   }
-  .arrow-right {
+  #loggia-gallery .arrow-right {
     right: 10px;
   }
-  /* 썸네일 컨테이너 */
-  .thumbnail-container {
+  #loggia-gallery .thumbnail-container {
     margin-top: 15px;
     display: flex;
     gap: 8px;
     overflow-x: auto;
     width: 600px;
   }
-  .thumbnail-container::-webkit-scrollbar {
+  #loggia-gallery .thumbnail-container::-webkit-scrollbar {
     height: 6px;
   }
-  .thumbnail-container::-webkit-scrollbar-thumb {
+  #loggia-gallery .thumbnail-container::-webkit-scrollbar-thumb {
     background: #ccc;
     border-radius: 3px;
   }
-  .thumbnail {
+  #loggia-gallery .thumbnail {
     flex: 0 0 auto;
     width: 80px;
     height: 60px;
     cursor: pointer;
     border: 2px solid transparent;
   }
-  .thumbnail.selected {
+  #loggia-gallery .thumbnail.selected {
     border-color: #333;
   }
-  .thumbnail img {
+  #loggia-gallery .thumbnail img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
   }
+  /* === Loggia Gallery 스타일 끝 === */
+
 </style>
 </head>
 <body>
 
-<div class="gallery-container">
+<div id="menu-container"></div>
 
+<h1>Welcome to Jonghwan Lee’s site</h1>
+<p>기본 소개 텍스트 또는 다른 내용이 여기에 들어갑니다.</p>
+
+<!-- Loggia Gallery 영역 추가 -->
+<section id="loggia-gallery">
   <div id="description">
-    <div>Loggia (2025) </div>
-    <div>해방된 기둥이 있다. 구역을 만들어내는 기둥은 중심에서 장소를 구체화하고 있지만 그 무엇도 지지하지 않고 있다. 정확히는 어디를 지지하고 있는지 말할 수 없다. 기둥의 끝에서 빛이 솟아오른다. 기둥은 저기 있지만 빛은 다가와 마주침을 만들어낸다. 기둥과 빛은 보이지 않는 것을 마주하기 위해 공간과 시간을 뒤섞어 지금 이 자리에 있음을 느끼게 한다. 그곳은 재현되는 것이 아니라 스스로를 드러낸다. 기둥 속에서 반짝이는 추는 반복되는 소리를 흘려보낸다. 그 소리는 이곳이 우리와 또 다른 것임을 알려주는 듯하다. </div>
+    <div>Loggia Gallery</div>
+    <div>Loggia 전시회 사진 모음입니다.</div>
   </div>
 
   <div class="main-image">
@@ -129,10 +149,42 @@
     <div class="thumbnail" data-index="8"><img src="loggiaimages/loggia9.jpg" alt="Loggia 9" /></div>
     <div class="thumbnail" data-index="9"><img src="loggiaimages/loggia10.jpg" alt="Loggia 10" /></div>
   </div>
-
-</div>
+</section>
 
 <script>
+  fetch('menu.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('menu-container').innerHTML = data;
+
+      // 메뉴 토글 함수 정의
+      window.toggleProjectMenu = function(e, submenuId) {
+        e.preventDefault();
+
+        const submenu1 = document.getElementById('projectSubmenu1');
+        const submenu2 = document.getElementById('projectSubmenu2');
+        const targetSubmenu = document.getElementById(submenuId);
+        if (!targetSubmenu) return;
+
+        if (submenuId === 'projectSubmenu1' && submenu2.classList.contains('show')) {
+          submenu2.style.maxHeight = null;
+          submenu2.classList.remove('show');
+        } else if (submenuId === 'projectSubmenu2' && submenu1.classList.contains('show')) {
+          submenu1.style.maxHeight = null;
+          submenu1.classList.remove('show');
+        }
+
+        if (targetSubmenu.classList.contains('show')) {
+          targetSubmenu.style.maxHeight = null;
+          targetSubmenu.classList.remove('show');
+        } else {
+          targetSubmenu.style.maxHeight = targetSubmenu.scrollHeight + "px";
+          targetSubmenu.classList.add('show');
+        }
+      }
+    });
+
+  /* === Loggia Gallery 스크립트 === */
   const images = [
     'images/loggia1.jpg',
     'images/loggia2.jpg',
@@ -148,7 +200,7 @@
 
   let currentIndex = 0;
   const mainImage = document.getElementById('mainImage');
-  const thumbnails = document.querySelectorAll('.thumbnail');
+  const thumbnails = document.querySelectorAll('#thumbnails .thumbnail');
 
   function showImage(index) {
     if(index < 0) index = images.length -1;
@@ -160,31 +212,33 @@
   }
 
   // 초기 이미지 보여주기
-  showImage(0);
+  window.addEventListener('DOMContentLoaded', () => {
+    showImage(0);
 
-  // 클릭 이벤트 - 썸네일
-  thumbnails.forEach(thumb => {
-    thumb.addEventListener('click', () => {
-      const idx = parseInt(thumb.getAttribute('data-index'));
-      showImage(idx);
+    // 썸네일 클릭
+    thumbnails.forEach(thumb => {
+      thumb.addEventListener('click', () => {
+        const idx = parseInt(thumb.getAttribute('data-index'));
+        showImage(idx);
+      });
     });
-  });
 
-  // 클릭 이벤트 - 화살표
-  document.querySelector('.arrow-left').addEventListener('click', () => {
-    showImage(currentIndex - 1);
-  });
-  document.querySelector('.arrow-right').addEventListener('click', () => {
-    showImage(currentIndex + 1);
-  });
-
-  // 키보드 이벤트
-  window.addEventListener('keydown', (e) => {
-    if(e.key === 'ArrowLeft') {
+    // 화살표 클릭
+    document.querySelector('#loggia-gallery .arrow-left').addEventListener('click', () => {
       showImage(currentIndex - 1);
-    } else if(e.key === 'ArrowRight') {
+    });
+    document.querySelector('#loggia-gallery .arrow-right').addEventListener('click', () => {
       showImage(currentIndex + 1);
-    }
+    });
+
+    // 키보드 이벤트
+    window.addEventListener('keydown', (e) => {
+      if(e.key === 'ArrowLeft') {
+        showImage(currentIndex - 1);
+      } else if(e.key === 'ArrowRight') {
+        showImage(currentIndex + 1);
+      }
+    });
   });
 </script>
 
