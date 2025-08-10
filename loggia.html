@@ -3,76 +3,167 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Loggia Gallery</title>
+  <title>Loggia (2025)</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;700&display=swap');
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
       font-family: 'Montserrat', sans-serif;
-      background: #fff; color: #000;
-      margin-left: 120px; padding: 60px 20px;
+      background: #fff;
+      color: #000;
+      margin-left: 120px; /* 메뉴 공간 확보 */
+      padding: 60px 20px;
     }
-    #menu-container { margin-bottom: 30px; }
-    h1 { font-size: 14px; font-weight: 700; letter-spacing: 1.5px; margin-bottom: 20px; }
-    .gallery-container { display: flex; flex-direction: column; align-items: flex-start; }
-    .description { max-width: 900px; width: 80vw; margin-bottom: 20px; }
-    .description p { font-size: 12px; font-weight: 300; letter-spacing: 1.2px; line-height: 1.4; }
+
+    #menu-container {
+      margin-bottom: 30px;
+    }
+
+    h1 {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      margin-bottom: 20px;
+    }
+
+    .gallery-container {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .description {
+      max-width: 900px;
+      width: 80vw;
+      margin-bottom: 20px;
+    }
+
+    .description p {
+      font-size: 12px;
+      font-weight: 300;
+      letter-spacing: 1.2px;
+      line-height: 1.4;
+    }
+
     .image-list {
-      display: flex; flex-direction: column; gap: 20px;
-      max-width: 900px; width: 80vw;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      max-width: 900px;
+      width: 80vw;
     }
+
     .image-list img {
-      width: 100%; height: auto; cursor: pointer; border-radius: 4px;
+      width: 100%;
+      height: auto;
+      cursor: pointer;
+      border-radius: 4px;
       transition: transform 0.2s;
     }
-    .image-list img:hover { transform: scale(1.01); }
+
+    .image-list img:hover {
+      transform: scale(1.01);
+    }
+
+    /* Modal styles */
     .modal {
       display: none;
-      position: fixed; z-index: 999;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background-color: rgba(0, 0, 0, 0.9);
-      justify-content: center; align-items: center;
+      position: fixed;
+      z-index: 999;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.9);
+      justify-content: center;
+      align-items: center;
     }
+
     .modal img {
-      max-width: 90vw; max-height: 90vh;
+      max-width: 90vw;
+      max-height: 90vh;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     }
+
     .modal-close {
-      position: fixed; top: 20px; right: 30px;
-      font-size: 30px; color: #fff; cursor: pointer;
+      position: fixed;
+      top: 20px;
+      right: 30px;
+      font-size: 30px;
+      color: #fff;
+      cursor: pointer;
       user-select: none;
     }
+
     .arrow {
-      position: absolute; top: 50%;
-      font-size: 40px; color: #fff;
-      cursor: pointer; user-select: none;
+      position: absolute;
+      top: 50%;
+      font-size: 40px;
+      color: #fff;
+      cursor: pointer;
+      user-select: none;
       padding: 10px;
       transform: translateY(-50%);
     }
-    .arrow.left { left: 30px; }
-    .arrow.right { right: 30px; }
+
+    .arrow.left {
+      left: 30px;
+    }
+
+    .arrow.right {
+      right: 30px;
+    }
+
+    @media screen and (max-width: 768px) {
+      body {
+        margin-left: 0;
+        padding: 40px 15px;
+      }
+
+      .description, .image-list {
+        width: 100%;
+      }
+    }
   </style>
 </head>
 <body>
 
-  <!-- 메뉴 자리 (menu.html을 불러옴) -->
+  <!-- ✅ 메뉴 영역 (외부 menu.html에서 로드됨) -->
   <div id="menu-container"></div>
 
+  <!-- ✅ 전시 제목 -->
   <h1>Loggia (2025)</h1>
 
+  <!-- ✅ 갤러리 설명 + 이미지 리스트 -->
   <div class="gallery-container">
     <div class="description">
-      <p>해방된 기둥이 있다... (논문형 설명 텍스트)</p>
+      <p>
+        해방된 기둥이 있다. 구역을 만들어내는 기둥은 중심에서 장소를 구체화하고 있지만 그 무엇도 지지하지 않고 있다. 정확히는 어디를 지지하고 있는지 말할 수 없다. 기둥의 끝에서 빛이 솟아오른다. 기둥은 저기 있지만 빛은 다가와 마주침을 만들어낸다. 기둥과 빛은 보이지 않는 것을 마주하기 위해 공간과 시간을 뒤섞어 지금 이 자리에 있음을 느끼게 한다. 그곳은 재현되는 것이 아니라 스스로를 드러낸다. 기둥 속에서 반짝이는 추는 반복되는 소리를 흘려보낸다. 그 소리는 이곳이 우리와 또 다른 것임을 알려주는 듯하다.
+      </p>
     </div>
 
+    <!-- ✅ 이미지 리스트 -->
     <div class="image-list" id="imageList">
       <img src="loggiaimages/loggia1.jpg" alt="Loggia 1">
       <img src="loggiaimages/loggia2.jpg" alt="Loggia 2">
-      <!-- ... 이미지를 계속 나열 ... -->
+      <img src="loggiaimages/loggia3.jpg" alt="Loggia 3">
+      <img src="loggiaimages/loggia4.jpg" alt="Loggia 4">
+      <img src="loggiaimages/loggia5.jpg" alt="Loggia 5">
+      <img src="loggiaimages/loggia6.jpg" alt="Loggia 6">
+      <img src="loggiaimages/loggia7.jpg" alt="Loggia 7">
+      <img src="loggiaimages/loggia8.jpg" alt="Loggia 8">
+      <img src="loggiaimages/loggia9.jpg" alt="Loggia 9">
       <img src="loggiaimages/loggia10.jpg" alt="Loggia 10">
     </div>
   </div>
 
+  <!-- ✅ 모달 전체 화면 보기 -->
   <div class="modal" id="imageModal">
     <span class="modal-close" id="modalClose">&times;</span>
     <span class="arrow left" id="prevArrow">&#10094;</span>
@@ -80,16 +171,16 @@
     <span class="arrow right" id="nextArrow">&#10095;</span>
   </div>
 
+  <!-- ✅ JavaScript -->
   <script>
-    // 메뉴 로드
+    // 메뉴 불러오기
     fetch('menu.html')
       .then(res => res.text())
       .then(html => {
         document.getElementById('menu-container').innerHTML = html;
-        // 메뉴 토글 함수 사용 시 활성화 필요 시 여기에 추가
       });
 
-    // 모달과 이미지 제어
+    // 이미지 모달 기능
     const modal = document.getElementById("imageModal");
     const modalImg = document.getElementById("modalImage");
     const closeBtn = document.getElementById("modalClose");
@@ -114,6 +205,7 @@
       currentIndex = (currentIndex + 1) % images.length;
       showModal(currentIndex);
     }
+
     function showPrev() {
       currentIndex = (currentIndex - 1 + images.length) % images.length;
       showModal(currentIndex);
@@ -121,8 +213,8 @@
 
     nextArrow.addEventListener('click', showNext);
     prevArrow.addEventListener('click', showPrev);
+    closeBtn.addEventListener('click', () => modal.style.display = "none");
 
-    closeBtn.addEventListener('click', () => (modal.style.display = "none"));
     modal.addEventListener('click', e => {
       if (e.target === modal) modal.style.display = "none";
     });
