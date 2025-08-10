@@ -1,79 +1,103 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Jonghwan Lee - Index</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;700&display=swap');
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  body {
-    font-family: 'Montserrat', sans-serif;
-    background: #fff;
-    color: #000;
-    margin-left: 120px; /* 메뉴 공간 확보 */
-    padding: 60px 20px;
-  }
-  h1 {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-    margin-bottom: 30px;
-  }
-  p {
-    font-size: 10px;
-    font-weight: 300;
-    letter-spacing: 1.2px;
-    line-height: 1.6;
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Jonghwan Lee - Index</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;700&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      margin-left: 120px; /* 메뉴 공간 확보 */
+      padding: 60px 20px;
+      color: #000;
+
+      /* ✅ 배경 애니메이션 (세련된 그레이 톤) */
+      background: linear-gradient(-45deg, #e0e0e0, #d6d6d6, #f0f0f0, #cacaca);
+      background-size: 400% 400%;
+      animation: gradientShift 20s ease infinite;
+    }
+
+    /* ✅ 배경 움직임 애니메이션 정의 */
+    @keyframes gradientShift {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    h1 {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      margin-bottom: 30px;
+    }
+
+    p {
+      font-size: 10px;
+      font-weight: 300;
+      letter-spacing: 1.2px;
+      line-height: 1.6;
+    }
+  </style>
 </head>
 <body>
 
-<div id="menu-container"></div>
+  <!-- 메뉴 HTML이 삽입될 위치 -->
+  <div id="menu-container"></div>
 
-<h1></h1>
-<p>
- 
-</p>
+  <!-- 페이지 내용 -->
+  <h1></h1>
+  <p>
+    <!-- 여기에 본문 텍스트 입력 -->
+  </p>
 
-<script>
-  fetch('menu.html')
-    .then(response => response.text())
-    .then(data => {
-      document.getElementById('menu-container').innerHTML = data;
-      // 메뉴 토글 함수 정의
-      window.toggleProjectMenu = function(e, submenuId) {
-        e.preventDefault();
+  <!-- 메뉴 불러오기 스크립트 -->
+  <script>
+    fetch('menu.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('menu-container').innerHTML = data;
 
-        const submenu1 = document.getElementById('projectSubmenu1');
-        const submenu2 = document.getElementById('projectSubmenu2');
-        const targetSubmenu = document.getElementById(submenuId);
-        if (!targetSubmenu) return;
+        // 메뉴 토글 함수 정의
+        window.toggleProjectMenu = function(e, submenuId) {
+          e.preventDefault();
 
-        if (submenuId === 'projectSubmenu1' && submenu2.classList.contains('show')) {
-          submenu2.style.maxHeight = null;
-          submenu2.classList.remove('show');
-        } else if (submenuId === 'projectSubmenu2' && submenu1.classList.contains('show')) {
-          submenu1.style.maxHeight = null;
-          submenu1.classList.remove('show');
+          const submenu1 = document.getElementById('projectSubmenu1');
+          const submenu2 = document.getElementById('projectSubmenu2');
+          const targetSubmenu = document.getElementById(submenuId);
+          if (!targetSubmenu) return;
+
+          if (submenuId === 'projectSubmenu1' && submenu2.classList.contains('show')) {
+            submenu2.style.maxHeight = null;
+            submenu2.classList.remove('show');
+          } else if (submenuId === 'projectSubmenu2' && submenu1.classList.contains('show')) {
+            submenu1.style.maxHeight = null;
+            submenu1.classList.remove('show');
+          }
+
+          if (targetSubmenu.classList.contains('show')) {
+            targetSubmenu.style.maxHeight = null;
+            targetSubmenu.classList.remove('show');
+          } else {
+            targetSubmenu.style.maxHeight = targetSubmenu.scrollHeight + "px";
+            targetSubmenu.classList.add('show');
+          }
         }
-
-        if (targetSubmenu.classList.contains('show')) {
-          targetSubmenu.style.maxHeight = null;
-          targetSubmenu.classList.remove('show');
-        } else {
-          targetSubmenu.style.maxHeight = targetSubmenu.scrollHeight + "px";
-          targetSubmenu.classList.add('show');
-        }
-      }
-    });
-</script>
+      });
+  </script>
 
 </body>
 </html>
-
