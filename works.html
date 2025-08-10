@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Years Wander</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap');
   * {
     margin: 0; padding: 0; box-sizing: border-box;
   }
@@ -17,22 +17,11 @@
     position: relative;
     margin-left: 120px; /* 메뉴 공간 확보 */
   }
-  #movement-boundary {
-    position: fixed;
-    top: 10px;
-    left: 120px; /* 메뉴 공간을 피해 시작 */
-    width: 50vw; /* 뷰포트 가로 절반 */
-    height: 100vh;
-    background: #eee;
-    border: 2px solid #ccc;
-    pointer-events: none; /* 클릭 무시 */
-    z-index: 5;
-  }
   .year-list a {
     position: fixed;
-    font-size: 16px;  /* 글자 크기 조금 더 축소 */
-    font-family: 'Montserrat', sans-serif; /* 메뉴와 동일한 글꼴 */
-    font-weight: 300; /* 글자 두께 얇게 */
+    font-size: 14px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
     color: #000;
     text-decoration: none;
     cursor: pointer;
@@ -49,8 +38,6 @@
 
   <div id="menu-container"></div>
 
-  <div id="movement-boundary"></div>
-
   <div class="year-list">
     <a href="2025.html" id="year2025">2025</a>
     <a href="2024.html" id="year2024">2024</a>
@@ -65,14 +52,12 @@
     .then(res => res.ok ? res.text() : Promise.reject('Menu load failed'))
     .then(html => {
       document.getElementById('menu-container').innerHTML = html;
-
       window.toggleProjectMenu = function(e, submenuId) {
         e.preventDefault();
         const s1 = document.getElementById('projectSubmenu1');
         const s2 = document.getElementById('projectSubmenu2');
         const target = document.getElementById(submenuId);
         if (!target) return;
-
         if (submenuId === 'projectSubmenu1' && s2?.classList.contains('show')) {
           s2.classList.remove('show');
           s2.style.maxHeight = null;
@@ -80,7 +65,6 @@
           s1.classList.remove('show');
           s1.style.maxHeight = null;
         }
-
         if (target.classList.contains('show')) {
           target.classList.remove('show');
           target.style.maxHeight = null;
@@ -100,53 +84,15 @@
     { id: 'year2021' },
   ];
 
-  // 움직임 제한 영역 정보 가져오기 (숫자 크기 고려해서 조정)
-  function getMovementBoundary(elem) {
-    const boundary = document.getElementById('movement-boundary').getBoundingClientRect();
-    const elemRect = elem.getBoundingClientRect();
-    return {
-      minX: boundary.left + 10,
-      maxX: boundary.right - 10 - elemRect.width, // 숫자 너비만큼 빼서 우측 벗어남 방지
-      minY: boundary.top + 10,
-      maxY: boundary.bottom - 10 - elemRect.height, // 높이도 고려
-    };
-  }
-
-  // 중앙 영역 X값 랜덤 (중앙 ± 100px) - 제한 박스 중앙 기준
-  function getCentralRandomX(bounds) {
-    const centerX = (bounds.minX + bounds.maxX) / 2;
-    const leftLimit = Math.max(bounds.minX, centerX - 100);
-    const rightLimit = Math.min(bounds.maxX, centerX + 100);
-    return Math.random() * (rightLimit - leftLimit) + leftLimit;
-  }
-
-  // Y값 랜덤
-  function getRandomY(bounds) {
-    return Math.random() * (bounds.maxY - bounds.minY) + bounds.minY;
-  }
-
-  // 각 요소 움직임 애니메이션 재귀 함수
-  function animateMove(elem) {
-    const bounds = getMovementBoundary(elem);
-    const duration = Math.random() * 6000 + 8000;  // 8~14초 사이 랜덤 (느리게)
-    const x = Math.random() * (bounds.maxX - bounds.minX) + bounds.minX;
-    const y = Math.random() * (bounds.maxY - bounds.minY) + bounds.minY;
-
-    elem.style.transition = `transform ${duration}ms ease-in-out`;
-    elem.style.transform = `translate(${x}px, ${y}px)`;
-
-    setTimeout(() => animateMove(elem), duration);
-  }
-
-  // 초기 슬라이드: 왼쪽 바깥 -> 중앙 정렬 (전체 숫자 길이 중앙 맞춤) — 제한된 영역 내 중앙 기준
   function initialSlide(yearElems) {
-    const boundary = document.getElementById('movement-boundary').getBoundingClientRect();
-    const slideDuration = 5000;
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    const slideDuration = 5000; // 5초
     const fps = 60;
     const totalFrames = slideDuration / (1000 / fps);
 
     const gap = 6;  // 숫자 사이 간격 (스페이스바 한 칸 정도)
-    const baseY = (boundary.top + boundary.bottom) / 2;
+    const baseY = vh / 2;
 
     // 각 숫자 너비 배열
     const widths = yearElems.map(el => el.getBoundingClientRect().width);
@@ -154,25 +100,21 @@
     // 총 너비 계산 (숫자 너비 합 + 간격 포함)
     const totalWidth = widths.reduce((a, b) => a + b, 0) + gap * (yearElems.length - 1);
 
-    // 제한 박스 중앙 좌표
-    const centerX = (boundary.left + boundary.right) / 2;
+    // 시작점은 화면 왼쪽 - 숫자 한 개 너비 밖 (-width-20)
+    const leftStart = -widths[0] - 20;
 
-    // 시작 X 좌표는 제한 박스 중앙 - 총 너비 / 2 (그래서 전체 숫자가 중앙에 위치함)
-    const startX = centerX - totalWidth / 2;
-
-    // 시작점은 제한 박스 왼쪽 - 숫자 너비 한 개 크기 정도 밖에서 시작
-    const leftStart = boundary.left - widths[0] - 20;
+    // 목표점은 시작점과 화면 왼쪽 끝(0)의 75% 지점 (더 오른쪽)
+    const targetX = leftStart * 0.25;
 
     let frame = 0;
 
     function step() {
       const progress = frame / totalFrames;
 
-      // currentX는 leftStart에서 startX까지 점진 이동
-      const currentX = leftStart + (startX - leftStart) * progress;
+      // currentX는 leftStart에서 targetX까지 점진 이동
+      const currentX = leftStart + (targetX - leftStart) * progress;
 
       yearElems.forEach((elem, idx) => {
-        // 각 숫자의 x 좌표 = currentX + 이전 숫자 너비 합 + 간격 * idx
         const x = currentX + widths.slice(0, idx).reduce((a,b) => a+b, 0) + gap * idx;
         elem.style.transition = 'none';
         elem.style.transform = `translate(${x}px, ${baseY}px)`;
@@ -181,59 +123,28 @@
       frame++;
       if (frame <= totalFrames) {
         requestAnimationFrame(step);
-      } else {
-        setTimeout(() => {
-          sequentialMoveSingle(yearElems.slice().reverse());
-        }, 1000);
       }
     }
 
     step();
   }
 
-  // 2021부터 1개씩 3초 간격으로 움직임 시작 (다른 숫자 움직이지 않음)
-  function sequentialMoveSingle(yearElems) {
-    let idx = 0;
-
-    function moveNext() {
-      if (idx >= yearElems.length) return;
-
-      const elem = yearElems[idx];
-
-      animateMove(elem);
-
-      idx++;
-      if (idx < yearElems.length) {
-        setTimeout(moveNext, 3000);
-      }
-    }
-    moveNext();
-  }
-
   window.addEventListener('load', () => {
     const yearElems = years.map(({ id }) => document.getElementById(id)).filter(Boolean);
 
-    // 초기 위치 제한 박스 왼쪽 밖에 배치 (y는 제한 박스 중앙)
-    const boundary = document.getElementById('movement-boundary').getBoundingClientRect();
+    // 초기 위치는 화면 왼쪽 밖 (y는 화면 세로 중앙)
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
     const widths = yearElems.map(el => el.getBoundingClientRect().width);
-    const leftStart = boundary.left - widths[0] - 20;
-    const baseY = (boundary.top + boundary.bottom) / 2;
+    const leftStart = -widths[0] - 20;
+    const baseY = vh / 2;
 
     yearElems.forEach(elem => {
       elem.style.transform = `translate(${leftStart}px, ${baseY}px)`;
     });
 
-    // 초기 슬라이드 애니메이션 실행
+    // 숫자들 5초동안 왼쪽 75% 위치로 이동
     initialSlide(yearElems);
-  });
-
-  window.addEventListener('resize', () => {
-    // 리사이즈 시 현재 움직임 중인 요소들의 범위 재설정 위해 한 번씩 호출
-    const yearElems = years.map(({ id }) => document.getElementById(id)).filter(Boolean);
-    yearElems.forEach(elem => {
-      const bounds = getMovementBoundary(elem);
-      animateMove(elem);
-    });
   });
 </script>
 
