@@ -45,6 +45,7 @@
       max-width: 630px;
       width: 70%;
       margin: 0 auto 20px auto;
+      text-align: right; /* 오른쪽 정렬 */
     }
 
     .description p {
@@ -60,10 +61,12 @@
       gap: 15px;
       max-width: 630px;
       width: 70%;
+      align-items: flex-end; /* 오른쪽 정렬 */
     }
 
     .image-list img {
-      width: 100%;
+      width: auto;         /* 원본 비율 유지 */
+      max-width: 100%;     /* 화면 너비 넘지 않도록 */
       height: auto;
       cursor: pointer;
       border-radius: 4px;
@@ -78,7 +81,7 @@
       max-width: 630px;
       width: 70%;
       margin: 15px auto 0 auto;
-      text-align: right;
+      text-align: left; /* 왼쪽 정렬 유지 */
       font-size: 13px;
       font-weight: 300;
       color: #444;
@@ -220,14 +223,14 @@
     });
 
     let currentIndex = 0;
+    const images = document.querySelectorAll('.image-list img');
+
     function showNextImage() {
-      const images = document.querySelectorAll('.image-list img');
       currentIndex = (currentIndex + 1) % images.length;
       modalImg.src = images[currentIndex].src;
     }
 
     function showPrevImage() {
-      const images = document.querySelectorAll('.image-list img');
       currentIndex = (currentIndex - 1 + images.length) % images.length;
       modalImg.src = images[currentIndex].src;
     }
