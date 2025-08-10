@@ -1,0 +1,236 @@
+  <!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hypercube (2023)</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;700&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: #fff;
+      color: #000;
+      margin-left: 120px; /* 메뉴 공간 확보 */
+      padding: 60px 20px;
+    }
+
+    #menu-container {
+      margin-bottom: 30px;
+    }
+
+    h1 {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      margin-bottom: 20px;
+      max-width: 630px;
+      width: 100%; /* 70% → 100%로 변경 */
+      margin: 0 0 20px 0; /* 중앙정렬 대신 좌측정렬 맞춤 */
+    }
+
+    .gallery-container {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start; /* 가운데 → 왼쪽 정렬 */
+    }
+
+    .description {
+      max-width: 630px;
+      width: 100%; /* 70% → 100% */
+      margin: 0 0 20px 0; /* 중앙 정렬 대신 좌측 정렬 */
+      text-align: left;
+    }
+
+    .description p {
+      font-size: 12px;
+      font-weight: 300;
+      letter-spacing: 1.2px;
+      line-height: 1.4;
+    }
+
+    .image-list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      max-width: 630px;
+      width: 100%; /* 70% → 100% */
+      align-items: flex-start;
+    }
+
+    .image-list img {
+      width: 100%;
+      height: auto;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: transform 0.2s;
+    }
+
+    .image-list img:hover {
+      transform: scale(1.02);
+    }
+
+    .caption-container {
+      max-width: 630px;
+      width: 100%; /* 70% → 100% */
+      margin: 15px 0 0 0; /* 중앙 정렬 대신 좌측 정렬 유지 불필요하므로 아래에서 오른쪽 정렬 유지 */
+      text-align: right; /* 마지막 캡션 오른쪽 정렬 유지 */
+      font-size: 13px;
+      font-weight: 300;
+      color: #444;
+      font-style: italic;
+      letter-spacing: 0.8px;
+      line-height: 1.3;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.8);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal img {
+      max-width: 90vw;
+      max-height: 90vh;
+      border-radius: 5px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.6);
+    }
+
+    .modal-close {
+      position: fixed;
+      top: 20px;
+      right: 30px;
+      font-size: 30px;
+      color: #fff;
+      cursor: pointer;
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="menu-container"></div>
+
+  <h1>Hypercube (2023)</h1>
+
+  <div class="gallery-container">
+    <div class="description">
+      <p>
+       인간의 지각 이전에 회화 자체의 지각이 역으로 생기를 발생시킬 수 있다는 가설과 함께, 지속적 으로 형성되는 지각의 순환구조에서 작용하는 회화 속 물질들의 압축된 세계를 탐구합니다. 그의 회화를 담아 내는 화판은 단순히 안료가 안착되는 표면이 아닌 회화로부터 파생된 존재들이 거주하며 회화의 확장성을 이끌어내는 유기적인 육면체이자 소우주입니다. 화판의 표면에 그려진 이종환의 회화는 음각으로 생겨난 균열을 통해 2차원과 3차원의 경계 사이에 머무르고, 나무의 깎인 자국이 만든 계곡과 그 주변의 풍경들은 캐스팅을 통해 물과 하얀 가루의 화학반응으로 만들어진 고체의 표면으로 서서히 이동합니다. 그리고 정지해 있는 회화 및 석고와 달리 화판 내부에 식립된 진자는 주기운동을 통해 서로가 맞닿으며 미세한 파동을 일으키는데, 이 청각적인 진동을 동반한 추의 위치변화는 시계의 초침처럼 정지해있는 대상에 시간성을 부여하고, 이는 다시 석고를 매질 삼아 회화의 표면으로 도달해 그 주위로 흐르는 시간에 대한 고찰을 이끕니다.
+        <br>
+        <br>
+        Jonghwan Lee delves into the condensed world of painting materials that exist within the continuously forming cyclical structure of perception based on the hypothesis that the perception of painting itself can generate vitality even prior to human perception. The wood panel that encapsulates his paintings goes beyond being a mere surface for pigments to settle and takes the form of an organic hexahedron and a microcosm inhabited by entities that originate from the paintings and lead to their extension. Lee's paintings, portrayed on the panel, reside between the boundaries of two-dimensional and three-dimensional through cracks formed by engraving. The carved traces on wood that create valleys and the surrounding landscapes gradually transition into solid surfaces through casting, facilitated by chemical reactions between water and white powder. Furthermore, amidst the static nature of the paintings and plaster, a pendulum embedded within the panel undergoes periodic motion, colliding and creating waves. The pendulum’s positional shifts, accompanied by auditory vibrations, infuse a sense of temporality into the stationary subjects, akin to the movement of a clock's second hand. This, in turn, reaches the surface of the paintings using plaster as a medium, prompting contemplation on the passage of time.      </p>
+    </div>
+
+    <div class="image-list">
+      <img src="hypercubeimages/hypercube1.jpg" alt="hypercube 1">
+      <img src="hypercubeimages/hypercube2.jpg" alt="hypercube 2">
+      <img src="hypercubeimages/hypercube3.jpg" alt="hypercube 3">
+      <img src="hypercubeimages/hypercube4.jpg" alt="hypercube 4">
+      <img src="hypercubeimages/hypercube5.jpg" alt="hypercube 5">
+      <img src="hypercubeimages/hypercube6.jpg" alt="hypercube 6">
+      <img src="hypercubeimages/hypercube7.jpg" alt="hypercube 7">
+      <img src="hypercubeimages/hypercube8.jpg" alt="hypercube 8">
+    </div>
+
+    <div class="caption-container">
+      Photography San Choi<br>사진 최산
+    </div>
+  </div>
+
+  <div class="modal" id="imageModal">
+    <span class="modal-close" id="modalClose">&times;</span>
+    <img id="modalImage" src="" alt="확대 이미지" />
+  </div>
+
+  <script>
+    fetch('menu.html')
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById('menu-container').innerHTML = html;
+
+        window.toggleProjectMenu = function(e, submenuId) {
+          e.preventDefault();
+
+          const submenu1 = document.getElementById('projectSubmenu1');
+          const submenu2 = document.getElementById('projectSubmenu2');
+          const targetSubmenu = document.getElementById(submenuId);
+          if (!targetSubmenu) return;
+
+          if (submenuId === 'projectSubmenu1' && submenu2.classList.contains('show')) {
+            submenu2.style.maxHeight = null;
+            submenu2.classList.remove('show');
+          } else if (submenuId === 'projectSubmenu2' && submenu1.classList.contains('show')) {
+            submenu1.style.maxHeight = null;
+            submenu1.classList.remove('show');
+          }
+
+          if (targetSubmenu.classList.contains('show')) {
+            targetSubmenu.style.maxHeight = null;
+            targetSubmenu.classList.remove('show');
+          } else {
+            targetSubmenu.style.maxHeight = targetSubmenu.scrollHeight + "px";
+            targetSubmenu.classList.add('show');
+          }
+        };
+      });
+
+    const modal = document.getElementById("imageModal");
+    const modalImg = document.getElementById("modalImage");
+    const closeBtn = document.getElementById("modalClose");
+
+    document.querySelectorAll('.image-list img').forEach((img, index) => {
+      img.addEventListener('click', () => {
+        modal.style.display = "flex";
+        modalImg.src = img.src;
+        currentIndex = index;
+      });
+    });
+
+    closeBtn.addEventListener('click', () => modal.style.display = "none");
+    modal.addEventListener('click', e => {
+      if (e.target === modal) modal.style.display = "none";
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        modal.style.display = "none";
+      }
+      if (modal.style.display === "flex") {
+        if (e.key === "ArrowRight") {
+          showNextImage();
+        }
+        if (e.key === "ArrowLeft") {
+          showPrevImage();
+        }
+      }
+    });
+
+    let currentIndex = 0;
+    const images = document.querySelectorAll('.image-list img');
+
+    function showNextImage() {
+      currentIndex = (currentIndex + 1) % images.length;
+      modalImg.src = images[currentIndex].src;
+    }
+
+    function showPrevImage() {
+      currentIndex = (currentIndex - 1 + images.length) % images.length;
+      modalImg.src = images[currentIndex].src;
+    }
+  </script>
+
+</body>
+</html>
