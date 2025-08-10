@@ -19,22 +19,21 @@
       padding: 60px 20px;
       color: #000;
 
-      /* ✅ 배경 애니메이션 (세련된 그레이 톤) */
-      background: linear-gradient(-45deg, #e0e0e0, #d6d6d6, #f0f0f0, #cacaca);
+      /* ✅ 배경: 부드러운 흐름 + 극적인 대비 + 15초 반복 */
+      background: linear-gradient(135deg, #1e1e1e, #eeeeee, #444444, #dddddd);
       background-size: 400% 400%;
-      animation: gradientShift 20s ease infinite;
+      animation: gradientShift 15s ease infinite;
     }
 
-    /* ✅ 배경 움직임 애니메이션 정의 */
     @keyframes gradientShift {
       0% {
-        background-position: 0% 50%;
+        background-position: 0% 0%;
       }
       50% {
-        background-position: 100% 50%;
+        background-position: 100% 100%;
       }
       100% {
-        background-position: 0% 50%;
+        background-position: 0% 0%;
       }
     }
 
@@ -55,23 +54,22 @@
 </head>
 <body>
 
-  <!-- 메뉴 HTML이 삽입될 위치 -->
+  <!-- ✅ 메뉴 영역 -->
   <div id="menu-container"></div>
 
-  <!-- 페이지 내용 -->
+  <!-- ✅ 페이지 제목 및 내용 -->
   <h1></h1>
   <p>
-    <!-- 여기에 본문 텍스트 입력 -->
+    <!-- 이곳에 콘텐츠를 작성하세요 -->
   </p>
 
-  <!-- 메뉴 불러오기 스크립트 -->
+  <!-- ✅ 메뉴 로딩 및 토글 스크립트 -->
   <script>
     fetch('menu.html')
       .then(response => response.text())
       .then(data => {
         document.getElementById('menu-container').innerHTML = data;
 
-        // 메뉴 토글 함수 정의
         window.toggleProjectMenu = function(e, submenuId) {
           e.preventDefault();
 
