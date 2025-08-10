@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
@@ -17,7 +17,7 @@
       font-family: 'Montserrat', sans-serif;
       background: #fff;
       color: #000;
-      margin-left: 120px; /* 메뉴 공간 확보 */
+      margin-left: 120px;
       padding: 60px 20px;
     }
 
@@ -39,8 +39,8 @@
     }
 
     .description {
-      max-width: 900px;
-      width: 80vw;
+      max-width: 600px; /* 기존 900px의 2/3 */
+      width: 53.33vw;
       margin-bottom: 20px;
     }
 
@@ -55,8 +55,8 @@
       display: flex;
       flex-direction: column;
       gap: 20px;
-      max-width: 900px;
-      width: 80vw;
+      max-width: 600px; /* 기존 900px의 2/3 */
+      width: 53.33vw;
     }
 
     .image-list img {
@@ -71,7 +71,6 @@
       transform: scale(1.01);
     }
 
-    /* Modal styles */
     .modal {
       display: none;
       position: fixed;
@@ -126,21 +125,20 @@
         padding: 40px 15px;
       }
 
-      .description, .image-list {
+      .description,
+      .image-list {
         width: 100%;
+        max-width: 100%;
       }
     }
   </style>
 </head>
 <body>
 
-  <!-- ✅ 메뉴 영역 (외부 menu.html에서 로드됨) -->
   <div id="menu-container"></div>
 
-  <!-- ✅ 전시 제목 -->
   <h1>Loggia (2025)</h1>
 
-  <!-- ✅ 갤러리 설명 + 이미지 리스트 -->
   <div class="gallery-container">
     <div class="description">
       <p>
@@ -148,7 +146,6 @@
       </p>
     </div>
 
-    <!-- ✅ 이미지 리스트 -->
     <div class="image-list" id="imageList">
       <img src="loggiaimages/loggia1.jpg" alt="Loggia 1">
       <img src="loggiaimages/loggia2.jpg" alt="Loggia 2">
@@ -163,7 +160,7 @@
     </div>
   </div>
 
-  <!-- ✅ 모달 전체 화면 보기 -->
+  <!-- 모달 -->
   <div class="modal" id="imageModal">
     <span class="modal-close" id="modalClose">&times;</span>
     <span class="arrow left" id="prevArrow">&#10094;</span>
@@ -171,7 +168,6 @@
     <span class="arrow right" id="nextArrow">&#10095;</span>
   </div>
 
-  <!-- ✅ JavaScript -->
   <script>
     // 메뉴 불러오기
     fetch('menu.html')
@@ -180,7 +176,7 @@
         document.getElementById('menu-container').innerHTML = html;
       });
 
-    // 이미지 모달 기능
+    // 모달 기능
     const modal = document.getElementById("imageModal");
     const modalImg = document.getElementById("modalImage");
     const closeBtn = document.getElementById("modalClose");
