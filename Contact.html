@@ -5,95 +5,70 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Contact</title>
   <style>
-  /* 폰트 CSS는 링크 태그로 별도 넣어주세요 */
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  body {
-    font-family: 'Montserrat', sans-serif;
-    background: #fff;
-    color: #000;
-    margin-left: 120px; /* 사이드 메뉴 공간 확보 */
-    padding: 60px 20px;
-    position: relative; /* 숫자 위치 절대 지정 위한 기준 */
-  }
-  h1 {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-    margin-top: 0;
-    padding-top: 0;
-    margin-bottom: 30px;
-    line-height: 1.5;
-  }
-  .email, .instagram {
-    font-size: 10px;
-    font-weight: 300;
-    text-decoration: underline;
-    margin-bottom: 20px;
-  }
-  .email a, .instagram a {
-    color: inherit;
-    text-decoration: inherit;
-    cursor: pointer;
-  }
-  .note {
-    font-size: 10px;
-    font-weight: 300;
-    color: #aaa;
-    line-height: 1.6;
-    margin-bottom: 60px;
-  }
-  footer {
-    font-size: 10px;
-    font-weight: 300;
-    color: #222;
-    line-height: 1.6;
-  }
-  footer .copyright {
-    margin-bottom: 20px;
-  }
-  
-  /* 숫자 연도 위치 지정 */
-  .year-list a {
-    position: absolute;
-    top: 70px; /* Contact 텍스트 기준으로 살짝 아래 */
-    font-size: 14px;
-    font-weight: 300;
-    font-family: 'Pretendard Variable', sans-serif;
-    color: #000;
-    text-decoration: none;
-    cursor: pointer;
-    white-space: nowrap;
-  }
-  .year-list a:hover {
-    color: #555;
-  }
-
-  /* 숫자별 left 위치 직접 지정 */
-  #year2021 { left: 150px; }
-  #year2022 { left: 190px; }
-  #year2023 { left: 230px; }
-  #year2024 { left: 270px; }
-  #year2025 { left: 310px; }
-
-  @media (max-width: 768px) {
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css">
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
     body {
-      margin-left: 120px;
-      padding: 40px 16px;
+      font-family: 'Montserrat', sans-serif;
+      background: #fff;
+      color: #000;
+      margin-left: 120px; /* 사이드 메뉴 공간 확보 */
+      padding: 60px 20px;
     }
-    .year-list a {
-      top: 60px;
-      font-size: 12px;
+    h1 {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      margin-top: 0;         /* 제목 위 여백 제거 */
+  padding-top: 0;        /* 필요시 초기화 */
+  margin-bottom: 30px;
+  line-height: 1.5;
     }
-    #year2021 { left: 140px; }
-    #year2022 { left: 180px; }
-    #year2023 { left: 220px; }
-    #year2024 { left: 260px; }
-    #year2025 { left: 300px; }
+    .email, .instagram {
+      font-size: 10px;
+      font-weight: 300;
+      text-decoration: underline;
+      margin-bottom: 20px;
+    }
+    .email a, .instagram a {
+      color: inherit;
+      text-decoration: inherit;
+      cursor: pointer;
+    }
+    .note {
+      font-size: 10px;
+      font-weight: 300;
+      color: #aaa;
+      line-height: 1.6;
+      margin-bottom: 60px;
+    }
+    footer {
+      font-size: 10px;
+      font-weight: 300;
+      color: #222;
+      line-height: 1.6;
+    }
+    footer .copyright {
+      margin-bottom: 20px;
+    }
+    @media (max-width: 768px) {
+  body {
+    margin-left: 120px; /* 메뉴 공간 확보 유지 */
+    padding: 40px 16px;
   }
+  .content-wrapper {
+        flex-direction: column;
+        gap: 30px;
+      }
+
+      .left, .right {
+        width: 100%;
+      }
+      
+}
   </style>
 </head>
 <body>
@@ -102,14 +77,6 @@
 
   <h1>Contact</h1>
   
-  <div class="year-list">
-    <a href="2021.html" id="year2021">2021</a>
-    <a href="2022.html" id="year2022">2022</a>
-    <a href="2023.html" id="year2023">2023</a>
-    <a href="2024.html" id="year2024">2024</a>
-    <a href="2025.html" id="year2025">2025</a>
-  </div>
-
   <div class="email">
     <a href="mailto:enddl1994@gmail.com">enddl1994@gmail.com</a>
   </div>
@@ -169,3 +136,7 @@
 
 </body>
 </html>
+
+
+
+
