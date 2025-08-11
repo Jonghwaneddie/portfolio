@@ -28,8 +28,8 @@
       cursor: pointer;
       white-space: nowrap;
       transition: color 0.3s ease;
-      top: 0;
-      left: 0;
+      top: 50%; /* 수직 중앙 */
+      transform: translateY(-50%); /* 수직 중앙 정렬 보정 */
     }
     .year-list a:hover {
       color: #555;
@@ -55,7 +55,6 @@
   </div>
 
   <script>
-    // 메뉴 불러오기 + 하위 메뉴 토글 함수
     fetch('menu.html')
       .then(response => response.text())
       .then(data => {
@@ -88,7 +87,6 @@
       })
       .catch(err => console.error('메뉴 로딩 실패:', err));
 
-
     window.addEventListener('load', () => {
       const years = [
         document.getElementById('year2021'),
@@ -99,31 +97,11 @@
       ].filter(Boolean);
 
       const gap = 20;
-      const baseY = window.innerHeight / 2 - 10;
+      let offsetX = 0;
 
-      requestAnimationFrame(() => {
-        const totalWidth = years.reduce((acc, el) => acc + el.offsetWidth, 0) + gap * (years.length - 1);
-        const maxX = document.body.clientWidth - totalWidth - 40;
-        const endX = maxX > 0 ? maxX : 0;
-
-        let pos = 0;
-        let direction = 1;
-
-        function move() {
-          pos += direction;
-          if (pos > endX || pos < 0) direction *= -1;
-
-          let offsetX = pos;
-          years.forEach(el => {
-            el.style.top = `${baseY}px`;
-            el.style.transform = `translateX(${offsetX}px)`;
-            offsetX += el.offsetWidth + gap;
-          });
-
-          requestAnimationFrame(move);
-        }
-
-        move();
+      years.forEach(el => {
+        el.style.left = `${offsetX}px`;
+        offsetX += el.offsetWidth + gap;
       });
     });
   </script>
