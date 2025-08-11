@@ -4,12 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Years</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css">
   <style>
     * {
       margin: 0; padding: 0; box-sizing: border-box;
     }
-
     html, body {
       width: 100%; height: 100%;
       background: #fff;
@@ -19,7 +17,6 @@
       margin-left: 120px;
       overflow: hidden;
     }
-
     .year-list a {
       position: absolute;
       font-size: 14px;
@@ -29,13 +26,11 @@
       text-decoration: none;
       cursor: pointer;
       white-space: nowrap;
-      transition: transform 0.3s ease;
+      transition: color 0.3s ease;
     }
-
     .year-list a:hover {
       color: #555;
     }
-
     @media (max-width: 768px) {
       html, body {
         margin-left: 80px;
@@ -45,36 +40,33 @@
 </head>
 <body>
 
-  <div id="menu-container"></div>
-
   <div class="year-list">
-    <a href="2025.html" id="year2025">2025</a>
-    <a href="2024.html" id="year2024">2024</a>
-    <a href="2023.html" id="year2023">2023</a>
-    <a href="2022.html" id="year2022">2022</a>
     <a href="2021.html" id="year2021">2021</a>
+    <a href="2022.html" id="year2022">2022</a>
+    <a href="2023.html" id="year2023">2023</a>
+    <a href="2024.html" id="year2024">2024</a>
+    <a href="2025.html" id="year2025">2025</a>
   </div>
 
   <script>
-    fetch('menu.html')
-      .then(res => res.text())
-      .then(data => {
-        document.getElementById('menu-container').innerHTML = data;
-      });
+    window.addEventListener('load', () => {
+      const years = [
+        document.getElementById('year2021'),
+        document.getElementById('year2022'),
+        document.getElementById('year2023'),
+        document.getElementById('year2024'),
+        document.getElementById('year2025'),
+      ].filter(Boolean);
 
-    function animateYearsGrouped(yearElems, baseY) {
       const gap = 20;
+      const baseY = window.innerHeight / 2 - 10;
 
-      const baseElem = document.getElementById('year2025');
-      if (!baseElem) return;
+      // 총 너비 계산 (2021~2025 순서대로, 2025가 오른쪽 끝)
+      const totalWidth = years.reduce((acc, el) => acc + el.offsetWidth, 0) + gap * (years.length - 1);
 
-      const others = yearElems.filter(el => el !== baseElem);
-
-      const baseWidth = baseElem.offsetWidth;
-      const othersWidth = others.reduce((acc, el) => acc + el.offsetWidth, 0);
-      const totalWidth = baseWidth + gap + othersWidth + (others.length - 1) * gap;
-
-      const endX = Math.max(document.body.clientWidth - totalWidth - 40, 0);
+      // 움직일 최대 X 위치 (화면 너비 - 총 너비 - 여유)
+      const maxX = document.body.clientWidth - totalWidth - 40;
+      const endX = maxX > 0 ? maxX : 0;
 
       let pos = 0;
       let direction = 1;
@@ -83,11 +75,11 @@
         pos += direction;
         if (pos > endX || pos < 0) direction *= -1;
 
-        baseElem.style.transform = `translate(${pos}px, ${baseY}px)`;
-
-        let offsetX = pos + baseWidth + gap;
-        others.forEach(el => {
-          el.style.transform = `translate(${offsetX}px, ${baseY}px)`;
+        // 2021부터 2025까지 순서대로 pos 기준으로 붙여서 배치
+        let offsetX = pos;
+        years.forEach(el => {
+          el.style.top = `${baseY}px`;
+          el.style.transform = `translateX(${offsetX}px)`;
           offsetX += el.offsetWidth + gap;
         });
 
@@ -95,47 +87,6 @@
       }
 
       move();
-    }
-
-    function animateYearsVertical(yearElems, startX, startY) {
-      const gap = 32;
-      yearElems.forEach((el, i) => {
-        el.style.top = `${startY + i * gap}px`;
-      });
-
-      let pos = 0;
-      let direction = 1;
-      const endX = window.innerWidth - 120 - 100;
-
-      function move() {
-        pos += direction;
-        if (pos > endX || pos < 0) direction *= -1;
-
-        yearElems.forEach(el => {
-          el.style.transform = `translateX(${startX + pos}px)`;
-        });
-
-        requestAnimationFrame(move);
-      }
-
-      move();
-    }
-
-    window.addEventListener('load', () => {
-      const yearElems = [
-        document.getElementById('year2025'),
-        document.getElementById('year2024'),
-        document.getElementById('year2023'),
-        document.getElementById('year2022'),
-        document.getElementById('year2021'),
-      ].filter(Boolean);
-
-      if (window.innerWidth <= 768) {
-        animateYearsVertical(yearElems, 0, 80);
-      } else {
-        const baseY = window.innerHeight / 2 - 10;
-        animateYearsGrouped(yearElems, baseY);
-      }
     });
   </script>
 
