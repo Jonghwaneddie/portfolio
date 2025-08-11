@@ -121,9 +121,9 @@
     const widths = yearElems.map(el => el.getBoundingClientRect().width);
 
     // 시작점은 화면 왼쪽 밖에 메뉴바 폭만큼 추가
-    const leftStart = -widths[0] - 20 + menuWidth;
+    const leftStart = vw + menuWidth; 
     // 목표점도 시작점에서 75% 정도 이동
-    const targetX = leftStart * 0.25;
+    const targetX = menuWidth + 20; 
 
     let frame = 0;
 
@@ -166,4 +166,5 @@
 
 </body>
 </html>
+
 
