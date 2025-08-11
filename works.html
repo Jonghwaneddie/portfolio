@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Years</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css" />
   <style>
     * {
       margin: 0; padding: 0; box-sizing: border-box;
@@ -14,7 +15,7 @@
       font-family: 'Montserrat', sans-serif;
       user-select: none;
       position: relative;
-      margin-left: 120px;
+      margin-left: 120px; /* 메뉴 공간 확보 */
       overflow: hidden;
     }
     .year-list a {
@@ -40,6 +41,9 @@
 </head>
 <body>
 
+  <!-- 메뉴가 들어갈 곳 -->
+  <div id="menu-container"></div>
+
   <div class="year-list">
     <a href="2021.html" id="year2021">2021</a>
     <a href="2022.html" id="year2022">2022</a>
@@ -49,6 +53,13 @@
   </div>
 
   <script>
+    // 메뉴 fetch 로드
+    fetch('menu.html')
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById('menu-container').innerHTML = data;
+      });
+
     window.addEventListener('load', () => {
       const years = [
         document.getElementById('year2021'),
@@ -61,10 +72,8 @@
       const gap = 20;
       const baseY = window.innerHeight / 2 - 10;
 
-      // 총 너비 계산 (2021~2025 순서대로, 2025가 오른쪽 끝)
       const totalWidth = years.reduce((acc, el) => acc + el.offsetWidth, 0) + gap * (years.length - 1);
 
-      // 움직일 최대 X 위치 (화면 너비 - 총 너비 - 여유)
       const maxX = document.body.clientWidth - totalWidth - 40;
       const endX = maxX > 0 ? maxX : 0;
 
@@ -75,7 +84,6 @@
         pos += direction;
         if (pos > endX || pos < 0) direction *= -1;
 
-        // 2021부터 2025까지 순서대로 pos 기준으로 붙여서 배치
         let offsetX = pos;
         years.forEach(el => {
           el.style.top = `${baseY}px`;
