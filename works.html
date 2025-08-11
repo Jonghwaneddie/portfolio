@@ -18,7 +18,6 @@
     margin-left: 120px; /* 메뉴 공간 확보 (PC) */
   }
 
-  /* 모바일에서는 margin-left 줄임 */
   @media (max-width: 768px) {
     html, body {
       margin-left: 80px; /* 메뉴 공간 확보 (모바일) */
@@ -55,7 +54,6 @@
   </div>
 
 <script>
-  // 메뉴 로딩
   fetch('menu.html')
     .then(res => res.ok ? res.text() : Promise.reject('Menu load failed'))
     .then(html => {
@@ -95,38 +93,29 @@
   function initialSlide(yearElems) {
     const vw = window.innerWidth;
     const vh = window.innerHeight;
-
-    // 화면 크기에 따라 메뉴바 폭 설정
     const menuWidth = vw <= 768 ? 80 : 120;
 
-    const slideDuration = 5000; // 5초
+    const slideDuration = 5000;
     const fps = 60;
     const totalFrames = slideDuration / (1000 / fps);
 
-    const gap = 12;  // 숫자 사이 간격 (스페이스바 한 칸 정도)
-
-    // y 위치를 중앙에서 150px 위로 조정
+    const gap = 15; // 숫자 간 간격 늘림
     const baseY = vh / 2 - 150;
 
-    // 각 숫자 너비 배열
     const widths = yearElems.map(el => el.getBoundingClientRect().width);
+    const totalWidth = widths.reduce((a,b) => a+b, 0) + gap * (yearElems.length -1);
 
-    // 총 너비 계산 (숫자 너비 합 + 간격 포함)
-    const totalWidth = widths.reduce((a, b) => a + b, 0) + gap * (yearElems.length - 1);
+    // 시작 위치: 메뉴바 끝에서 80px 안쪽
+    const leftStart = Math.max(0, menuWidth - 80);
 
-    // 시작점은 메뉴바 끝에서 40px 더 왼쪽으로 (음수일 수 있으니 최소 0으로 제한)
-    const leftStart = Math.max(0, menuWidth - 40);
-
-    // 목표점은 화면 오른쪽 끝 - 총 너비 - 40px 여백, 
-    // 최소 메뉴바 폭 이상으로 제한
-    const targetX = Math.max(menuWidth, vw - totalWidth - 40);
+    // 목표 위치: 오른쪽 끝에서 80px 여유, 메뉴바 폭보다 작으면 메뉴바 폭 고정
+    let targetX = vw - totalWidth - 80;
+    if (targetX < menuWidth) targetX = menuWidth;
 
     let frame = 0;
 
     function step() {
       const progress = frame / totalFrames;
-
-      // currentX는 leftStart에서 targetX까지 점진 이동
       const currentX = leftStart + (targetX - leftStart) * progress;
 
       yearElems.forEach((elem, idx) => {
@@ -149,20 +138,16 @@
 
     const vw = window.innerWidth;
     const vh = window.innerHeight;
-
-    // 메뉴바 폭 설정
     const menuWidth = vw <= 768 ? 80 : 120;
 
     const widths = yearElems.map(el => el.getBoundingClientRect().width);
-    // 출발 위치 (menuWidth - 40, 최소 0)
-    const leftStart = Math.max(0, menuWidth - 40);
+    const leftStart = Math.max(0, menuWidth - 80);
     const baseY = vh / 2 - 150;
 
     yearElems.forEach(elem => {
       elem.style.transform = `translate(${leftStart}px, ${baseY}px)`;
     });
 
-    // 숫자들 5초동안 좌(출발위치)에서 우(도착위치) 위치로 이동
     initialSlide(yearElems);
   });
 </script>
