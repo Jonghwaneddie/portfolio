@@ -44,26 +44,25 @@
       flex-direction: column;
       gap: 10px;
     }
-    .line {
-      display: flex;
-      gap: 10px;
-      align-items: flex-start;
-      white-space: nowrap;
-    }
-    .year {
-      width: 130px; /* 영어 이름 길어져서 넓힘 */
-      text-align: left; /* 영문쪽은 왼쪽 정렬 */
-      flex-shrink: 0;
-    }
-    .left .year {
-      width: 60px; /* 한글쪽은 기존대로 유지 */
-      text-align: right;
-    }
-    .text {
-      flex: 1;
-      word-break: keep-all;
-      white-space: normal; /* 줄바꿈 허용 */
-    }
+  .line {
+  display: flex;
+  gap: 10px;          /* 컬럼 사이 간격 */
+  align-items: flex-start;
+  white-space: nowrap;
+}
+
+.left .year,
+.right .year {
+  width: 60px;          /* 연도, 이름 칸 너비 같게 */
+  text-align: right;    /* 오른쪽 정렬 */
+  flex-shrink: 0;
+}
+
+.text {
+  flex: 1;
+  word-break: keep-all;
+  white-space: normal;
+}
   </style>
 </head>
 <body>
@@ -168,3 +167,4 @@
 
 </body>
 </html>
+
