@@ -66,7 +66,8 @@
       const gap = 20;
       const totalWidth = yearElems.reduce((acc, el) => acc + el.offsetWidth, 0) + (yearElems.length - 1) * gap;
       const startX = 0;
-      const endX = document.body.clientWidth - totalWidth - 40;
+      // 수정된 부분: endX가 음수가 되지 않도록 보정
+      const endX = Math.max(document.body.clientWidth - totalWidth - 40, 0);
 
       let pos = 0;
       let direction = 1;
