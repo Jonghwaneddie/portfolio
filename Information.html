@@ -30,7 +30,7 @@
 
     .content-wrapper {
       display: flex;
-      gap: 10px;
+      gap: 4px;
     }
 
     .left, .right {
@@ -89,6 +89,22 @@
     .text > div {
       margin-top: 4px;
     }
+     /* 반응형 모바일 스타일 */
+     @media (max-width: 768px) {
+      body {
+        margin-left: 0;
+        padding: 40px 16px;
+      }
+
+      .content-wrapper {
+        flex-direction: column;
+        gap: 30px;
+      }
+
+      .left, .right {
+        width: 100%;
+      }
+     }
   </style>
 </head>
 <body>
@@ -196,3 +212,4 @@
 </body>
 </html>
 ``
+
