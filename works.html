@@ -17,6 +17,7 @@
       position: relative;
       margin-left: 120px; /* 메뉴 공간 확보 */
       overflow: hidden;
+      padding: 60px 20px; /* contact 페이지 패딩 동일하게 */
     }
     .year-list a {
       position: absolute;
@@ -28,8 +29,8 @@
       cursor: pointer;
       white-space: nowrap;
       transition: color 0.3s ease;
-      top: 50%; /* 수직 중앙 */
-      transform: translateY(-50%); /* 수직 중앙 정렬 보정 */
+      top: 80px; /* contact 페이지에서 숫자 위치 조정 */
+      transform: none; /* translateY 제거 */
     }
     .year-list a:hover {
       color: #555;
@@ -37,6 +38,7 @@
     @media (max-width: 768px) {
       html, body {
         margin-left: 80px;
+        padding: 40px 16px;
       }
     }
   </style>
