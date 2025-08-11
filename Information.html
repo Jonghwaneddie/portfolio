@@ -17,22 +17,35 @@
       font-family: 'Montserrat', sans-serif;
       background: #fff;
       color: #000;
-      margin-left: 120px; /* 메뉴 공간 확보 */
       padding: 60px 20px;
+      margin-left: 120px; /* 메뉴 자리 확보 */
     }
 
-    h1 {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-    margin-bottom: 30px; /* 혹은 20px 로 줄여도 OK */
-  }
+    #menu-container {
+      position: fixed;
+      top: 60px;
+      left: 20px;
+      width: 90px;
+    }
 
-  .content-wrapper {
-    display: flex;
-    gap: 10px;
-    margin-top: 0; /* ← 이 줄 추가 */
-  }
+    h1, h2 {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      margin-bottom: 30px;
+      padding-left: 0;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .content-wrapper {
+      display: flex;
+      gap: 10px;
+      margin-top: 0; /* ← 본문 시작 높이 조정 */
+    }
 
     .left, .right {
       width: 50%;
@@ -44,6 +57,8 @@
     .name, .subtext, .separator {
       font-size: 10px;
       font-weight: 300;
+      padding-left: 0;
+      margin-left: 0;
       white-space: nowrap;
     }
 
@@ -96,68 +111,123 @@
 
   <div id="menu-container"></div>
 
-  <h1>Information</h1>
+  <h1>Information</h1> <!-- h1 위치 조정 -->
 
-  <div class="content-wrapper">
-    <div class="left">
-      <div class="name">이종환 (b.1994)</div>
-      <div class="line">
-        <div class="year">2024</div>
-        <div class="text">한국예술종합학교 조형예술과 전문사 졸업</div>
-      </div>
-      <div class="line">
-        <div class="year">2021</div>
-        <div class="text">서울대학교 미술대학 동양화과 졸업</div>
-      </div>
+  <div class="container">
+    <div class="content-wrapper">
+      <div class="left">
+        <div class="name">이종환 (b.1994)</div>
+        <div class="line">
+          <div class="year">2024</div>
+          <div class="text">한국예술종합학교 조형예술과 전문사 졸업</div>
+        </div>
+        <div class="line">
+          <div class="year">2021</div>
+          <div class="text">서울대학교 미술대학 동양화과 졸업</div>
+        </div>
 
-      <div class="separator">개인전</div>
-      <div class="line"><div class="year">2025</div><div class="text"><i>Loggia</i>, 홀 1, 서울</div></div>
-      <div class="line"><div class="year">2023</div><div class="text"><i>Hypercube</i>, 실린더 2, 서울</div></div>
-      <div class="line"><div class="year">2023</div><div class="text"><i>Cabinet</i>, 상업화랑(을지로), 서울</div></div>
+        <div class="separator">개인전</div>
 
-      <div class="separator">단체전</div>
-      <div class="line"><div class="year">2025</div><div class="text">Surgical Room, 실린더 2, 서울</div></div>
-      <div class="line"><div class="year">2024</div><div class="text"><i>CYLINDER x South Parade</i>, South Parade, 런던, 영국</div></div>
-      <div class="line"><div class="year">2023</div><div class="text">좋은 이웃, 스페이스3, 서울</div></div>
-      <div class="line">
-        <div class="year">2022</div>
-        <div class="text">
-          <div>Waiting Room, 수치, 서울</div>
-          <div><i>페리지 윈터쇼 2022</i>, 페리지갤러리, 서울</div>
-          <div><i>The Wild Bunch</i>, 디스위켄드룸, 서울</div>
-          <div>Fonds, 오시선, 서울</div>
-          <div>철요의 방, 라라앤, 서울</div>
+        <div class="line">
+          <div class="year">2025</div>
+          <div class="text"><i>Loggia</i>, 홀 1, 서울</div>
+        </div>
+        <div class="line">
+          <div class="year">2023</div>
+          <div class="text"><i>Hypercube</i>, 실린더 2, 서울</div>
+        </div>
+        <div class="line">
+          <div class="year">2023</div>
+          <div class="text"><i>Cabinet</i>, 상업화랑(을지로), 서울</div>
+        </div>
+
+        <div class="separator">단체전</div>
+
+        <div class="line">
+          <div class="year">2025</div>
+          <div class="text">Surgical Room, 실린더 2, 서울</div>
+        </div>
+        <div class="line">
+          <div class="year">2024</div>
+          <div class="text"><i>CYLINDER x South Parade</i>, South Parade, 런던, 영국</div>
+        </div>
+        <div class="line">
+          <div class="year">2023</div>
+          <div class="text">좋은 이웃, 스페이스3, 서울</div>
+        </div>
+        <div class="line">
+          <div class="year">2022</div>
+          <div class="text">
+            <div>Waiting Room, 수치, 서울</div>
+            <div><i>페리지 윈터쇼 2022</i>, 페리지갤러리, 서울</div>
+            <div><i>The Wild Bunch</i>, 디스위켄드룸, 서울</div>
+            <div>Fonds, 오시선, 서울</div>
+            <div>철요의 방, 라라앤, 서울</div>
+          </div>
+        </div>
+        <div class="line">
+          <div class="year">2021</div>
+          <div class="text"><i>TORQUE 1 / GEAR SHIFT</i>, 실린더 1, 서울</div>
         </div>
       </div>
-      <div class="line"><div class="year">2021</div><div class="text"><i>TORQUE 1 / GEAR SHIFT</i>, 실린더 1, 서울</div></div>
-    </div>
 
-    <div class="right">
-      <div class="name">Jonghwan Lee (b.1994)</div>
-      <div class="subtext">Currently lives and works in Seoul.</div>
-      <div class="line"><div class="year">2024</div><div class="text">Korea National University of Arts, MFA in Fine Art, Seoul, South Korea</div></div>
-      <div class="line"><div class="year">2021</div><div class="text">Seoul National University, BFA in Oriental Painting, Seoul, South Korea</div></div>
+      <div class="right">
+        <div class="name">Jonghwan Lee (b.1994)</div>
+        <div class="subtext">Currently lives and works in Seoul.</div>
 
-      <div class="separator">Solo Exhibition</div>
-      <div class="line"><div class="year">2025</div><div class="text"><i>Loggia</i>, Hall 1, Seoul, South Korea</div></div>
-      <div class="line"><div class="year">2023</div><div class="text"><i>Hypercube</i>, CYLINDER 2, Seoul, South Korea</div></div>
-      <div class="line"><div class="year">2023</div><div class="text"><i>Cabinet</i>, Sahng-up gallery, Seoul, South Korea</div></div>
+        <div class="line">
+          <div class="year">2024</div>
+          <div class="text">Korea National University of Arts, MFA in Fine Art, Seoul, South Korea</div>
+        </div>
+        <div class="line">
+          <div class="year">2021</div>
+          <div class="text">Seoul National University, BFA in Oriental Painting, Seoul, South Korea</div>
+        </div>
 
-      <div class="separator">Group Exhibition</div>
-      <div class="line"><div class="year">2025</div><div class="text">Surgical Room, CYLINDER 2, Seoul, South Korea</div></div>
-      <div class="line"><div class="year">2024</div><div class="text"><i>CYLINDER x South Parade</i>, South Parade, London, UK</div></div>
-      <div class="line"><div class="year">2023</div><div class="text">The Good Neighbor, Space 3, Seoul, South Korea</div></div>
-      <div class="line">
-        <div class="year">2022</div>
-        <div class="text">
-          <div>Waiting Room, Suchi, Seoul, South Korea</div>
-          <div><i>Perigee Winter Show 2022</i>, Perigeegallery, Seoul, South Korea</div>
-          <div><i>The Wild Bunch</i>, Thisweekendroom, Seoul, South Korea</div>
-          <div>Fonds, Osisun, Seoul, South Korea</div>
-          <div>Room of Convexity and Concavity, LaLaLab, Seoul, South Korea</div>
+        <div class="separator">Solo Exhibition</div>
+
+        <div class="line">
+          <div class="year">2025</div>
+          <div class="text"><i>Loggia</i>, Hall 1, Seoul, South Korea</div>
+        </div>
+        <div class="line">
+          <div class="year">2023</div>
+          <div class="text"><i>Hypercube</i>, CYLINDER 2, Seoul, South Korea</div>
+        </div>
+        <div class="line">
+          <div class="year">2023</div>
+          <div class="text"><i>Cabinet</i>, Sahng-up gallery, Seoul, South Korea</div>
+        </div>
+
+        <div class="separator">Group Exhibition</div>
+
+        <div class="line">
+          <div class="year">2025</div>
+          <div class="text">Surgical Room, CYLINDER 2, Seoul, South Korea</div>
+        </div>
+        <div class="line">
+          <div class="year">2024</div>
+          <div class="text"><i>CYLINDER x South Parade</i>, South Parade, London, UK</div>
+        </div>
+        <div class="line">
+          <div class="year">2023</div>
+          <div class="text">The Good Neighbor, Space 3, Seoul, South Korea</div>
+        </div>
+        <div class="line">
+          <div class="year">2022</div>
+          <div class="text">
+            <div>Waiting Room, Suchi, Seoul, South Korea</div>
+            <div><i>Perigee Winter Show 2022</i>, Perigeegallery, Seoul, South Korea</div>
+            <div><i>The Wild Bunch</i>, Thisweekendroom, Seoul, South Korea</div>
+            <div>Fonds, Osisun, Seoul, South Korea</div>
+            <div>Room of Convexity and Concavity, LaLaLab, Seoul, South Korea</div>
+          </div>
+        </div>
+        <div class="line">
+          <div class="year">2021</div>
+          <div class="text"><i>TORQUE 1 / GEAR SHIFT</i>, CYLINDER 1, Seoul, South Korea</div>
         </div>
       </div>
-      <div class="line"><div class="year">2021</div><div class="text"><i>TORQUE 1 / GEAR SHIFT</i>, CYLINDER 1, Seoul, South Korea</div></div>
     </div>
   </div>
 
@@ -175,10 +245,10 @@
           const targetSubmenu = document.getElementById(submenuId);
           if (!targetSubmenu) return;
 
-          if (submenuId === 'projectSubmenu1' && submenu2 && submenu2.classList.contains('show')) {
+          if (submenuId === 'projectSubmenu1' && submenu2.classList.contains('show')) {
             submenu2.style.maxHeight = null;
             submenu2.classList.remove('show');
-          } else if (submenuId === 'projectSubmenu2' && submenu1 && submenu1.classList.contains('show')) {
+          } else if (submenuId === 'projectSubmenu2' && submenu1.classList.contains('show')) {
             submenu1.style.maxHeight = null;
             submenu1.classList.remove('show');
           }
@@ -196,5 +266,5 @@
 
 </body>
 </html>
-``
+
 
