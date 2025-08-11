@@ -5,57 +5,70 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Information</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css" />
-
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
+
     body {
       font-family: 'Pretendard Variable', sans-serif;
       background: #fff;
       color: #000;
-      margin-left: 120px; /* 메뉴 자리 확보 */
+      margin-left: 120px;
       padding: 60px 20px;
       display: flex;
       flex-direction: column;
       min-height: 100vh;
     }
+
     h1 {
       font-size: 14px;
       font-weight: 700;
       letter-spacing: 1.5px;
       margin-bottom: 30px;
     }
+
     .content-wrapper {
       display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
+      flex-direction: column;
+      gap: 30px;
       font-size: 12px;
       font-weight: 300;
-      line-height: 1.6;
-    }
-    .left, .right {
-      flex-basis: 320px;
-      flex-grow: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      min-width: 280px;
-    }
-    .line {
-      display: flex;
-    }
-    .text {
-      flex-grow: 1;
-      white-space: normal;
     }
 
-    @media (max-width: 768px) {
-      body {
-        margin-left: 0;
-        padding: 20px;
+    .section {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .line {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .year {
+      width: 50px;
+      flex-shrink: 0;
+      text-align: right;
+    }
+
+    .text {
+      flex-grow: 1;
+      line-height: 1.4;
+    }
+
+    @media screen and (max-width: 600px) {
+      .line {
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .year {
+        text-align: left;
       }
     }
   </style>
@@ -67,50 +80,70 @@
   <h1>Information</h1>
 
   <div class="content-wrapper">
-    <div class="left">
-      <div class="line"><div class="text"><strong>이종환</strong>(b.1994)</div></div>
-      <div class="line"><div class="text">2024 한국예술종합학교 조형예술과 전문사 졸업<br>2021 서울대학교 미술대학 동양화과 졸업</div></div>
-      <div class="line"><div class="text">개인전</div></div>
-      <div class="line"><div class="text">
-        2025 <em>Loggia</em>, 홀 1, 서울<br>
-        2023 <em>Hypercube</em>, 실린더 2, 서울<br>
-        2023 <em>Cabinet</em>, 상업화랑(을지로), 서울
-      </div></div>
-      <div class="line"><div class="text">단체전</div></div>
-      <div class="line"><div class="text">
-        2025 <em>Surgical Room</em>, 실린더 2, 서울<br>
-        2024 <em>CYLINDER x South Parade</em>, South Parade, 런던<br>
-        2023 <em>좋은 이웃</em>, 스페이스3, 서울<br>
-        2022 <em>Waiting Room</em>, 수치, 서울<br>
-        &nbsp;&nbsp;&nbsp;<em>페리지 윈터쇼 2022</em>, 페리지갤러리, 서울<br>
-        &nbsp;&nbsp;&nbsp;<em>The Wild Bunch</em>, 디스위켄드룸, 서울<br>
-        &nbsp;&nbsp;&nbsp;<em>Fonds</em>, 오시선, 서울<br>
-        &nbsp;&nbsp;&nbsp;<em>철요의 방</em>, 라라앤, 서울<br>
-        2021 <em>TORQUE 1 / GEAR SHIFT</em>, 실린더 1, 서울
-      </div></div>
+
+    <div class="section">
+      <div class="line">
+        <div class="year"></div>
+        <div class="text"><strong>이종환</strong> (b.1994)</div>
+      </div>
+
+      <div class="line">
+        <div class="year">2024</div>
+        <div class="text">한국예술종합학교 조형예술과 전문사 졸업</div>
+      </div>
+
+      <div class="line">
+        <div class="year">2021</div>
+        <div class="text">서울대학교 미술대학 동양화과 졸업</div>
+      </div>
     </div>
 
-    <div class="right">
-      <div class="line"><div class="text"><strong>Jonghwan Lee</strong>(b.1994)<br>Currently lives and works in Seoul.</div></div>
-      <div class="line"><div class="text">2024 Korea National University of Arts, MFA in Fine Art, Seoul<br>2021 Seoul National University, BFA in Oriental Painting, Seoul</div></div>
-      <div class="line"><div class="text">Solo Exhibition</div></div>
-      <div class="line"><div class="text">
-        2025 <em>Loggia</em>, Hall 1, Seoul<br>
-        2023 <em>Hypercube</em>, CYLINDER 2, Seoul<br>
-        2023 <em>Cabinet</em>, Sahng-up Gallery, Seoul
-      </div></div>
-      <div class="line"><div class="text">Group Exhibition</div></div>
-      <div class="line"><div class="text">
-        2025 <em>Surgical Room</em>, CYLINDER 2, Seoul<br>
-        2024 <em>CYLINDER x South Parade</em>, South Parade, London, UK<br>
-        2023 <em>The Good Neighbor</em>, Space 3, Seoul<br>
-        2022 <em>Waiting Room</em>, Suchi, Seoul<br>
-       &nbsp;&nbsp;&nbsp;<em>Perigee Winter Show 2022</em>, Perigee Gallery, Seoul<br>
-       &nbsp;&nbsp;&nbsp;<em>The Wild Bunch</em>, Thisweekendroom, Seoul<br>
-        &nbsp;&nbsp;&nbsp;<em>Fonds</em>, Osisun, Seoul<br>
-       &nbsp;&nbsp;&nbsp;<em>Room of Convexity and Concavity</em>, LaLaLab, Seoul<br>
-        2021 <em>TORQUE 1 / GEAR SHIFT</em>, CYLINDER 1, Seoul
-      </div></div>
+    <div class="section">
+      <div class="line"><div class="year"></div><div class="text"><strong>개인전</strong></div></div>
+
+      <div class="line">
+        <div class="year">2025</div>
+        <div class="text"><em>Loggia</em>, 홀 1, 서울</div>
+      </div>
+      <div class="line">
+        <div class="year">2023</div>
+        <div class="text"><em>Hypercube</em>, 실린더 2, 서울</div>
+      </div>
+      <div class="line">
+        <div class="year">2023</div>
+        <div class="text"><em>Cabinet</em>, 상업화랑(을지로), 서울</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="line"><div class="year"></div><div class="text"><strong>단체전</strong></div></div>
+
+      <div class="line">
+        <div class="year">2025</div>
+        <div class="text"><em>Surgical Room</em>, 실린더 2, 서울</div>
+      </div>
+      <div class="line">
+        <div class="year">2024</div>
+        <div class="text"><em>CYLINDER x South Parade</em>, South Parade, 런던, 영국</div>
+      </div>
+      <div class="line">
+        <div class="year">2023</div>
+        <div class="text"><em>좋은 이웃</em>, 스페이스3, 서울</div>
+      </div>
+      <div class="line">
+        <div class="year">2022</div>
+        <div class="text">
+          <em>Waiting Room</em>, 수치, 서울<br>
+          <em>페리지 윈터쇼 2022</em>, 페리지갤러리, 서울<br>
+          <em>The Wild Bunch</em>, 디스위켄드룸, 서울<br>
+          <em>Fonds</em>, 오시선, 서울<br>
+          <em>철요의 방</em>, 라라앤, 서울
+        </div>
+      </div>
+      <div class="line">
+        <div class="year">2021</div>
+        <div class="text"><em>TORQUE 1 / GEAR SHIFT</em>, 실린더 1, 서울</div>
+      </div>
     </div>
   </div>
 
@@ -122,25 +155,26 @@
 
         window.toggleProjectMenu = function(e, submenuId) {
           e.preventDefault();
+
           const submenu1 = document.getElementById('projectSubmenu1');
           const submenu2 = document.getElementById('projectSubmenu2');
           const targetSubmenu = document.getElementById(submenuId);
           if (!targetSubmenu) return;
 
           if (submenuId === 'projectSubmenu1' && submenu2?.classList.contains('show')) {
-            submenu2.classList.remove('show');
             submenu2.style.maxHeight = null;
+            submenu2.classList.remove('show');
           } else if (submenuId === 'projectSubmenu2' && submenu1?.classList.contains('show')) {
-            submenu1.classList.remove('show');
             submenu1.style.maxHeight = null;
+            submenu1.classList.remove('show');
           }
 
           if (targetSubmenu.classList.contains('show')) {
-            targetSubmenu.classList.remove('show');
             targetSubmenu.style.maxHeight = null;
+            targetSubmenu.classList.remove('show');
           } else {
-            targetSubmenu.classList.add('show');
             targetSubmenu.style.maxHeight = targetSubmenu.scrollHeight + "px";
+            targetSubmenu.classList.add('show');
           }
         };
       });
