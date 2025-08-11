@@ -15,13 +15,16 @@
     font-family: 'Montserrat', sans-serif;
     user-select: none;
     position: relative;
-    margin-left: 120px; /* 기본 메뉴 공간 확보 */
+    margin-left: 120px; /* 메뉴 공간 확보 (PC) */
   }
+
+  /* 모바일에서는 margin-left 줄임 */
   @media (max-width: 768px) {
     html, body {
-      margin-left: 80px; /* 모바일에서 메뉴 공간 축소 */
+      margin-left: 80px; /* 메뉴 공간 확보 (모바일) */
     }
   }
+
   .year-list a {
     position: fixed;
     font-size: 14px;
@@ -89,62 +92,77 @@
     { id: 'year2021' },
   ];
 
-  function getMenuWidth() {
-    return window.innerWidth <= 768 ? 80 : 120;
+  function initialSlide(yearElems) {
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+
+    // 화면 크기에 따라 메뉴바 폭 설정
+    const menuWidth = vw <= 768 ? 80 : 120;
+
+    const slideDuration = 5000; // 5초
+    const fps = 60;
+    const totalFrames = slideDuration / (1000 / fps);
+
+    const gap = 12;  // 숫자 사이 간격 (스페이스바 한 칸 정도)
+
+    // y 위치를 중앙에서 150px 위로 조정
+    const baseY = vh / 2 - 150;
+
+    // 각 숫자 너비 배열
+    const widths = yearElems.map(el => el.getBoundingClientRect().width);
+
+    // 총 너비 계산 (숫자 너비 합 + 간격 포함)
+    const totalWidth = widths.reduce((a, b) => a + b, 0) + gap * (yearElems.length - 1);
+
+    // 시작점은 메뉴바 끝지점 (menuWidth)
+    const leftStart = menuWidth;
+
+    // 목표점은 화면 오른쪽 끝 - 총 너비 - 20px 여백, 
+    // 단, 메뉴바 끝 위치 이상으로 이동하지 않도록 제한
+    const targetX = Math.max(menuWidth, vw - totalWidth - 20);
+
+    let frame = 0;
+
+    function step() {
+      const progress = frame / totalFrames;
+
+      // currentX는 leftStart에서 targetX까지 점진 이동
+      const currentX = leftStart + (targetX - leftStart) * progress;
+
+      yearElems.forEach((elem, idx) => {
+        const x = currentX + widths.slice(0, idx).reduce((a,b) => a+b, 0) + gap * idx;
+        elem.style.transition = 'none';
+        elem.style.transform = `translate(${x}px, ${baseY}px)`;
+      });
+
+      frame++;
+      if (frame <= totalFrames) {
+        requestAnimationFrame(step);
+      }
+    }
+
+    step();
   }
 
   window.addEventListener('load', () => {
     const yearElems = years.map(({ id }) => document.getElementById(id)).filter(Boolean);
 
-    setTimeout(() => {
-      const vw = window.innerWidth;
-      const vh = window.innerHeight;
-      const menuWidth = getMenuWidth();
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
 
-      const widths = yearElems.map(el => el.getBoundingClientRect().width);
-      const gap = vw <= 768 ? 6 : 12;
-      const totalWidth = widths.reduce((a,b) => a+b, 0) + (yearElems.length -1) * gap;
+    // 메뉴바 폭 설정
+    const menuWidth = vw <= 768 ? 80 : 120;
 
-      // 숫자 y 위치: 화면 중앙보다 좀 위로 조정
-      const baseY = vh / 2 - 150;
+    const widths = yearElems.map(el => el.getBoundingClientRect().width);
+    const leftStart = menuWidth;
+    const baseY = vh / 2 - 150;
 
-      // 시작 위치는 메뉴바 끝 지점 (좌측)
-      const leftStart = menuWidth;
+    yearElems.forEach(elem => {
+      elem.style.transform = `translate(${leftStart}px, ${baseY}px)`;
+    });
 
-      // 숫자들 초기 위치 세팅
-      yearElems.forEach(elem => {
-        elem.style.transform = `translate(${leftStart}px, ${baseY}px)`;
-      });
-
-      // 좌 → 우 애니메이션
-      const slideDuration = 5000; // 5초
-      const fps = 60;
-      const totalFrames = slideDuration / (1000 / fps);
-      let frame = 0;
-
-      function step() {
-        const progress = frame / totalFrames;
-
-        // 목표 위치는 오른쪽 끝에서 숫자 총 너비만큼 뺀 위치
-        const targetX = vw - totalWidth - 20;
-
-        // 현재 X 위치: 좌측 메뉴바 끝에서 오른쪽 목표 위치까지 선형 보간
-        const currentX = leftStart + (targetX - leftStart) * progress;
-
-        yearElems.forEach((elem, idx) => {
-          const x = currentX + widths.slice(0, idx).reduce((a,b) => a+b, 0) + gap * idx;
-          elem.style.transition = 'none';
-          elem.style.transform = `translate(${x}px, ${baseY}px)`;
-        });
-
-        frame++;
-        if(frame <= totalFrames) {
-          requestAnimationFrame(step);
-        }
-      }
-
-      step();
-    }, 50);
+    // 숫자들 5초동안 좌(메뉴바 끝)에서 우(화면 끝-총 너비-여백) 위치로 이동
+    initialSlide(yearElems);
   });
 </script>
 
