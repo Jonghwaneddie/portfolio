@@ -18,10 +18,10 @@
       padding: 60px 20px;
     }
     .year-list {
-      font-size: 10pt; /* 크기 변경 */
+      font-size: 10pt; /* 기본 크기 */
       font-weight: 300; /* 볼드 제거 */
       display: flex;
-      gap: 20px; /* 연도 간 간격 */
+      gap: 1em; /* 연도 간격 약 4칸 */
     }
     .year-list a {
       color: inherit;
@@ -33,8 +33,9 @@
         padding: 40px 16px;
       }
       .year-list {
-        flex-wrap: wrap; /* 화면 좁으면 줄바꿈 */
-        gap: 10px;
+        font-size: 8pt; /* 모바일에서 폰트 줄이기 */
+        gap: 0.8em; /* 간격 조금 줄이기 */
+        flex-wrap: nowrap; /* 모바일에서도 가로 정렬 유지 */
       }
     }
   </style>
