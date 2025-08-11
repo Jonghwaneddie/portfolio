@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Years</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css" />
   <style>
     * {
       margin: 0; padding: 0; box-sizing: border-box;
@@ -15,36 +14,26 @@
       font-family: 'Montserrat', sans-serif;
       user-select: none;
       position: relative;
-      margin-left: 120px; /* 메뉴 공간 확보 */
       overflow: hidden;
     }
     .year-list a {
       position: absolute;
       font-size: 14px;
-      font-family: 'Pretendard Variable', sans-serif;
       font-weight: 300;
       color: #000;
       text-decoration: none;
       cursor: pointer;
       white-space: nowrap;
+      top: 0;
+      left: 0;
       transition: color 0.3s ease;
-      top: 0;  /* 초기 top값 명시 */
-      left: 0; /* 초기 left값 명시 */
     }
     .year-list a:hover {
       color: #555;
     }
-    @media (max-width: 768px) {
-      html, body {
-        margin-left: 80px;
-      }
-    }
   </style>
 </head>
 <body>
-
-  <!-- 메뉴 영역 -->
-  <div id="menu-container"></div>
 
   <div class="year-list">
     <a href="2021.html" id="year2021">2021</a>
@@ -55,18 +44,6 @@
   </div>
 
   <script>
-    // 메뉴 fetch 불러오기 및 하위 메뉴 이벤트 바인딩 (필요시 추가)
-    fetch('menu.html')
-      .then(res => res.text())
-      .then(data => {
-        const menuContainer = document.getElementById('menu-container');
-        menuContainer.innerHTML = data;
-
-        // 만약 menu.html 안에 하위 메뉴 토글 스크립트가 있다면 여기서 실행
-        // 예) initMenuToggle(); // 직접 구현된 함수명 넣기
-      })
-      .catch(err => console.error('메뉴 로딩 실패:', err));
-
     window.addEventListener('load', () => {
       const years = [
         document.getElementById('year2021'),
@@ -79,10 +56,9 @@
       const gap = 20;
       const baseY = window.innerHeight / 2 - 10;
 
-      // 요소가 다 렌더링되고 사이즈가 제대로 잡힌 후 계산하기 위해 요청 애니메이션 프레임 또는 setTimeout 사용
+      // 렌더 후 너비 측정
       requestAnimationFrame(() => {
         const totalWidth = years.reduce((acc, el) => acc + el.offsetWidth, 0) + gap * (years.length - 1);
-
         const maxX = document.body.clientWidth - totalWidth - 40;
         const endX = maxX > 0 ? maxX : 0;
 
