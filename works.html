@@ -4,9 +4,9 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Years</title>
-   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css" />
 <style>
-   * {
+  * {
     margin: 0; padding: 0; box-sizing: border-box;
   }
   html, body {
@@ -15,7 +15,15 @@
     font-family: 'Montserrat', sans-serif;
     user-select: none;
     position: relative;
-    margin-left: 120px; /* 메뉴 공간 확보 */
+    margin-left: 120px; /* 기본 메뉴 공간 확보 */
+  }
+  #menu-container {
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    width: 120px; /* 기본 메뉴 폭 */
+    background: #fff; /* 임의 배경 넣어도 좋아요 */
+    overflow-y: auto;
+    z-index: 100;
   }
   .year-list a {
     position: fixed;
@@ -31,6 +39,16 @@
   }
   .year-list a:hover {
     color: #555;
+  }
+
+  /* 모바일 대응 */
+  @media (max-width: 768px) {
+    html, body {
+      margin-left: 80px; /* 메뉴 폭 줄임 */
+    }
+    #menu-container {
+      width: 80px; /* 메뉴바 폭 줄임 */
+    }
   }
 </style>
 </head>
@@ -84,38 +102,37 @@
     { id: 'year2021' },
   ];
 
+  function getMenuWidth() {
+    return window.innerWidth <= 768 ? 80 : 120;
+  }
+
   function initialSlide(yearElems) {
     const vw = window.innerWidth;
     const vh = window.innerHeight;
+    const menuWidth = getMenuWidth();
+
     const slideDuration = 5000; // 5초
     const fps = 60;
     const totalFrames = slideDuration / (1000 / fps);
 
-    const gap = 12;  // 숫자 사이 간격 (스페이스바 한 칸 정도)
-    const baseY = vh / 2 - 200;  // 중앙에서 100px 위로 이동
+    const gap = window.innerWidth <= 768 ? 6 : 12;  // 모바일 간격 줄임
+    const baseY = vh / 2 - 100;
 
-    // 각 숫자 너비 배열
     const widths = yearElems.map(el => el.getBoundingClientRect().width);
 
-    // 총 너비 계산 (숫자 너비 합 + 간격 포함)
-    const totalWidth = widths.reduce((a, b) => a + b, 0) + gap * (yearElems.length - 1);
-
-    // 시작점은 화면 왼쪽 - 숫자 한 개 너비 밖 (-width-20)
-    const leftStart = -widths[0] - 20;
-
-    // 목표점은 시작점과 화면 왼쪽 끝(0)의 75% 지점 (더 오른쪽)
+    // 시작점은 화면 왼쪽 밖에 메뉴바 폭만큼 추가
+    const leftStart = -widths[0] - 20 + menuWidth;
+    // 목표점도 시작점에서 75% 정도 이동
     const targetX = leftStart * 0.25;
 
     let frame = 0;
 
     function step() {
       const progress = frame / totalFrames;
-
-      // currentX는 leftStart에서 targetX까지 점진 이동
       const currentX = leftStart + (targetX - leftStart) * progress;
 
       yearElems.forEach((elem, idx) => {
-        const x = currentX + widths.slice(0, idx).reduce((a,b) => a+b, 0) + gap * idx;
+        const x = currentX + widths.slice(0, idx).reduce((a, b) => a + b, 0) + gap * idx;
         elem.style.transition = 'none';
         elem.style.transform = `translate(${x}px, ${baseY}px)`;
       });
@@ -132,23 +149,20 @@
   window.addEventListener('load', () => {
     const yearElems = years.map(({ id }) => document.getElementById(id)).filter(Boolean);
 
-    // 초기 위치는 화면 왼쪽 밖 (y는 화면 세로 중앙보다 100px 위)
-    const vw = window.innerWidth;
+    const menuWidth = getMenuWidth();
     const vh = window.innerHeight;
     const widths = yearElems.map(el => el.getBoundingClientRect().width);
-    const leftStart = -widths[0] - 20;
+
+    const leftStart = -widths[0] - 20 + menuWidth;
     const baseY = vh / 2 - 100;
 
     yearElems.forEach(elem => {
       elem.style.transform = `translate(${leftStart}px, ${baseY}px)`;
     });
 
-    // 숫자들 5초동안 왼쪽 75% 위치로 이동
     initialSlide(yearElems);
   });
 </script>
 
 </body>
 </html>
-
-
