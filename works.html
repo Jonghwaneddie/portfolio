@@ -114,12 +114,12 @@
     // 총 너비 계산 (숫자 너비 합 + 간격 포함)
     const totalWidth = widths.reduce((a, b) => a + b, 0) + gap * (yearElems.length - 1);
 
-    // 시작점은 메뉴바 끝지점 (menuWidth)
-    const leftStart = menuWidth;
+    // 시작점은 메뉴바 끝에서 40px 더 왼쪽으로 (음수일 수 있으니 최소 0으로 제한)
+    const leftStart = Math.max(0, menuWidth - 40);
 
-    // 목표점은 화면 오른쪽 끝 - 총 너비 - 20px 여백, 
-    // 단, 메뉴바 끝 위치 이상으로 이동하지 않도록 제한
-    const targetX = Math.max(menuWidth, vw - totalWidth - 20);
+    // 목표점은 화면 오른쪽 끝 - 총 너비 - 40px 여백, 
+    // 최소 메뉴바 폭 이상으로 제한
+    const targetX = Math.max(menuWidth, vw - totalWidth - 40);
 
     let frame = 0;
 
@@ -154,14 +154,15 @@
     const menuWidth = vw <= 768 ? 80 : 120;
 
     const widths = yearElems.map(el => el.getBoundingClientRect().width);
-    const leftStart = menuWidth;
+    // 출발 위치 (menuWidth - 40, 최소 0)
+    const leftStart = Math.max(0, menuWidth - 40);
     const baseY = vh / 2 - 150;
 
     yearElems.forEach(elem => {
       elem.style.transform = `translate(${leftStart}px, ${baseY}px)`;
     });
 
-    // 숫자들 5초동안 좌(메뉴바 끝)에서 우(화면 끝-총 너비-여백) 위치로 이동
+    // 숫자들 5초동안 좌(출발위치)에서 우(도착위치) 위치로 이동
     initialSlide(yearElems);
   });
 </script>
