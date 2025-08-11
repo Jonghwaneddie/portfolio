@@ -34,7 +34,7 @@
     }
 
     .left, .right {
-      width: 26%;
+      width: 30%;
       display: flex;
       flex-direction: column;
       gap: 10px;
@@ -48,7 +48,7 @@
 
     .name {
       font-weight: 300;
-      margin-bottom: 12px;
+      margin-bottom: 24px;
     }
 
     .subtext {
@@ -89,6 +89,10 @@
     .text > div {
       margin-top: 4px;
     }
+      .no-break {
+      white-space: nowrap; /* 줄바꿈 방지 */
+    }
+    
      /* 반응형 모바일 스타일 */
      @media (max-width: 768px) {
       body {
@@ -115,7 +119,8 @@
 
   <div class="content-wrapper">
     <div class="left">
-      <div class="name">이종환 (b.1994) </div>
+      <div class="name">이종환 (b.1994)  </div>
+      
       <div class="line">
         <div class="year">2024</div>
         <div class="text">한국예술종합학교 조형예술과 전문사 졸업</div>
@@ -212,6 +217,7 @@
 </body>
 </html>
 ``
+
 
 
 
