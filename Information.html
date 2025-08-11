@@ -27,6 +27,7 @@
       font-weight: 400;
       letter-spacing: 1.5px;
       margin-bottom: 30px;
+      margin-left: 0; /* Information과 나머지 텍스트와 같은 기준선으로 맞춤 */
     }
     .content-wrapper {
       display: flex;
@@ -34,7 +35,7 @@
       font-size: 12px;
       font-weight: 300;
       line-height: 1.3;
-      margin-left: 0; /* 수정: h1과 정렬 맞춤 */
+      margin-left: 0; /* Information과 나머지 텍스트와 같은 기준선으로 맞춤 */
     }
     .left, .right {
       width: 30%;
@@ -49,7 +50,7 @@
       white-space: nowrap;
     }
     .year {
-      width: 80px; /* 수정: 긴 텍스트도 정렬되도록 */
+      width: 80px; /* 넓혀서 'Jonghwan Lee' 등 긴 텍스트도 줄바꿈 없이 한 줄로 */
       text-align: right;
       flex-shrink: 0;
     }
@@ -94,7 +95,7 @@
 
     <!-- ENGLISH -->
     <div class="right">
-      <div class="line"><div class="year">Jonghwan</div><div class="text">Lee (b.1994)<br>Currently lives and works in Seoul.</div></div>
+      <div class="line"><div class="year">Jonghwan Lee</div><div class="text"> (b.1994)<br>Currently lives and works in Seoul.</div></div>
       <div class="line"><div class="year">2024</div><div class="text">Korea National University of Arts, MFA in Fine Art, Seoul, South Korea</div></div>
       <div class="line"><div class="year">2021</div><div class="text">Seoul National University, BFA in Oriental Painting, Seoul, South Korea</div></div>
 <br>
