@@ -16,7 +16,7 @@
       font-family: 'Montserrat', sans-serif;
       user-select: none;
       position: relative;
-      margin-left: 120px; /* 메뉴 공간 확보 (모바일은 JS에서 처리) */
+      margin-left: 120px;
       overflow: hidden;
     }
 
@@ -38,7 +38,7 @@
 
     @media (max-width: 768px) {
       html, body {
-        margin-left: 80px; /* 모바일용 메뉴폭 */
+        margin-left: 80px;
       }
     }
   </style>
@@ -62,11 +62,18 @@
         document.getElementById('menu-container').innerHTML = data;
       });
 
-    function animateYearsHorizontal(yearElems, baseY) {
+    function animateYearsGrouped(yearElems, baseY) {
       const gap = 20;
-      const totalWidth = yearElems.reduce((acc, el) => acc + el.offsetWidth, 0) + (yearElems.length - 1) * gap;
-      const startX = 0;
-      // 수정된 부분: endX가 음수가 되지 않도록 보정
+
+      const baseElem = document.getElementById('year2025');
+      if (!baseElem) return;
+
+      const others = yearElems.filter(el => el !== baseElem);
+
+      const baseWidth = baseElem.offsetWidth;
+      const othersWidth = others.reduce((acc, el) => acc + el.offsetWidth, 0);
+      const totalWidth = baseWidth + gap + othersWidth + (others.length - 1) * gap;
+
       const endX = Math.max(document.body.clientWidth - totalWidth - 40, 0);
 
       let pos = 0;
@@ -76,10 +83,12 @@
         pos += direction;
         if (pos > endX || pos < 0) direction *= -1;
 
-        let offset = pos;
-        yearElems.forEach((el, i) => {
-          el.style.transform = `translate(${offset}px, ${baseY}px)`;
-          offset += el.offsetWidth + gap;
+        baseElem.style.transform = `translate(${pos}px, ${baseY}px)`;
+
+        let offsetX = pos + baseWidth + gap;
+        others.forEach(el => {
+          el.style.transform = `translate(${offsetX}px, ${baseY}px)`;
+          offsetX += el.offsetWidth + gap;
         });
 
         requestAnimationFrame(move);
@@ -122,10 +131,10 @@
       ].filter(Boolean);
 
       if (window.innerWidth <= 768) {
-        animateYearsVertical(yearElems, 0, 80); // startX, startY
+        animateYearsVertical(yearElems, 0, 80);
       } else {
         const baseY = window.innerHeight / 2 - 10;
-        animateYearsHorizontal(yearElems, baseY);
+        animateYearsGrouped(yearElems, baseY);
       }
     });
   </script>
