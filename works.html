@@ -17,6 +17,11 @@
     position: relative;
     margin-left: 120px; /* 기본 메뉴 공간 확보 */
   }
+  @media (max-width: 768px) {
+    html, body {
+      margin-left: 80px; /* 모바일에서 메뉴 공간 축소 */
+    }
+  }
   .year-list a {
     position: fixed;
     font-size: 14px;
@@ -31,13 +36,6 @@
   }
   .year-list a:hover {
     color: #555;
-  }
-  
-  /* 모바일 반응형 */
-  @media (max-width: 768px) {
-    html, body {
-      margin-left: 80px; /* 모바일 메뉴 공간 줄임 */
-    }
   }
 </style>
 </head>
@@ -95,72 +93,58 @@
     return window.innerWidth <= 768 ? 80 : 120;
   }
 
-  function initialSlide(yearElems) {
-    const vw = window.innerWidth;
-    const vh = window.innerHeight;
-    const menuWidth = getMenuWidth();
-
-    const slideDuration = 5000; // 5초
-    const fps = 60;
-    const totalFrames = slideDuration / (1000 / fps);
-
-    const gap = vw <= 768 ? 6 : 12; // 숫자 사이 간격
-    const baseY = vh / 2 - 150;     // 숫자 Y 위치 (좀 더 위로)
-
-    const widths = yearElems.map(el => el.getBoundingClientRect().width);
-    const totalWidth = widths.reduce((a, b) => a + b, 0) + gap * (yearElems.length - 1);
-
-    // 시작 위치: 메뉴바 폭 (왼쪽 끝)
-    const leftStart = menuWidth;
-
-    // 목표 위치: 화면 너비 - 숫자 총 너비 - 20px 여유 (오른쪽 끝)
-    const targetX = vw - totalWidth - 20;
-
-    let frame = 0;
-
-    function step() {
-      const progress = frame / totalFrames;
-
-      // 좌 → 우 이동
-      const currentX = leftStart + (targetX - leftStart) * progress;
-
-      yearElems.forEach((elem, idx) => {
-        const x = currentX + widths.slice(0, idx).reduce((a,b) => a+b, 0) + gap * idx;
-        elem.style.transition = 'none';
-        elem.style.transform = `translate(${x}px, ${baseY}px)`;
-      });
-
-      frame++;
-      if (frame <= totalFrames) {
-        requestAnimationFrame(step);
-      }
-    }
-
-    step();
-  }
-
   window.addEventListener('load', () => {
     const yearElems = years.map(({ id }) => document.getElementById(id)).filter(Boolean);
 
-    const vw = window.innerWidth;
-    const vh = window.innerHeight;
-    const menuWidth = getMenuWidth();
+    setTimeout(() => {
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const menuWidth = getMenuWidth();
 
-    const widths = yearElems.map(el => el.getBoundingClientRect().width);
-    const gap = vw <= 768 ? 6 : 12;
-    const totalWidth = widths.reduce((a,b) => a+b, 0) + (yearElems.length -1) * gap;
+      const widths = yearElems.map(el => el.getBoundingClientRect().width);
+      const gap = vw <= 768 ? 6 : 12;
+      const totalWidth = widths.reduce((a,b) => a+b, 0) + (yearElems.length -1) * gap;
 
-    // 시작 위치: 메뉴바 폭 (왼쪽 끝)
-    const leftStart = menuWidth;
+      // 숫자 y 위치: 화면 중앙보다 좀 위로 조정
+      const baseY = vh / 2 - 150;
 
-    // 숫자 y 위치
-    const baseY = vh / 2 - 150;
+      // 시작 위치는 메뉴바 끝 지점 (좌측)
+      const leftStart = menuWidth;
 
-    yearElems.forEach(elem => {
-      elem.style.transform = `translate(${leftStart}px, ${baseY}px)`;
-    });
+      // 숫자들 초기 위치 세팅
+      yearElems.forEach(elem => {
+        elem.style.transform = `translate(${leftStart}px, ${baseY}px)`;
+      });
 
-    initialSlide(yearElems);
+      // 좌 → 우 애니메이션
+      const slideDuration = 5000; // 5초
+      const fps = 60;
+      const totalFrames = slideDuration / (1000 / fps);
+      let frame = 0;
+
+      function step() {
+        const progress = frame / totalFrames;
+
+        // 목표 위치는 오른쪽 끝에서 숫자 총 너비만큼 뺀 위치
+        const targetX = vw - totalWidth - 20;
+
+        // 현재 X 위치: 좌측 메뉴바 끝에서 오른쪽 목표 위치까지 선형 보간
+        const currentX = leftStart + (targetX - leftStart) * progress;
+
+        yearElems.forEach((elem, idx) => {
+          const x = currentX + widths.slice(0, idx).reduce((a,b) => a+b, 0) + gap * idx;
+          elem.style.transition = 'none';
+          elem.style.transform = `translate(${x}px, ${baseY}px)`;
+        });
+
+        frame++;
+        if(frame <= totalFrames) {
+          requestAnimationFrame(step);
+        }
+      }
+
+      step();
+    }, 50);
   });
 </script>
 
