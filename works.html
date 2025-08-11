@@ -29,7 +29,7 @@
       cursor: pointer;
       white-space: nowrap;
       transition: color 0.3s ease;
-      top: 80px; /* contact 페이지에서 숫자 위치 조정 */
+      top: 130px; /* Contact 텍스트 바로 아래 위치로 조정 */
       transform: none; /* translateY 제거 */
     }
     .year-list a:hover {
@@ -39,6 +39,9 @@
       html, body {
         margin-left: 80px;
         padding: 40px 16px;
+      }
+      .year-list a {
+        top: 110px; /* 모바일에선 살짝 위로 */
       }
     }
   </style>
@@ -99,7 +102,7 @@
       ].filter(Boolean);
 
       const gap = 20;
-      let offsetX = 0;
+      let offsetX = 120 + 100; // 메뉴 왼쪽 margin 120 + 숫자 시작 위치 100px (임의 조정)
 
       years.forEach(el => {
         el.style.left = `${offsetX}px`;
