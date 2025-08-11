@@ -121,15 +121,15 @@
     const widths = yearElems.map(el => el.getBoundingClientRect().width);
 
     // 시작점은 화면 왼쪽 밖에 메뉴바 폭만큼 추가
-    const leftStart = vw + menuWidth; 
+     const leftStart = menuWidth;
     // 목표점도 시작점에서 75% 정도 이동
-    const targetX = menuWidth + 20; 
+   const targetX = vw - totalWidth - 20;
 
     let frame = 0;
 
     function step() {
       const progress = frame / totalFrames;
-      const currentX = leftStart + (targetX - leftStart) * progress;
+       const currentX = leftStart + (targetX - leftStart) * progress;
 
       yearElems.forEach((elem, idx) => {
         const x = currentX + widths.slice(0, idx).reduce((a, b) => a + b, 0) + gap * idx;
@@ -153,8 +153,8 @@
     const vh = window.innerHeight;
     const widths = yearElems.map(el => el.getBoundingClientRect().width);
 
-    const leftStart = -widths[0] - 20 + menuWidth;
-    const baseY = vh / 2 - 100;
+    const leftStart = menuWidth;
+    const baseY = vh / 2 - 200;
 
     yearElems.forEach(elem => {
       elem.style.transform = `translate(${leftStart}px, ${baseY}px)`;
@@ -166,5 +166,6 @@
 
 </body>
 </html>
+
 
 
