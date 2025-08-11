@@ -4,7 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Information</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css">
+  <!-- CSS 링크는 style 태그 밖에 별도로 위치 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css" />
 
   <style>
     * {
@@ -142,6 +143,7 @@
           const targetSubmenu = document.getElementById(submenuId);
           if (!targetSubmenu) return;
 
+          // 다른 서브메뉴가 열려 있으면 닫기
           if (submenuId === 'projectSubmenu1' && submenu2.classList.contains('show')) {
             submenu2.style.maxHeight = null;
             submenu2.classList.remove('show');
@@ -150,12 +152,15 @@
             submenu1.classList.remove('show');
           }
 
+          // 토글 열기/닫기
           if (targetSubmenu.classList.contains('show')) {
-            targetSubmenu.style.maxHeight = targetSubmenu.scrollHeight + "px";
-            targetSubmenu.classList.add('show');
-          } else {
+            // 열려 있으면 닫기
             targetSubmenu.style.maxHeight = null;
             targetSubmenu.classList.remove('show');
+          } else {
+            // 닫혀 있으면 열기
+            targetSubmenu.style.maxHeight = targetSubmenu.scrollHeight + "px";
+            targetSubmenu.classList.add('show');
           }
         };
       });
