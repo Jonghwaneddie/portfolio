@@ -1,45 +1,53 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Years</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css">
-<style>
-  * {
-    margin: 0; padding: 0; box-sizing: border-box;
-  }
-  html, body {
-    width: 100%; height: 100%; overflow: hidden;
-    background: #fff;
-    font-family: 'Montserrat', sans-serif;
-    user-select: none;
-    position: relative;
-    margin-left: 120px; /* 메뉴 공간 확보 (PC) */
-  }
-
-  @media (max-width: 768px) {
-    html, body {
-      margin-left: 80px; /* 메뉴 공간 확보 (모바일) */
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Years</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css">
+  <style>
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
     }
-  }
 
-  .year-list a {
-    position: fixed;
-    font-size: 14px;
-    font-family: 'Pretendard Variable', sans-serif;
-    font-weight: 300;
-    color: #000;
-    text-decoration: none;
-    cursor: pointer;
-    white-space: nowrap;
-    user-select: none;
-    transition: color 0.3s ease;
-  }
-  .year-list a:hover {
-    color: #555;
-  }
-</style>
+    html, body {
+      width: 100%; height: 100%;
+      background: #fff;
+      font-family: 'Montserrat', sans-serif;
+      user-select: none;
+      position: relative;
+      margin-left: 120px; /* 메뉴 공간 확보 */
+      overflow: hidden;
+    }
+
+    .year-list a {
+      position: absolute;
+      font-size: 14px;
+      font-family: 'Pretendard Variable', sans-serif;
+      font-weight: 300;
+      color: #000;
+      text-decoration: none;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: transform 0.3s ease;
+    }
+
+    .year-list a:hover {
+      color: #555;
+    }
+
+    /* 모바일 반응형 */
+    @media (max-width: 768px) {
+      html, body {
+        margin-left: 80px; /* 모바일용 메뉴 폭 */
+      }
+
+      .year-list a {
+        position: absolute;
+        white-space: nowrap;
+      }
+    }
+  </style>
 </head>
 <body>
 
@@ -53,104 +61,79 @@
     <a href="2021.html" id="year2021">2021</a>
   </div>
 
-<script>
-  fetch('menu.html')
-    .then(res => res.ok ? res.text() : Promise.reject('Menu load failed'))
-    .then(html => {
-      document.getElementById('menu-container').innerHTML = html;
-      window.toggleProjectMenu = function(e, submenuId) {
-        e.preventDefault();
-        const s1 = document.getElementById('projectSubmenu1');
-        const s2 = document.getElementById('projectSubmenu2');
-        const target = document.getElementById(submenuId);
-        if (!target) return;
-        if (submenuId === 'projectSubmenu1' && s2?.classList.contains('show')) {
-          s2.classList.remove('show');
-          s2.style.maxHeight = null;
-        } else if (submenuId === 'projectSubmenu2' && s1?.classList.contains('show')) {
-          s1.classList.remove('show');
-          s1.style.maxHeight = null;
-        }
-        if (target.classList.contains('show')) {
-          target.classList.remove('show');
-          target.style.maxHeight = null;
-        } else {
-          target.classList.add('show');
-          target.style.maxHeight = target.scrollHeight + "px";
-        }
-      };
-    })
-    .catch(err => console.error(err));
-
-  const years = [
-    { id: 'year2025' },
-    { id: 'year2024' },
-    { id: 'year2023' },
-    { id: 'year2022' },
-    { id: 'year2021' },
-  ];
-
-  function initialSlide(yearElems) {
-    const vw = window.innerWidth;
-    const vh = window.innerHeight;
-    const menuWidth = vw <= 768 ? 80 : 120;
-
-    const slideDuration = 5000;
-    const fps = 60;
-    const totalFrames = slideDuration / (1000 / fps);
-
-    const gap = 15; // 숫자 간 간격 늘림
-    const baseY = vh / 2 - 150;
-
-    const widths = yearElems.map(el => el.getBoundingClientRect().width);
-    const totalWidth = widths.reduce((a,b) => a+b, 0) + gap * (yearElems.length -1);
-
-    // 시작 위치: 메뉴바 끝에서 80px 안쪽
-    const leftStart = Math.max(0, menuWidth - 80);
-
-    // 목표 위치: 오른쪽 끝에서 80px 여유, 메뉴바 폭보다 작으면 메뉴바 폭 고정
-    let targetX = vw - totalWidth - 80;
-    if (targetX < menuWidth) targetX = menuWidth;
-
-    let frame = 0;
-
-    function step() {
-      const progress = frame / totalFrames;
-      const currentX = leftStart + (targetX - leftStart) * progress;
-
-      yearElems.forEach((elem, idx) => {
-        const x = currentX + widths.slice(0, idx).reduce((a,b) => a+b, 0) + gap * idx;
-        elem.style.transition = 'none';
-        elem.style.transform = `translate(${x}px, ${baseY}px)`;
+  <script>
+    fetch('menu.html')
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById('menu-container').innerHTML = data;
       });
 
-      frame++;
-      if (frame <= totalFrames) {
-        requestAnimationFrame(step);
+    function animateYearsHorizontal(yearElems, baseY) {
+      const totalWidth = yearElems.reduce((acc, el) => acc + el.offsetWidth + 20, 0);
+      const startX = 0;
+      const endX = document.body.clientWidth - totalWidth - 40;
+
+      let pos = startX;
+      let direction = 1;
+
+      function move() {
+        pos += direction;
+        if (pos >= endX || pos <= 0) direction *= -1;
+
+        let offset = pos;
+        yearElems.forEach(el => {
+          el.style.transform = `translateX(${offset}px) translateY(${baseY}px)`;
+          offset += el.offsetWidth + 20;
+        });
+
+        requestAnimationFrame(move);
       }
+
+      move();
     }
 
-    step();
-  }
+    function animateYearsVertical(yearElems, startX) {
+      const spacing = 40;
+      yearElems.forEach((el, i) => {
+        el.style.top = `${i * spacing}px`;
+      });
 
-  window.addEventListener('load', () => {
-    const yearElems = years.map(({ id }) => document.getElementById(id)).filter(Boolean);
+      let pos = 0;
+      let direction = 1;
+      const endX = window.innerWidth - 120 - 100; // 오른쪽 경계 - 여백
 
-    const vw = window.innerWidth;
-    const vh = window.innerHeight;
-    const menuWidth = vw <= 768 ? 80 : 120;
+      function move() {
+        pos += direction;
+        if (pos > endX || pos < 0) direction *= -1;
 
-    const widths = yearElems.map(el => el.getBoundingClientRect().width);
-    const leftStart = Math.max(0, menuWidth - 80);
-    const baseY = vh / 2 - 150;
+        yearElems.forEach((el, i) => {
+          el.style.transform = `translateX(${startX + pos}px)`;
+        });
 
-    yearElems.forEach(elem => {
-      elem.style.transform = `translate(${leftStart}px, ${baseY}px)`;
+        requestAnimationFrame(move);
+      }
+
+      move();
+    }
+
+    window.addEventListener('load', () => {
+      const yearElems = [
+        document.getElementById('year2025'),
+        document.getElementById('year2024'),
+        document.getElementById('year2023'),
+        document.getElementById('year2022'),
+        document.getElementById('year2021'),
+      ].filter(Boolean);
+
+      if (window.innerWidth <= 768) {
+        animateYearsVertical(yearElems, 0); // 모바일: 세로 정렬
+      } else {
+        const baseY = window.innerHeight / 2 - 10;
+        animateYearsHorizontal(yearElems, baseY); // 데스크탑: 가로 정렬
+      }
     });
-
-    initialSlide(yearElems);
-  });
-</script>
+  </script>
 
 </body>
 </html>
+
