@@ -16,7 +16,7 @@
       font-family: 'Montserrat', sans-serif;
       user-select: none;
       position: relative;
-      margin-left: 120px; /* 메뉴 공간 확보 */
+      margin-left: 120px; /* 메뉴 공간 확보 (모바일은 JS에서 처리) */
       overflow: hidden;
     }
 
@@ -36,15 +36,9 @@
       color: #555;
     }
 
-    /* 모바일 반응형 */
     @media (max-width: 768px) {
       html, body {
-        margin-left: 80px; /* 모바일용 메뉴 폭 */
-      }
-
-      .year-list a {
-        position: absolute;
-        white-space: nowrap;
+        margin-left: 80px; /* 모바일용 메뉴폭 */
       }
     }
   </style>
@@ -69,21 +63,22 @@
       });
 
     function animateYearsHorizontal(yearElems, baseY) {
-      const totalWidth = yearElems.reduce((acc, el) => acc + el.offsetWidth + 20, 0);
+      const gap = 20;
+      const totalWidth = yearElems.reduce((acc, el) => acc + el.offsetWidth, 0) + (yearElems.length - 1) * gap;
       const startX = 0;
       const endX = document.body.clientWidth - totalWidth - 40;
 
-      let pos = startX;
+      let pos = 0;
       let direction = 1;
 
       function move() {
         pos += direction;
-        if (pos >= endX || pos <= 0) direction *= -1;
+        if (pos > endX || pos < 0) direction *= -1;
 
         let offset = pos;
-        yearElems.forEach(el => {
-          el.style.transform = `translateX(${offset}px) translateY(${baseY}px)`;
-          offset += el.offsetWidth + 20;
+        yearElems.forEach((el, i) => {
+          el.style.transform = `translate(${offset}px, ${baseY}px)`;
+          offset += el.offsetWidth + gap;
         });
 
         requestAnimationFrame(move);
@@ -92,21 +87,21 @@
       move();
     }
 
-    function animateYearsVertical(yearElems, startX) {
-      const spacing = 40;
+    function animateYearsVertical(yearElems, startX, startY) {
+      const gap = 32;
       yearElems.forEach((el, i) => {
-        el.style.top = `${i * spacing}px`;
+        el.style.top = `${startY + i * gap}px`;
       });
 
       let pos = 0;
       let direction = 1;
-      const endX = window.innerWidth - 120 - 100; // 오른쪽 경계 - 여백
+      const endX = window.innerWidth - 120 - 100;
 
       function move() {
         pos += direction;
         if (pos > endX || pos < 0) direction *= -1;
 
-        yearElems.forEach((el, i) => {
+        yearElems.forEach(el => {
           el.style.transform = `translateX(${startX + pos}px)`;
         });
 
@@ -126,14 +121,13 @@
       ].filter(Boolean);
 
       if (window.innerWidth <= 768) {
-        animateYearsVertical(yearElems, 0); // 모바일: 세로 정렬
+        animateYearsVertical(yearElems, 0, 80); // startX, startY
       } else {
         const baseY = window.innerHeight / 2 - 10;
-        animateYearsHorizontal(yearElems, baseY); // 데스크탑: 가로 정렬
+        animateYearsHorizontal(yearElems, baseY);
       }
     });
   </script>
 
 </body>
 </html>
-
