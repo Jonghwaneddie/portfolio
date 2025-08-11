@@ -28,6 +28,8 @@
       cursor: pointer;
       white-space: nowrap;
       transition: color 0.3s ease;
+      top: 0;  /* 초기 top값 명시 */
+      left: 0; /* 초기 left값 명시 */
     }
     .year-list a:hover {
       color: #555;
@@ -41,7 +43,7 @@
 </head>
 <body>
 
-  <!-- 메뉴가 들어갈 곳 -->
+  <!-- 메뉴 영역 -->
   <div id="menu-container"></div>
 
   <div class="year-list">
@@ -53,12 +55,17 @@
   </div>
 
   <script>
-    // 메뉴 fetch 로드
+    // 메뉴 fetch 불러오기 및 하위 메뉴 이벤트 바인딩 (필요시 추가)
     fetch('menu.html')
       .then(res => res.text())
       .then(data => {
-        document.getElementById('menu-container').innerHTML = data;
-      });
+        const menuContainer = document.getElementById('menu-container');
+        menuContainer.innerHTML = data;
+
+        // 만약 menu.html 안에 하위 메뉴 토글 스크립트가 있다면 여기서 실행
+        // 예) initMenuToggle(); // 직접 구현된 함수명 넣기
+      })
+      .catch(err => console.error('메뉴 로딩 실패:', err));
 
     window.addEventListener('load', () => {
       const years = [
@@ -72,29 +79,32 @@
       const gap = 20;
       const baseY = window.innerHeight / 2 - 10;
 
-      const totalWidth = years.reduce((acc, el) => acc + el.offsetWidth, 0) + gap * (years.length - 1);
+      // 요소가 다 렌더링되고 사이즈가 제대로 잡힌 후 계산하기 위해 요청 애니메이션 프레임 또는 setTimeout 사용
+      requestAnimationFrame(() => {
+        const totalWidth = years.reduce((acc, el) => acc + el.offsetWidth, 0) + gap * (years.length - 1);
 
-      const maxX = document.body.clientWidth - totalWidth - 40;
-      const endX = maxX > 0 ? maxX : 0;
+        const maxX = document.body.clientWidth - totalWidth - 40;
+        const endX = maxX > 0 ? maxX : 0;
 
-      let pos = 0;
-      let direction = 1;
+        let pos = 0;
+        let direction = 1;
 
-      function move() {
-        pos += direction;
-        if (pos > endX || pos < 0) direction *= -1;
+        function move() {
+          pos += direction;
+          if (pos > endX || pos < 0) direction *= -1;
 
-        let offsetX = pos;
-        years.forEach(el => {
-          el.style.top = `${baseY}px`;
-          el.style.transform = `translateX(${offsetX}px)`;
-          offsetX += el.offsetWidth + gap;
-        });
+          let offsetX = pos;
+          years.forEach(el => {
+            el.style.top = `${baseY}px`;
+            el.style.transform = `translateX(${offsetX}px)`;
+            offsetX += el.offsetWidth + gap;
+          });
 
-        requestAnimationFrame(move);
-      }
+          requestAnimationFrame(move);
+        }
 
-      move();
+        move();
+      });
     });
   </script>
 
