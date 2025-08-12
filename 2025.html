@@ -16,7 +16,7 @@
       color: #000;
       margin-left: 120px;
       padding: 60px 20px;
-      max-width: 1000px;
+      
     }
     .year-list {
       font-size: 10pt;
@@ -28,6 +28,8 @@
     .year-list a {
       color: inherit;
       text-decoration: none;
+       flex-grow: 0;
+      width: auto;
       margin-right: 0.3em; /* 숫자 간격 직접 조절 */
       white-space: nowrap;
     }
@@ -47,7 +49,7 @@
     }
     @media (max-width: 768px) {
       body { margin-left: 120px; padding: 40px 16px; }
-      .year-list { font-size: 8pt; gap: 0; flex-wrap: nowrap; }
+      .year-list { font-size: 8pt; gap: 0.8; flex-wrap: nowrap; }
       .year-list a {
         margin-right: 0.2em;
       }
@@ -149,7 +151,32 @@
       .then(response => response.text())
       .then(data => {
         document.getElementById('menu-container').innerHTML = data;
+
+        window.toggleProjectMenu = function(e, submenuId) {
+          e.preventDefault();
+          const submenu1 = document.getElementById('projectSubmenu1');
+          const submenu2 = document.getElementById('projectSubmenu2');
+          const targetSubmenu = document.getElementById(submenuId);
+          if (!targetSubmenu) return;
+
+          if (submenuId === 'projectSubmenu1' && submenu2.classList.contains('show')) {
+            submenu2.style.maxHeight = null;
+            submenu2.classList.remove('show');
+          } else if (submenuId === 'projectSubmenu2' && submenu1.classList.contains('show')) {
+            submenu1.style.maxHeight = null;
+            submenu1.classList.remove('show');
+          }
+
+          if (targetSubmenu.classList.contains('show')) {
+            targetSubmenu.style.maxHeight = null;
+            targetSubmenu.classList.remove('show');
+          } else {
+            targetSubmenu.style.maxHeight = targetSubmenu.scrollHeight + "px";
+            targetSubmenu.classList.add('show');
+          }
+        }
       });
+
 
     const images = document.querySelectorAll('.gallery img');
     const lightbox = document.getElementById('lightbox');
