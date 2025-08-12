@@ -42,11 +42,12 @@
       gap: 5px;
     }
     .gallery img {
-      width: calc(20% - 5px);
-      cursor: pointer;
-      object-fit: cover;
-      border-radius: 4px;
-    }
+  max-width: 120px;  /* 원하는 작게 조절한 크기 */
+  height: auto;      /* 비율 유지 */
+  cursor: pointer;
+  border-radius: 4px;
+  object-fit: contain; /* 또는 삭제해도 됨 */
+}
     @media (max-width: 768px) {
       body { margin-left: 120px; padding: 40px 16px; }
       .year-list { font-size: 8pt; gap: 0.8em; flex-wrap: nowrap; }
