@@ -288,7 +288,7 @@
     lightboxImg.addEventListener('mousedown', (e) => {
       if (scale <= 1) return;
       isPanning = true;
-       startPanX = e.clientX - originX;
+       
        startPanY = e.clientY - originY;
       lightboxImg.style.cursor = 'grabbing';
     });
@@ -300,7 +300,7 @@
 
     document.addEventListener('mousemove', (e) => {
       if (!isPanning) return;
-      originX = e.clientX - startPanX;
+      
   originY = e.clientY - startPanY;
       applyTransform();
     });
