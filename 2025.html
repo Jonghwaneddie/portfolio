@@ -20,13 +20,18 @@
       font-size: 10pt;
       font-weight: 300;
       display: flex;
-      margin-bottom: 30px;
+       gap: 0; /* gap 없앰 */
+      justify-content: flex-start;
+
     }
     .year-list a {
       color: inherit;
       text-decoration: none;
-      margin-right: 0.3em;
+      flex-grow: 0;
+      width: auto;
+      margin-right: 0.3em; /* 숫자 간격을 여기서 직접 조절 */
       white-space: nowrap;
+
     }
     .year-list a:last-child {
       margin-right: 0;
@@ -44,7 +49,7 @@
     }
     @media (max-width: 768px) {
       body { margin-left: 120px; padding: 40px 16px; }
-      .year-list { font-size: 8pt; flex-wrap: nowrap; }
+      .year-list { font-size: 8pt; gap: 0.8em; flex-wrap: nowrap; }
       .year-list a { margin-right: 0.2em; }
       .gallery img { width: calc(33.333% - 5px); }
     }
