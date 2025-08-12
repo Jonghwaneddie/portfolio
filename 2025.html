@@ -79,13 +79,18 @@
       opacity: 1;
     }
     .lightbox-caption {
-      color: #fff;
-      font-size: 14px;
-      margin-top: 8px;
-      width: 90%;
-      text-align: right;
-      display: none;
-    }
+  color: #fff;
+  font-size: 14px;
+  margin-top: 12px;
+  text-align: center;         /* 중앙 정렬 */
+  display: none;
+  position: absolute;         /* 절대 위치로 */
+  bottom: 40px;               /* 화면 아래에서 위로 40px 위치 */
+  left: 50%;                  /* 가운데 기준 */
+  transform: translateX(-50%);/* 수평 중앙 정렬 */
+  width: auto;                /* 텍스트 길이에 따라 */
+  max-width: 90%;
+}
     .lightbox.show .lightbox-caption {
       display: block;
     }
