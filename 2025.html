@@ -42,11 +42,11 @@
       gap: 5px;
     }
     .gallery img {
-  max-width: 120px;  /* 원하는 작게 조절한 크기 */
-  height: auto;      /* 비율 유지 */
+  max-height: 120px;      /* 비율 유지 */
+  width: auto;  /* 원하는 작게 조절한 크기 */
   cursor: pointer;
   border-radius: 4px;
-  object-fit: contain; /* 또는 삭제해도 됨 */
+  object-fit: contain; /* 비율 유지 */
 }
     @media (max-width: 768px) {
       body { margin-left: 120px; padding: 40px 16px; }
