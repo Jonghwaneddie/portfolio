@@ -4,38 +4,44 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Years</title>
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css" />
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
+
     body {
-      font-family: 'Montserrat', sans-serif;
+       font-family: 'Pretendard Variable', sans-serif;
       background: #fff;
       color: #000;
       margin-left: 120px; /* 사이드 메뉴 공간 확보 */
       padding: 60px 20px;
     }
+
     .year-list {
-      font-size: 10pt; /* 기본 크기 */
-      font-weight: 300; /* 볼드 제거 */
+      font-size: 10pt;
+      font-weight: 300;
       display: flex;
-      gap: 1em; /* 연도 간격 약 4칸 */
+      gap: 0.3em; /* 💡 간격 좁힘 */
     }
+
     .year-list a {
       color: inherit;
-      text-decoration: none; /* 밑줄 제거 */
+      text-decoration: none;
     }
+
     @media (max-width: 768px) {
       body {
         margin-left: 120px;
         padding: 40px 16px;
       }
+
       .year-list {
-        font-size: 8pt; /* 모바일에서 폰트 줄이기 */
-        gap: 0.8em; /* 간격 조금 줄이기 */
-        flex-wrap: nowrap; /* 모바일에서도 가로 정렬 유지 */
+        font-size: 8pt;
+        gap: 0.2em; /* 💡 모바일에서도 좁게 유지 */
+        flex-wrap: nowrap;
       }
     }
   </style>
