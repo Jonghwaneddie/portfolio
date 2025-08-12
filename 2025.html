@@ -250,12 +250,13 @@
     let startPanX = 0;
     let startPanY = 0;
 
-    function applyTransform() {
-     lightboxImg.style.transform = `translate(-50%, -50%) scale(${scale}) translate(${originX}px, ${originY}px)`;
+   function applyTransform() {
+  lightboxImg.style.position = 'absolute';
   lightboxImg.style.top = '50%';
   lightboxImg.style.left = '50%';
-  lightboxImg.style.position = 'absolute';
   lightboxImg.style.cursor = scale > 1 ? 'grab' : 'default';
+  // transform 순서 유지: 이미지 중앙 맞추기 후 scale & translate
+  lightboxImg.style.transform = `translate(-50%, -50%) scale(${scale}) translate(${originX}px, ${originY}px)`;
 }
 
    lightboxImg.addEventListener('wheel', (e) => {
@@ -278,8 +279,8 @@
     lightboxImg.addEventListener('mousedown', (e) => {
       if (scale <= 1) return;
       isPanning = true;
-      startPanX = e.clientX - originX;
-      startPanY = e.clientY - originY;
+       startPanX = e.clientX - originX * scale;
+       startPanY = e.clientY - originY * scale;
       lightboxImg.style.cursor = 'grabbing';
     });
 
@@ -290,8 +291,8 @@
 
     document.addEventListener('mousemove', (e) => {
       if (!isPanning) return;
-      originX = e.clientX - startPanX;
-      originY = e.clientY - startPanY;
+      originX = (e.clientX - startPanX) / scale;
+      originY = (e.clientY - startPanY) / scale;
       applyTransform();
     });
 
@@ -315,8 +316,8 @@
         initialDistance = Math.sqrt(dx * dx + dy * dy);
       } else if (e.touches.length === 1 && scale > 1) {
         isPanning = true;
-        startPanX = e.touches[0].clientX - originX;
-        startPanY = e.touches[0].clientY - originY;
+        startPanX = e.touches[0].clientX - originX * scale; 
+        startPanY = e.touches[0].clientY - originY * scale; 
       }
     });
 
@@ -332,8 +333,8 @@
         initialDistance = newDistance;
         applyTransform();
       } else if (e.touches.length === 1 && isPanning) {
-        originX = e.touches[0].clientX - startPanX;
-        originY = e.touches[0].clientY - startPanY;
+        originX = (e.touches[0].clientX - startPanX) / scale;  // ← 여기 수정
+        originY = (e.touches[0].clientY - startPanY) / scale;  // ← 여기 수정
         applyTransform();
       }
     });
