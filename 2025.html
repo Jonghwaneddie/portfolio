@@ -251,9 +251,12 @@
     let startPanY = 0;
 
     function applyTransform() {
-      lightboxImg.style.transform = `scale(${scale}) translate(${originX}px, ${originY}px)`;
-      lightboxImg.style.cursor = scale > 1 ? 'grab' : 'default';
-    }
+     lightboxImg.style.transform = `translate(-50%, -50%) scale(${scale}) translate(${originX}px, ${originY}px)`;
+  lightboxImg.style.top = '50%';
+  lightboxImg.style.left = '50%';
+  lightboxImg.style.position = 'absolute';
+  lightboxImg.style.cursor = scale > 1 ? 'grab' : 'default';
+}
 
     lightboxImg.addEventListener('wheel', (e) => {
       e.preventDefault();
