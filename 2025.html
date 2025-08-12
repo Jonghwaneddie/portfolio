@@ -258,19 +258,19 @@
   lightboxImg.style.cursor = scale > 1 ? 'grab' : 'default';
 }
 
-    lightboxImg.addEventListener('wheel', (e) => {
-      e.preventDefault();
-      const zoomIntensity = 0.1;
-      const oldScale = scale;
+   lightboxImg.addEventListener('wheel', (e) => {
+  e.preventDefault();
+  const zoomIntensity = 0.1;
 
-      scale += e.deltaY < 0 ? zoomIntensity : -zoomIntensity;
-      scale = Math.max(1, Math.min(scale, 5));
-
-      const rect = lightboxImg.getBoundingClientRect();
-      const dx = e.clientX - rect.left;
-      const dy = e.clientY - rect.top;
-      originX -= (dx / oldScale - dx / scale);
-      originY -= (dy / oldScale - dy / scale);
+  if (e.deltaY < 0) {
+    scale = Math.min(5, scale + zoomIntensity);
+  } else {
+    scale = Math.max(1, scale - zoomIntensity);
+    if (scale === 1) {
+      originX = 0;
+      originY = 0;
+    }
+  }
 
       applyTransform();
     });
