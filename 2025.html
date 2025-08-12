@@ -251,11 +251,10 @@
     let startPanY = 0;
 
    function applyTransform() {
-  lightboxImg.style.position = 'absolute';
   lightboxImg.style.top = '50%';
   lightboxImg.style.left = '50%';
-  lightboxImg.style.transform = `translate(calc(-50% + ${originX}px), calc(-50% + ${originY}px)) scale(${scale})`;
-  lightboxImg.style.cursor = scale > 1 ? 'grab' : 'default';
+  lightboxImg.style.transform = `translate(-50%, -50%) scale(${scale})`;
+  lightboxImg.style.cursor = scale > 1 ? 'default' : 'default';
 }
 
    lightboxImg.addEventListener('wheel', (e) => {
@@ -275,26 +274,7 @@
       applyTransform();
     });
 
-    lightboxImg.addEventListener('mousedown', (e) => {
-      if (scale <= 1) return;
-      isPanning = true;
-       startPanX = e.clientX - originX;
-       startPanY = e.clientY - originY;
-      lightboxImg.style.cursor = 'grabbing';
-    });
-
-    document.addEventListener('mouseup', () => {
-      isPanning = false;
-      if (scale > 1) lightboxImg.style.cursor = 'grab';
-    });
-
-    document.addEventListener('mousemove', (e) => {
-      if (!isPanning) return;
-      originX = e.clientX - startPanX;
-  originY = e.clientY - startPanY;
-      applyTransform();
-    });
-
+    
     lightboxImg.addEventListener('dblclick', () => {
       if (scale === 1) {
         scale = 2;
