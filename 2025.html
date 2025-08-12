@@ -254,9 +254,8 @@
   lightboxImg.style.position = 'absolute';
   lightboxImg.style.top = '50%';
   lightboxImg.style.left = '50%';
+  lightboxImg.style.transform = `translate(calc(-50% + ${originX}px), calc(-50% + ${originY}px)) scale(${scale})`;
   lightboxImg.style.cursor = scale > 1 ? 'grab' : 'default';
-  // transform 순서 유지: 이미지 중앙 맞추기 후 scale & translate
-  lightboxImg.style.transform = `translate(-50%, -50%) scale(${scale}) translate(${originX}px, ${originY}px)`;
 }
 
    lightboxImg.addEventListener('wheel', (e) => {
@@ -279,8 +278,8 @@
     lightboxImg.addEventListener('mousedown', (e) => {
       if (scale <= 1) return;
       isPanning = true;
-       startPanX = e.clientX - originX * scale;
-       startPanY = e.clientY - originY * scale;
+       startPanX = e.clientX - originX;
+       startPanY = e.clientY - originY;
       lightboxImg.style.cursor = 'grabbing';
     });
 
@@ -291,8 +290,8 @@
 
     document.addEventListener('mousemove', (e) => {
       if (!isPanning) return;
-      originX = (e.clientX - startPanX) / scale;
-      originY = (e.clientY - startPanY) / scale;
+      originX = e.clientX - startPanX;
+  originY = e.clientY - startPanY;
       applyTransform();
     });
 
