@@ -20,19 +20,17 @@
       font-size: 10pt;
       font-weight: 300;
       display: flex;
-       gap: 0; /* gap 없앰 */
+      gap: 0;
       justify-content: flex-start;
-       margin-bottom: 24px; 
-
+      margin-bottom: 24px;
     }
     .year-list a {
       color: inherit;
       text-decoration: none;
       flex-grow: 0;
       width: auto;
-      margin-right: 0.3em; /* 숫자 간격을 여기서 직접 조절 */
+      margin-right: 0.3em;
       white-space: nowrap;
-
     }
     .year-list a:last-child {
       margin-right: 0;
@@ -40,15 +38,15 @@
     .gallery {
       display: flex;
       flex-wrap: wrap;
-      gap: 15px;    /* 이미지 사이 간격 */
+      gap: 15px;
     }
- .gallery img {
-  height: 240px;   /* 높이를 일정하게 고정 */
-  width: auto;     /* 비율에 맞게 너비 자동 조절 */
-  cursor: pointer;
-  border-radius: 4px;
-  object-fit: contain; /* 비율 유지 */
-}
+    .gallery img {
+      height: 240px;
+      width: auto;
+      cursor: pointer;
+      border-radius: 4px;
+      object-fit: contain;
+    }
     @media (max-width: 768px) {
       body { margin-left: 120px; padding: 40px 16px; }
       .year-list { font-size: 8pt; gap: 0.8em; flex-wrap: nowrap; }
@@ -80,18 +78,18 @@
       opacity: 1;
     }
     .lightbox-caption {
-  color: #fff;
-  font-size: 14px;
-  margin-top: 12px;
-  text-align: center;         /* 중앙 정렬 */
-  display: none;
-  position: absolute;         /* 절대 위치로 */
-  bottom: 40px;               /* 화면 아래에서 위로 40px 위치 */
-  left: 50%;                  /* 가운데 기준 */
-  transform: translateX(-50%);/* 수평 중앙 정렬 */
-  width: auto;                /* 텍스트 길이에 따라 */
-  max-width: 90%;
-}
+      color: #fff;
+      font-size: 14px;
+      margin-top: 12px;
+      text-align: center;
+      display: none;
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: auto;
+      max-width: 90%;
+    }
     .lightbox.show .lightbox-caption {
       display: block;
     }
@@ -127,53 +125,63 @@
   <div id="menu-container"></div>
 
   <div class="year-list">
-        <a href="2025.html">2025</a>
+    <a href="2025.html">2025</a>
   </div>
 
   <div class="gallery" id="gallery">
-    <img src="2025loggia/img1.jpg" data-caption="Breath of the Hollow, 2025, Engraving and Watercolor on Panel, Pendulum, 400x120x120cm
+    <!-- Hollow 그룹 -->
+    <img src="2025loggia/img1.jpg" data-group="hollow" data-caption="Breath of the Hollow, 2025, Engraving and Watercolor on Panel, Pendulum, 400x120x120cm" alt="">
+    <img src="2025loggia/img2.jpg" data-group="hollow" data-caption="Breath of the Hollow, 2025, Engraving and Watercolor on Panel, Pendulum, 400x120x120cm" alt=""style="visibility: hidden; position: absolute; width: 0; height: 0; overflow: hidden;">
+    <img src="2025loggia/img3.jpg" data-group="hollow" data-caption="Breath of the Hollow, 2025, Engraving and Watercolor on Panel, Pendulum, 400x120x120cm" alt=""style="visibility: hidden; position: absolute; width: 0; height: 0; overflow: hidden;">
+    <img src="2025loggia/img4.jpg" data-group="hollow" data-caption="Breath of the Hollow, 2025, Engraving and Watercolor on Panel, Pendulum, 400x120x120cm" alt=""style="visibility: hidden; position: absolute; width: 0; height: 0; overflow: hidden;">
+     <img src="2025loggia/img1-1.jpg" data-group="hollow" data-caption="detail" alt=""style="visibility: hidden; position: absolute; width: 0; height: 0; overflow: hidden;">
+    <img src="2025loggia/img1-2.jpg" data-group="hollow" data-caption="detail" alt=""style="visibility: hidden; position: absolute; width: 0; height: 0; overflow: hidden;">
+    
+    <!-- 개별 그룹들 -->
+    <img src="2025loggia/img5.jpg" data-group="threshold" data-caption="Threshold Guard, 2025, Engraving and Watercolor on Panel, Iron Ball, 165x71cm
 " alt="">
- <img src="2025loggia/img2.jpg" data-caption="Breath of the Hollow, 2025, Engraving and Watercolor on Panel, Pendulum, 400x120x120cm
+    <img src="2025loggia/img6.jpg" data-group="observer" data-caption="Silent Observer, 2025, Engraving and Watercolor on Panel, Iron Ball, 175x62.5cm
 " alt="">
- <img src="2025loggia/img3.jpg" data-caption="Breath of the Hollow, 2025, Engraving and Watercolor on Panel, Pendulum, 400x120x120cm
+    <img src="2025loggia/img6-1.jpg" data-group="observer" data-caption="detail" alt=""style="visibility: hidden; position: absolute; width: 0; height: 0; overflow: hidden;">
+      <img src="2025loggia/img6-2.jpg" data-group="observer" data-caption="detail" alt=""style="visibility: hidden; position: absolute; width: 0; height: 0; overflow: hidden;">
+    <img src="2025loggia/img7.jpg" data-group="echo" data-caption="Echo Keeper, 2025, Engraving and Watercolor on Panel, Iron Ball, 122.5x79cm
 " alt="">
- <img src="2025loggia/img4.jpg" data-caption="Breath of the Hollow, 2025, Engraving and Watercolor on Panel, Pendulum, 400x120x120cm
+      <img src="2025loggia/img7-1.jpg" data-group="echo" data-caption="detail" alt=""style="visibility: hidden; position: absolute; width: 0; height: 0; overflow: hidden;">
+      <img src="2025loggia/img7-2.jpg" data-group="echo" data-caption="detail" alt=""style="visibility: hidden; position: absolute; width: 0; height: 0; overflow: hidden;">
+    
+    <!-- Room 그룹 -->
+    <img src="2025loggia/img8.jpg" data-group="room" data-caption="A Room Without Looking, 2025, Paper(frotage), 41x164cm
 " alt="">
- <img src="2025loggia/img5.jpg" data-caption="Threshold Guard, 2025, Engraving and Watercolor on Panel, Iron Ball, 165x71cm
-" alt="">
- <img src="2025loggia/img6.jpg" data-caption="Silent Observer, 2025, Engraving and Watercolor on Panel, Iron Ball, 175x62.5cm
-" alt="">
- <img src="2025loggia/img7.jpg" data-caption="Echo Keeper, 2025, Engraving and Watercolor on Panel, Iron Ball, 122.5x79cm
-" alt="">
- <img src="2025loggia/img8.jpg" data-caption="A Room Without Looking, 2025, Paper(frotage), 41x164cm
-" alt="">
- <img src="2025loggia/img9.jpg" data-caption="A Room Without Looking, 2025, Paper(frotage), 41x164cm
-" alt="">
- <img src="2025loggia/img10.jpg" data-caption="A Room Without Looking, 2025, Paper(frotage), 41x164cm
-" alt="">
- <img src="2025loggia/img11.jpg" data-caption="A Room Without Looking, 2025, Paper(frotage), 41x164cm
-" alt="">
- <img src="2025loggia/img12.jpg" data-caption="As It Sank In, 2025, Plaster, 21x15.5cm
-" alt="">
- <img src="2025loggia/img13.jpg" data-caption=" As It Sank In, 2025, Plaster, 21x15.5cm
-" alt="">
- <img src="2025loggia/img14.jpg" data-caption="Shadowlight, 2025, Engraving and Watercolor on Panel, 30x30cm
-" alt="">
- <img src="2025loggia/img15.jpg" data-caption="Where Color Hesitates, 2025, Engraving and Watercolor on Panel, 39x160cm
-" alt="">
- <img src="2025loggia/img16.jpg" data-caption="Through the Quiet Veil, 2025, Engraving and Watercolor on Panel, Plaster, 170x60cm
-" alt="">
- <img src="2025loggia/img17.jpg" data-caption="Beyond the Quiet Veil, 2025, Engraving and Watercolor on Panel, Plaster, 170x60cm
+    <img src="2025loggia/img9.jpg" data-group="room" data-caption="A Room Without Looking, 2025, Paper(frotage), 41x164cm
+" alt=""style="visibility: hidden; position: absolute; width: 0; height: 0; overflow: hidden;">
+    <img src="2025loggia/img10.jpg" data-group="room" data-caption="A Room Without Looking, 2025, Paper(frotage), 41x164cm
+" alt=""style="visibility: hidden; position: absolute; width: 0; height: 0; overflow: hidden;">
+    <img src="2025loggia/img11.jpg" data-group="room" data-caption="A Room Without Looking, 2025, Paper(frotage), 41x164cm
+" alt=""style="visibility: hidden; position: absolute; width: 0; height: 0; overflow: hidden;">
+
+    <!-- Sink 그룹 -->
+    <img src="2025loggia/img12.jpg"  data-caption="As It Sank In, 2025, Plaster, 21x15.5cm" alt="">
+    <img src="2025loggia/img13.jpg"  data-caption="As It Sank In, 2025, Plaster, 21x15.5cm
 " alt="">
 
-    
-    <img src="2025surgicalroom/img1.jpg" data-caption="As It Dissolves, 2025, Engraving and watercolour on panel, 79 x 45cm
+    <img src="2025loggia/img14.jpg" data-group="shadow" data-caption="Shadowlight, 2025, Engraving and Watercolor on Panel, 30x30cm
+" alt="">
+     <img src="2025loggia/img14-1.jpg" data-group="shadow" data-caption="detail" alt=""style="visibility: hidden; position: absolute; width: 0; height: 0; overflow: hidden;">
+    <img src="2025loggia/img15.jpg" data-group="color" data-caption="Where Color Hesitates, 2025, Engraving and Watercolor on Panel, 39x160cm
+" alt="">
+    <img src="2025loggia/img16.jpg"  data-caption="Through the Quiet Veil, 2025, Engraving and Watercolor on Panel, Plaster, 170x60cm
+" alt="">
+    <img src="2025loggia/img17.jpg"  data-caption="Beyond the Quiet Veil, 2025, Engraving and Watercolor on Panel, Plaster, 170x60cm
+" alt="">
+
+    <!-- Surgicalroom 그룹 -->
+    <img src="2025surgicalroom/img1.jpg"  data-caption="As It Dissolves, 2025, Engraving and watercolour on panel, 79 x 45cm
 " alt="">
     <img src="2025surgicalroom/img2.jpg" data-caption="Pale Diaphanous Droplet, 2025, Engraving and watercolour on panel, 122 x 60cm
 " alt="">
-    <img src="2025surgicalroom/img3.jpg" data-caption="Before It falls, 2025, Engraving and watercolour on panel, 120 x 70cm
+    <img src="2025surgicalroom/img3.jpg"  data-caption="Before It falls, 2025, Engraving and watercolour on panel, 120 x 70cm
 " alt="">
-    <img src="2025surgicalroom/img4.jpg" data-caption="The Breathing Stillness, 2025, Engraving and watercolour on panel, 23 x 18cm" alt="">
+    <img src="2025surgicalroom/img4.jpg"  data-caption="The Breathing Stillness, 2025, Engraving and watercolour on panel, 23 x 18cm" alt="">
   </div>
 
   <div class="lightbox" id="lightbox">
@@ -188,14 +196,12 @@
       .then(response => response.text())
       .then(data => {
         document.getElementById('menu-container').innerHTML = data;
-
         window.toggleProjectMenu = function(e, submenuId) {
           e.preventDefault();
           const submenu1 = document.getElementById('projectSubmenu1');
           const submenu2 = document.getElementById('projectSubmenu2');
           const targetSubmenu = document.getElementById(submenuId);
           if (!targetSubmenu) return;
-
           if (submenuId === 'projectSubmenu1' && submenu2.classList.contains('show')) {
             submenu2.style.maxHeight = null;
             submenu2.classList.remove('show');
@@ -203,7 +209,6 @@
             submenu1.style.maxHeight = null;
             submenu1.classList.remove('show');
           }
-
           if (targetSubmenu.classList.contains('show')) {
             targetSubmenu.style.maxHeight = null;
             targetSubmenu.classList.remove('show');
@@ -214,30 +219,80 @@
         }
       });
 
-    const images = document.querySelectorAll('.gallery img');
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImg = lightbox.querySelector('img');
-    const caption = document.getElementById('caption');
-    let currentIndex = 0;
+   const images = Array.from(document.querySelectorAll('.gallery img')).filter(img => img.style.display !== 'none');
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = lightbox.querySelector('img');
+const caption = document.getElementById('caption');
 
-    function showImage(index) {
-      currentIndex = index;
-      lightboxImg.src = images[index].src;
-      caption.textContent = images[index].dataset.caption || '';
-      lightbox.classList.add('show');
-      lightbox.style.display = 'flex';
+ let fullImageSequence = [];  // 전체 순서
+let currentIndex = 0;
 
-      // 줌 초기화
-      scale = 1;
-      originX = 0;
-      originY = 0;
-      applyTransform();
+function showImage(index) {
+  currentIndex = index;
+  const img = fullImageSequence[currentIndex];
+  lightboxImg.src = img.src;
+  caption.textContent = img.dataset.caption || '';
+  lightbox.classList.add('show');
+  lightbox.style.display = 'flex';
+  scale = 1;
+  originX = 0;
+  originY = 0;
+  applyTransform();
+}
+
+    images.forEach((img) => {
+     img.addEventListener('click', () => {
+    const clickedIndex = images.indexOf(img);
+    const groupName = img.dataset.group;
+
+    let groupImages = [];
+    if (groupName) {
+      groupImages = images.filter(i => i.dataset.group === groupName);
+    } else {
+      groupImages = [img];
     }
 
-    images.forEach((img, idx) => {
-      img.addEventListener('click', () => showImage(idx));
-    });
+    const firstGroupIndex = images.indexOf(groupImages[0]);
 
+    fullImageSequence = [
+      ...groupImages,
+      ...images.slice(firstGroupIndex + groupImages.length),
+      ...images.slice(0, firstGroupIndex)
+        .filter(i => !groupImages.includes(i))
+    ];
+
+    currentIndex = 0;
+    showImage(currentIndex);
+  });
+});
+
+    document.getElementById('prev').addEventListener('click', (e) => {
+  e.stopPropagation();
+  currentIndex = (currentIndex - 1 + fullImageSequence.length) % fullImageSequence.length;
+  showImage(currentIndex);
+});
+
+document.getElementById('next').addEventListener('click', (e) => {
+  e.stopPropagation();
+  currentIndex = (currentIndex + 1) % fullImageSequence.length;
+  showImage(currentIndex);
+});
+
+   document.addEventListener('keydown', (e) => {
+  if (lightbox.style.display === 'flex') {
+    if (e.key === 'ArrowRight') {
+      currentIndex = (currentIndex + 1) % fullImageSequence.length;
+      showImage(currentIndex);
+    } else if (e.key === 'ArrowLeft') {
+      currentIndex = (currentIndex - 1 + fullImageSequence.length) % fullImageSequence.length;
+      showImage(currentIndex);
+    } else if (e.key === 'Escape') {
+      lightbox.style.display = 'none';
+      lightbox.classList.remove('show');
+    }
+  }
+});
+    
     lightbox.addEventListener('click', (e) => {
       if (e.target === lightbox) {
         lightbox.style.display = 'none';
@@ -245,34 +300,6 @@
       }
     });
 
-    document.getElementById('prev').addEventListener('click', (e) => {
-      e.stopPropagation();
-      currentIndex = (currentIndex - 1 + images.length) % images.length;
-      showImage(currentIndex);
-    });
-
-    document.getElementById('next').addEventListener('click', (e) => {
-      e.stopPropagation();
-      currentIndex = (currentIndex + 1) % images.length;
-      showImage(currentIndex);
-    });
-
-    document.addEventListener('keydown', (e) => {
-      if (lightbox.style.display === 'flex') {
-        if (e.key === 'ArrowLeft') {
-          currentIndex = (currentIndex - 1 + images.length) % images.length;
-          showImage(currentIndex);
-        } else if (e.key === 'ArrowRight') {
-          currentIndex = (currentIndex + 1) % images.length;
-          showImage(currentIndex);
-        } else if (e.key === 'Escape') {
-          lightbox.style.display = 'none';
-          lightbox.classList.remove('show');
-        }
-      }
-    });
-
-    // 모바일 스와이프
     let startX = 0;
     lightbox.addEventListener('touchstart', (e) => {
       startX = e.touches[0].clientX;
@@ -280,15 +307,15 @@
     lightbox.addEventListener('touchend', (e) => {
       let endX = e.changedTouches[0].clientX;
       if (startX - endX > 50) {
-        currentIndex = (currentIndex + 1) % images.length;
-        showImage(currentIndex);
+        currentGroupIndex = (currentGroupIndex + 1) % currentGroup.length;
+        showImageInGroup(currentGroupIndex, currentGroup);
       } else if (endX - startX > 50) {
-        currentIndex = (currentIndex - 1 + images.length) % images.length;
-        showImage(currentIndex);
+        currentGroupIndex = (currentGroupIndex - 1 + currentGroup.length) % currentGroup.length;
+        showImageInGroup(currentGroupIndex, currentGroup);
       }
     });
 
-    // 🔍 줌 기능 스크립트 시작
+    // 줌 기능
     let scale = 1;
     let originX = 0;
     let originY = 0;
@@ -296,36 +323,33 @@
     let startPanX = 0;
     let startPanY = 0;
 
-   function applyTransform() {
-  lightboxImg.style.position = 'absolute';
-  lightboxImg.style.top = '50%';
-  lightboxImg.style.left = '50%';
-  lightboxImg.style.transform = `translate(calc(-50% + ${originX}px), calc(-50% + ${originY}px)) scale(${scale})`;
-  lightboxImg.style.cursor = scale > 1 ? 'grab' : 'default';
-}
-
-   lightboxImg.addEventListener('wheel', (e) => {
-  e.preventDefault();
-  const zoomIntensity = 0.1;
-
-  if (e.deltaY < 0) {
-    scale = Math.min(5, scale + zoomIntensity);
-  } else {
-    scale = Math.max(1, scale - zoomIntensity);
-    if (scale === 1) {
-      originX = 0;
-      originY = 0;
+    function applyTransform() {
+      lightboxImg.style.position = 'absolute';
+      lightboxImg.style.top = '50%';
+      lightboxImg.style.left = '50%';
+      lightboxImg.style.transform = `translate(calc(-50% + ${originX}px), calc(-50% + ${originY}px)) scale(${scale})`;
+      lightboxImg.style.cursor = scale > 1 ? 'grab' : 'default';
     }
-  }
 
+    lightboxImg.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      const zoomIntensity = 0.1;
+      if (e.deltaY < 0) {
+        scale = Math.min(5, scale + zoomIntensity);
+      } else {
+        scale = Math.max(1, scale - zoomIntensity);
+        if (scale === 1) {
+          originX = 0;
+          originY = 0;
+        }
+      }
       applyTransform();
     });
 
     lightboxImg.addEventListener('mousedown', (e) => {
       if (scale <= 1) return;
       isPanning = true;
-       
-       startPanY = e.clientY - originY;
+      startPanY = e.clientY - originY;
       lightboxImg.style.cursor = 'grabbing';
     });
 
@@ -336,8 +360,7 @@
 
     document.addEventListener('mousemove', (e) => {
       if (!isPanning) return;
-      
-  originY = e.clientY - startPanY;
+      originY = e.clientY - startPanY;
       applyTransform();
     });
 
@@ -361,8 +384,8 @@
         initialDistance = Math.sqrt(dx * dx + dy * dy);
       } else if (e.touches.length === 1 && scale > 1) {
         isPanning = true;
-        startPanX = e.touches[0].clientX - originX * scale; 
-        startPanY = e.touches[0].clientY - originY * scale; 
+        startPanX = e.touches[0].clientX - originX * scale;
+        startPanY = e.touches[0].clientY - originY * scale;
       }
     });
 
@@ -372,22 +395,20 @@
         const dx = e.touches[0].clientX - e.touches[1].clientX;
         const dy = e.touches[0].clientY - e.touches[1].clientY;
         const newDistance = Math.sqrt(dx * dx + dy * dy);
-
         const zoomFactor = newDistance / initialDistance;
         scale = Math.min(5, Math.max(1, scale * zoomFactor));
         initialDistance = newDistance;
         applyTransform();
       } else if (e.touches.length === 1 && isPanning) {
-        originX = (e.touches[0].clientX - startPanX) / scale;  // ← 여기 수정
-        originY = (e.touches[0].clientY - startPanY) / scale;  // ← 여기 수정
+        originX = (e.touches[0].clientX - startPanX) / scale;
+        originY = (e.touches[0].clientY - startPanY) / scale;
         applyTransform();
       }
     });
 
-    lightboxImg.addEventListener('touchend', (e) => {
+    lightboxImg.addEventListener('touchend', () => {
       isPanning = false;
     });
-    // 🔍 줌 기능 스크립트 끝
   </script>
 </body>
 </html>
