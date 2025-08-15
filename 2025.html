@@ -131,27 +131,27 @@
   </div>
 
   <div class="gallery" id="gallery">
-    <img src="2025loggia/img1.jpg" data-caption="Breath of the Hollow, 2025, Engraving and Watercolor on Panel, Pendulum, 400x120x120cm
+    <img src="2025loggia/img1.jpg" data-group="hollow" data-caption="Breath of the Hollow, 2025, Engraving and Watercolor on Panel, Pendulum, 400x120x120cm
 " alt="">
- <img src="2025loggia/img2.jpg" data-caption="Breath of the Hollow, 2025, Engraving and Watercolor on Panel, Pendulum, 400x120x120cm
+ <img src="2025loggia/img2.jpg" data-group="hollow" data-caption="Breath of the Hollow, 2025, Engraving and Watercolor on Panel, Pendulum, 400x120x120cm
 " alt="">
- <img src="2025loggia/img3.jpg" data-caption="Breath of the Hollow, 2025, Engraving and Watercolor on Panel, Pendulum, 400x120x120cm
+ <img src="2025loggia/img3.jpg" data-group="hollow" data-caption="Breath of the Hollow, 2025, Engraving and Watercolor on Panel, Pendulum, 400x120x120cm
 " alt="">
- <img src="2025loggia/img4.jpg" data-caption="Breath of the Hollow, 2025, Engraving and Watercolor on Panel, Pendulum, 400x120x120cm
+ <img src="2025loggia/img4.jpg" data-group="hollow" data-caption="Breath of the Hollow, 2025, Engraving and Watercolor on Panel, Pendulum, 400x120x120cm
 " alt="">
- <img src="2025loggia/img5.jpg" data-caption="Threshold Guard, 2025, Engraving and Watercolor on Panel, Iron Ball, 165x71cm
+ <img src="2025loggia/img5.jpg" data-group="threshold" data-caption="Threshold Guard, 2025, Engraving and Watercolor on Panel, Iron Ball, 165x71cm
 " alt="">
  <img src="2025loggia/img6.jpg" data-caption="Silent Observer, 2025, Engraving and Watercolor on Panel, Iron Ball, 175x62.5cm
 " alt="">
  <img src="2025loggia/img7.jpg" data-caption="Echo Keeper, 2025, Engraving and Watercolor on Panel, Iron Ball, 122.5x79cm
 " alt="">
- <img src="2025loggia/img8.jpg" data-caption="A Room Without Looking, 2025, Paper(frotage), 41x164cm
+ <img src="2025loggia/img8.jpg" data-group="room" data-caption="A Room Without Looking, 2025, Paper(frotage), 41x164cm
 " alt="">
- <img src="2025loggia/img9.jpg" data-caption="A Room Without Looking, 2025, Paper(frotage), 41x164cm
+ <img src="2025loggia/img9.jpg" data-group="room" data-caption="A Room Without Looking, 2025, Paper(frotage), 41x164cm
 " alt="">
- <img src="2025loggia/img10.jpg" data-caption="A Room Without Looking, 2025, Paper(frotage), 41x164cm
+ <img src="2025loggia/img10.jpg" data-group="room" data-caption="A Room Without Looking, 2025, Paper(frotage), 41x164cm
 " alt="">
- <img src="2025loggia/img11.jpg" data-caption="A Room Without Looking, 2025, Paper(frotage), 41x164cm
+ <img src="2025loggia/img11.jpg" data-group="room" data-caption="A Room Without Looking, 2025, Paper(frotage), 41x164cm
 " alt="">
  <img src="2025loggia/img12.jpg" data-caption="As It Sank In, 2025, Plaster, 21x15.5cm
 " alt="">
@@ -218,12 +218,16 @@
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = lightbox.querySelector('img');
     const caption = document.getElementById('caption');
-    let currentIndex = 0;
+    let currentGroup = [];
+let currentGroupIndex = 0;
 
-    function showImage(index) {
-      currentIndex = index;
-      lightboxImg.src = images[index].src;
-      caption.textContent = images[index].dataset.caption || '';
+
+   function showImageInGroup(index, groupImages) {
+  currentGroup = groupImages;
+  currentGroupIndex = index;
+  const img = currentGroup[currentGroupIndex];
+  lightboxImg.src = img.src;
+  caption.textContent = img.dataset.caption || '';
       lightbox.classList.add('show');
       lightbox.style.display = 'flex';
 
@@ -234,8 +238,11 @@
       applyTransform();
     }
 
-    images.forEach((img, idx) => {
-      img.addEventListener('click', () => showImage(idx));
+   img.addEventListener('click', () => {
+  const groupName = img.dataset.group;
+  const groupImages = Array.from(images).filter(i => i.dataset.group === groupName);
+  const indexInGroup = groupImages.indexOf(img);
+  showImageInGroup(indexInGroup, groupImages);
     });
 
     lightbox.addEventListener('click', (e) => {
@@ -252,19 +259,19 @@
     });
 
     document.getElementById('next').addEventListener('click', (e) => {
-      e.stopPropagation();
-      currentIndex = (currentIndex + 1) % images.length;
-      showImage(currentIndex);
+  e.stopPropagation();
+  currentGroupIndex = (currentGroupIndex + 1) % currentGroup.length;
+  showImageInGroup(currentGroupIndex, currentGroup);
     });
 
     document.addEventListener('keydown', (e) => {
       if (lightbox.style.display === 'flex') {
-        if (e.key === 'ArrowLeft') {
-          currentIndex = (currentIndex - 1 + images.length) % images.length;
-          showImage(currentIndex);
-        } else if (e.key === 'ArrowRight') {
-          currentIndex = (currentIndex + 1) % images.length;
-          showImage(currentIndex);
+      if (e.key === 'ArrowLeft') {
+  currentGroupIndex = (currentGroupIndex - 1 + currentGroup.length) % currentGroup.length;
+  showImageInGroup(currentGroupIndex, currentGroup);
+} else if (e.key === 'ArrowRight') {
+  currentGroupIndex = (currentGroupIndex + 1) % currentGroup.length;
+  showImageInGroup(currentGroupIndex, currentGroup);
         } else if (e.key === 'Escape') {
           lightbox.style.display = 'none';
           lightbox.classList.remove('show');
@@ -280,12 +287,12 @@
     lightbox.addEventListener('touchend', (e) => {
       let endX = e.changedTouches[0].clientX;
       if (startX - endX > 50) {
-        currentIndex = (currentIndex + 1) % images.length;
-        showImage(currentIndex);
-      } else if (endX - startX > 50) {
-        currentIndex = (currentIndex - 1 + images.length) % images.length;
-        showImage(currentIndex);
-      }
+    currentGroupIndex = (currentGroupIndex + 1) % currentGroup.length;
+    showImageInGroup(currentGroupIndex, currentGroup);
+  } else if (endX - startX > 50) {
+    currentGroupIndex = (currentGroupIndex - 1 + currentGroup.length) % currentGroup.length;
+    showImageInGroup(currentGroupIndex, currentGroup);
+  }
     });
 
     // 🔍 줌 기능 스크립트 시작
