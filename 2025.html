@@ -243,10 +243,9 @@
 
     images.forEach((img) => {
       img.addEventListener('click', () => {
-        const groupName = img.dataset.group;
-        const groupImages = Array.from(images).filter(i => i.dataset.group === groupName);
-        const indexInGroup = groupImages.indexOf(img);
-        showImageInGroup(indexInGroup, groupImages);
+        const allImages = Array.from(images).filter(img => img.style.display !== 'none');
+const indexInAll = allImages.indexOf(img);
+showImageInGroup(indexInAll, allImages);
       });
     });
 
