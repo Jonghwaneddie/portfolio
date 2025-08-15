@@ -219,63 +219,80 @@
         }
       });
 
-    const images = document.querySelectorAll('.gallery img');
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImg = lightbox.querySelector('img');
-    const caption = document.getElementById('caption');
+   const images = Array.from(document.querySelectorAll('.gallery img')).filter(img => img.style.display !== 'none');
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = lightbox.querySelector('img');
+const caption = document.getElementById('caption');
 
-    let currentGroup = [];
-    let currentGroupIndex = 0;
+ let fullImageSequence = [];  // 전체 순서
+let currentIndex = 0;
 
-    function showImageInGroup(index, groupImages) {
-      currentGroup = groupImages;
-      currentGroupIndex = index;
-      const img = currentGroup[currentGroupIndex];
-      lightboxImg.src = img.src;
-      caption.textContent = img.dataset.caption || '';
-      lightbox.classList.add('show');
-      lightbox.style.display = 'flex';
-      scale = 1;
-      originX = 0;
-      originY = 0;
-      applyTransform();
-    }
+function showImage(index) {
+  currentIndex = index;
+  const img = fullImageSequence[currentIndex];
+  lightboxImg.src = img.src;
+  caption.textContent = img.dataset.caption || '';
+  lightbox.classList.add('show');
+  lightbox.style.display = 'flex';
+  scale = 1;
+  originX = 0;
+  originY = 0;
+  applyTransform();
+}
 
     images.forEach((img) => {
-      img.addEventListener('click', () => {
-        const allImages = Array.from(images).filter(img => img.style.display !== 'none');
-const indexInAll = allImages.indexOf(img);
-showImageInGroup(indexInAll, allImages);
-      });
-    });
+     img.addEventListener('click', () => {
+    const clickedIndex = images.indexOf(img);
+    const groupName = img.dataset.group;
+
+    let groupImages = [];
+    if (groupName) {
+      groupImages = images.filter(i => i.dataset.group === groupName);
+    } else {
+      groupImages = [img];
+    }
+
+    const firstGroupIndex = images.indexOf(groupImages[0]);
+
+    fullImageSequence = [
+      ...groupImages,
+      ...images.slice(firstGroupIndex + groupImages.length),
+      ...images.slice(0, firstGroupIndex)
+        .filter(i => !groupImages.includes(i))
+    ];
+
+    currentIndex = 0;
+    showImage(currentIndex);
+  });
+});
 
     document.getElementById('prev').addEventListener('click', (e) => {
-      e.stopPropagation();
-      currentGroupIndex = (currentGroupIndex - 1 + currentGroup.length) % currentGroup.length;
-      showImageInGroup(currentGroupIndex, currentGroup);
-    });
+  e.stopPropagation();
+  currentIndex = (currentIndex - 1 + fullImageSequence.length) % fullImageSequence.length;
+  showImage(currentIndex);
+});
 
-    document.getElementById('next').addEventListener('click', (e) => {
-      e.stopPropagation();
-      currentGroupIndex = (currentGroupIndex + 1) % currentGroup.length;
-      showImageInGroup(currentGroupIndex, currentGroup);
-    });
+document.getElementById('next').addEventListener('click', (e) => {
+  e.stopPropagation();
+  currentIndex = (currentIndex + 1) % fullImageSequence.length;
+  showImage(currentIndex);
+});
 
-    document.addEventListener('keydown', (e) => {
-      if (lightbox.style.display === 'flex') {
-        if (e.key === 'ArrowLeft') {
-          currentGroupIndex = (currentGroupIndex - 1 + currentGroup.length) % currentGroup.length;
-          showImageInGroup(currentGroupIndex, currentGroup);
-        } else if (e.key === 'ArrowRight') {
-          currentGroupIndex = (currentGroupIndex + 1) % currentGroup.length;
-          showImageInGroup(currentGroupIndex, currentGroup);
-        } else if (e.key === 'Escape') {
-          lightbox.style.display = 'none';
-          lightbox.classList.remove('show');
-        }
-      }
-    });
-
+   document.addEventListener('keydown', (e) => {
+  if (lightbox.style.display === 'flex') {
+    if (e.key === 'ArrowRight') {
+      currentIndex = (currentIndex + 1) % fullImageSequence.length;
+      showImage(currentIndex);
+    } else if (e.key === 'ArrowLeft') {
+      currentIndex = (currentIndex - 1 + fullImageSequence.length) % fullImageSequence.length;
+      showImage(currentIndex);
+    } else if (e.key === 'Escape') {
+      lightbox.style.display = 'none';
+      lightbox.classList.remove('show');
+    }
+  }
+});
+    
     lightbox.addEventListener('click', (e) => {
       if (e.target === lightbox) {
         lightbox.style.display = 'none';
