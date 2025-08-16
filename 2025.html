@@ -266,16 +266,18 @@ function showImage(index) {
   });
 });
 
-    document.getElementById('prev').addEventListener('click', (e) => {
-  e.stopPropagation();
-  currentIndex = (currentIndex - 1 + fullImageSequence.length) % fullImageSequence.length;
-  showImage(currentIndex);
-});
+  ['click', 'touchstart'].forEach(evt => {
+  document.getElementById('prev').addEventListener(evt, (e) => {
+    e.stopPropagation();
+    currentIndex = (currentIndex - 1 + fullImageSequence.length) % fullImageSequence.length;
+    showImage(currentIndex);
+  });
 
-document.getElementById('next').addEventListener('click', (e) => {
-  e.stopPropagation();
-  currentIndex = (currentIndex + 1) % fullImageSequence.length;
-  showImage(currentIndex);
+  document.getElementById('next').addEventListener(evt, (e) => {
+    e.stopPropagation();
+    currentIndex = (currentIndex + 1) % fullImageSequence.length;
+    showImage(currentIndex);
+  });
 });
 
    document.addEventListener('keydown', (e) => {
@@ -293,27 +295,30 @@ document.getElementById('next').addEventListener('click', (e) => {
   }
 });
     
-    lightbox.addEventListener('click', (e) => {
-      if (e.target === lightbox) {
-        lightbox.style.display = 'none';
-        lightbox.classList.remove('show');
-      }
-    });
+  ['click', 'touchend'].forEach(evt => {
+  lightbox.addEventListener(evt, (e) => {
+    if (e.target === lightbox) {
+      lightbox.style.display = 'none';
+      lightbox.classList.remove('show');
+    }
+  });
+});
 
     let startX = 0;
-    lightbox.addEventListener('touchstart', (e) => {
-      startX = e.touches[0].clientX;
-    });
-    lightbox.addEventListener('touchend', (e) => {
-      let endX = e.changedTouches[0].clientX;
-      if (startX - endX > 50) {
-        currentGroupIndex = (currentGroupIndex + 1) % currentGroup.length;
-        showImageInGroup(currentGroupIndex, currentGroup);
-      } else if (endX - startX > 50) {
-        currentGroupIndex = (currentGroupIndex - 1 + currentGroup.length) % currentGroup.length;
-        showImageInGroup(currentGroupIndex, currentGroup);
-      }
-    });
+   lightbox.addEventListener('touchstart', (e) => {
+  startX = e.touches[0].clientX;
+});
+
+lightbox.addEventListener('touchend', (e) => {
+  let endX = e.changedTouches[0].clientX;
+  if (startX - endX > 50) {
+    currentIndex = (currentIndex + 1) % fullImageSequence.length;
+    showImage(currentIndex);
+  } else if (endX - startX > 50) {
+    currentIndex = (currentIndex - 1 + fullImageSequence.length) % fullImageSequence.length;
+    showImage(currentIndex);
+  }
+});
 
     // 줌 기능
     let scale = 1;
