@@ -117,7 +117,10 @@
     .arrow:hover {
       background: rgba(255,255,255,0.4);
     }
-    .arrow.left { left: 20px; }
+    .arrow.left {
+  left: 20px;
+  z-index: 1010; /* 버튼이 이미지 위에 올라오도록 */
+}
     .arrow.right { right: 20px; }
     @keyframes fadeIn {
       from { opacity: 0; }
@@ -331,11 +334,7 @@ nextBtn.addEventListener('click', goToNextImage);
   });
 });
     let startX = 0;
-    lightbox.addEventListener('touchstart', (e) => {
-      startX = e.touches[0].clientX;
-    });
-
-    lightbox.addEventListener('touchstart', (e) => {
+   lightbox.addEventListener('touchstart', (e) => {
   startX = e.touches[0].clientX;
 });
 
