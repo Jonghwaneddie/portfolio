@@ -274,19 +274,41 @@ function showImage(index) {
   });
 });
 
-  ['click', 'touchstart'].forEach(evt => {
-  document.getElementById('prev').addEventListener(evt, (e) => {
-    e.stopPropagation();
-    currentIndex = (currentIndex - 1 + fullImageSequence.length) % fullImageSequence.length;
-    showImage(currentIndex);
-  });
+    let lastTouchTime = 0;
 
-  document.getElementById('next').addEventListener(evt, (e) => {
-    e.stopPropagation();
-    currentIndex = (currentIndex + 1) % fullImageSequence.length;
-    showImage(currentIndex);
-  });
+function goToPrevImage(e) {
+  const now = new Date().getTime();
+  if (e.type === 'click' && now - lastTouchTime < 500) return;
+  e.stopPropagation();
+  currentIndex = (currentIndex - 1 + fullImageSequence.length) % fullImageSequence.length;
+  showImage(currentIndex);
+}
+
+function goToNextImage(e) {
+  const now = new Date().getTime();
+  if (e.type === 'click' && now - lastTouchTime < 500) return;
+  e.stopPropagation();
+  currentIndex = (currentIndex + 1) % fullImageSequence.length;
+  showImage(currentIndex);
+}
+
+const prevBtn = document.getElementById('prev');
+const nextBtn = document.getElementById('next');
+
+// touchend에 lastTouchTime 저장 + 실행
+prevBtn.addEventListener('touchend', (e) => {
+  lastTouchTime = new Date().getTime();
+  goToPrevImage(e);
 });
+nextBtn.addEventListener('touchend', (e) => {
+  lastTouchTime = new Date().getTime();
+  goToNextImage(e);
+});
+
+// click에 중복 방지 포함해서 실행
+prevBtn.addEventListener('click', goToPrevImage);
+nextBtn.addEventListener('click', goToNextImage);
+    
 
    document.addEventListener('keydown', (e) => {
   if (lightbox.style.display === 'flex') {
