@@ -49,6 +49,11 @@
     }
     @media (max-width: 768px) {
       body { margin-left: 120px; padding: 40px 16px; }
+      .arrow {
+    width: 40px;
+    height: 40px;
+    font-size: 24px;
+  }
       .year-list { font-size: 8pt; gap: 0.8em; flex-wrap: nowrap; }
       .year-list a { margin-right: 0.2em; }
       .gallery img { width: calc(33.333% - 5px); }
@@ -112,7 +117,10 @@
     .arrow:hover {
       background: rgba(255,255,255,0.4);
     }
-    .arrow.left { left: 20px; }
+    .arrow.left {
+  left: 20px;
+  z-index: 1010; /* 버튼이 이미지 위에 올라오도록 */
+}
     .arrow.right { right: 20px; }
     @keyframes fadeIn {
       from { opacity: 0; }
@@ -243,17 +251,40 @@ function showImage(index) {
   });
 });
 
-    document.getElementById('prev').addEventListener('click', (e) => {
+let lastTouchTime = 0;
+
+function goToPrevImage(e) {
+  const now = new Date().getTime();
+  if (e.type === 'click' && now - lastTouchTime < 500) return;
   e.stopPropagation();
   currentIndex = (currentIndex - 1 + fullImageSequence.length) % fullImageSequence.length;
   showImage(currentIndex);
-});
+}
 
-document.getElementById('next').addEventListener('click', (e) => {
+function goToNextImage(e) {
+  const now = new Date().getTime();
+  if (e.type === 'click' && now - lastTouchTime < 500) return;
   e.stopPropagation();
   currentIndex = (currentIndex + 1) % fullImageSequence.length;
   showImage(currentIndex);
+}
+
+const prevBtn = document.getElementById('prev');
+const nextBtn = document.getElementById('next');
+
+// touchend에 lastTouchTime 저장 + 실행
+prevBtn.addEventListener('touchend', (e) => {
+  lastTouchTime = new Date().getTime();
+  goToPrevImage(e);
 });
+nextBtn.addEventListener('touchend', (e) => {
+  lastTouchTime = new Date().getTime();
+  goToNextImage(e);
+});
+
+// click에 중복 방지 포함해서 실행
+prevBtn.addEventListener('click', goToPrevImage);
+nextBtn.addEventListener('click', goToNextImage);
 
    document.addEventListener('keydown', (e) => {
   if (lightbox.style.display === 'flex') {
@@ -270,27 +301,30 @@ document.getElementById('next').addEventListener('click', (e) => {
   }
 });
     
-    lightbox.addEventListener('click', (e) => {
-      if (e.target === lightbox) {
-        lightbox.style.display = 'none';
-        lightbox.classList.remove('show');
-      }
-    });
+   ['click', 'touchend'].forEach(evt => {
+  lightbox.addEventListener(evt, (e) => {
+    if (e.target === lightbox) {
+      lightbox.style.display = 'none';
+      lightbox.classList.remove('show');
+    }
+  });
+});
 
     let startX = 0;
-    lightbox.addEventListener('touchstart', (e) => {
-      startX = e.touches[0].clientX;
-    });
-    lightbox.addEventListener('touchend', (e) => {
-      let endX = e.changedTouches[0].clientX;
-      if (startX - endX > 50) {
-        currentGroupIndex = (currentGroupIndex + 1) % currentGroup.length;
-        showImageInGroup(currentGroupIndex, currentGroup);
-      } else if (endX - startX > 50) {
-        currentGroupIndex = (currentGroupIndex - 1 + currentGroup.length) % currentGroup.length;
-        showImageInGroup(currentGroupIndex, currentGroup);
-      }
-    });
+   lightbox.addEventListener('touchstart', (e) => {
+  startX = e.touches[0].clientX;
+});
+
+lightbox.addEventListener('touchend', (e) => {
+  let endX = e.changedTouches[0].clientX;
+  if (startX - endX > 50) {
+    currentIndex = (currentIndex + 1) % fullImageSequence.length;
+    showImage(currentIndex);
+  } else if (endX - startX > 50) {
+    currentIndex = (currentIndex - 1 + fullImageSequence.length) % fullImageSequence.length;
+    showImage(currentIndex);
+  }
+});
 
     // 줌 기능
     let scale = 1;
