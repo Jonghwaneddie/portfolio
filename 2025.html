@@ -49,6 +49,11 @@
     }
     @media (max-width: 768px) {
       body { margin-left: 120px; padding: 40px 16px; }
+      .arrow {
+    width: 40px;
+    height: 40px;
+    font-size: 24px;
+  }
       .year-list { font-size: 8pt; gap: 0.8em; flex-wrap: nowrap; }
       .year-list a { margin-right: 0.2em; }
       .gallery img { width: calc(33.333% - 5px); }
@@ -112,7 +117,10 @@
     .arrow:hover {
       background: rgba(255,255,255,0.4);
     }
-    .arrow.left { left: 20px; }
+    .arrow.left {
+  left: 20px;
+  z-index: 1010; /* 버튼이 이미지 위에 올라오도록 */
+}
     .arrow.right { right: 20px; }
     @keyframes fadeIn {
       from { opacity: 0; }
