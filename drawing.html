@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>drawing</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css" />
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Pretendard Variable', sans-serif;
+      background: #fff;
+      color: #000;
+      margin-left: 120px;
+      padding: 60px 20px;
+    }
+    .year-list {
+      font-size: 10pt;
+      font-weight: 300;
+      display: flex;
+      gap: 0;
+      justify-content: flex-start;
+      margin-bottom: 24px;
+    }
+    .year-list a {
+      color: inherit;
+      text-decoration: none;
+      flex-grow: 0;
+      width: auto;
+      margin-right: 0.3em;
+      white-space: nowrap;
+    }
+    .year-list a:last-child {
+      margin-right: 0;
+    }
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    .gallery img {
+      height: 240px;
+      width: auto;
+      cursor: pointer;
+      border-radius: 4px;
+      object-fit: contain;
+    }
+    @media (max-width: 768px) {
+      body { margin-left: 120px; padding: 40px 16px; }
+      .arrow {
+    width: 40px;
+    height: 40px;
+    font-size: 24px;
+  }
+      .year-list { font-size: 8pt; gap: 0.8em; flex-wrap: nowrap; }
+      .year-list a { margin-right: 0.2em; }
+      .gallery img { width: calc(33.333% - 5px); }
+    }
+    .lightbox {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.9);
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      animation: fadeIn 0.3s ease;
+      overflow: hidden;
+    }
+    .lightbox img {
+      max-width: 90%;
+      max-height: 80%;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      transform-origin: center center;
+      touch-action: none;
+    }
+    .lightbox.show img {
+      opacity: 1;
+    }
+    .lightbox-caption {
+      color: #fff;
+      font-size: 14px;
+      margin-top: 12px;
+      text-align: center;
+      display: none;
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: auto;
+      max-width: 90%;
+    }
+    .lightbox.show .lightbox-caption {
+      display: block;
+    }
+    .arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 28px;
+      color: #fff;
+      cursor: pointer;
+      user-select: none;
+      width: 48px; height: 48px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.3s ease;
+    }
+    .arrow:hover {
+      background: rgba(255,255,255,0.4);
+    }
+    .arrow.left {
+  left: 20px;
+  z-index: 1010; /* 버튼이 이미지 위에 올라오도록 */
+}
+    .arrow.right { right: 20px; }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="menu-container"></div>
+
+  <div class="year-list">
+    <a href="drawing.html">drawing</a>
+  </div>
+
+  <div class="gallery" id="gallery">
+   
+   
+          <img src="d1/img1.jpg" data-caption="drawing, 2021, 29x21cm" alt="">
+     <img src="d1/img2.jpg" data-caption="drawing, 2021, 29x21cm" alt="">
+     <img src="d1/img3.jpg" data-caption="drawing, 2021, 29x21cm" alt="">
+     <img src="d1/img4.jpg" data-caption="drawing, 2021, 29x21cm" alt="">
+     <img src="d1/img5.jpg" data-caption="drawing, 2021, 29x21cm" alt="">
+     <img src="d1/img6.jpg" data-caption="drawing, 2021, 29x21cm" alt="">
+     <img src="d1/img7.jpg" data-caption="drawing, 2021, 29x21cm" alt="">
+     <img src="d1/img8.jpg" data-caption="drawing, 2021, 29x21cm" alt="">
+     <img src="d1/img9.jpg" data-caption="drawing, 2021, 29x21cm" alt="">
+     <img src="d1/img10.jpg" data-caption="drawing, 2021, 29x21cm" alt="">
+     <img src="d1/img11.jpg" data-caption="drawing, 2021, 29x21cm" alt="">
+     <img src="d1/img12.jpg" data-caption="drawing, 2021, 29x21cm" alt="">
+     <img src="d1/img13.jpg" data-caption="drawing, 2021, 29x21cm" alt="">
+     <img src="d1/img14.jpg" data-caption="drawing, 2021, 29x21cm" alt="">
+
+     <img src="d2/img1.jpg" data-caption="Still-life, 2021, scratching and watercolor on aluminum, 29x21cm" alt="">
+    <img src="d2/img2.jpg" data-caption="bombing, 2021, scratching and graphite on aluminum, 30x 20cm" alt="">
+    <img src="d2/img3.jpg" data-caption="drawing, 2021, 29x21cm" alt="">
+    <img src="d2/img4.jpg" data-caption="drawing, 2021, 29x21cm" alt="">
+    <img src="d2/img5.jpg" data-caption="drawing, 2021, 29x21cm" alt="">
+    <img src="d2/img6.jpg" data-caption="drawing, 2021, 29x21cm" alt="">
+    <img src="d2/img7.jpg" data-caption="drawing, 2021, 29x21cm" alt="">
+    <img src="d2/img8.jpg" data-caption="drawing, 2021, 29x21cm" alt="">
+    <img src="d2/img9.jpg" data-caption="drawing, 2021, 29x21cm" alt="">
+    <img src="d2/img10.jpg" data-caption="drawing, 2021, 29x21cm" alt="">
+    <img src="d2/img11.jpg" data-caption="drawing, 2021, 29x21cm" alt="">
+    <img src="d2/img12.jpg" data-caption="drawing, 2021, 29x21cm" alt="">
+    <img src="d2/img13.jpg" data-caption="drawing, 2021, 29x21cm" alt="">
+    <img src="d2/img14.jpg" data-caption="drawing, 2021, 29x21cm" alt="">
+    <img src="d2/img15.jpg" data-caption="drawing, 2021, 29x21cm" alt="">
+    
+
+    
+    
+
+    
+
+   
+
+    
+  </div>
+
+  <div class="lightbox" id="lightbox">
+    <div class="arrow left" id="prev">&#10094;</div>
+    <img src="" alt="">
+    <div class="arrow right" id="next">&#10095;</div>
+    <div class="lightbox-caption" id="caption"></div>
+  </div>
+
+  <script>
+    fetch('menu.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('menu-container').innerHTML = data;
+        window.toggleProjectMenu = function(e, submenuId) {
+          e.preventDefault();
+          const submenu1 = document.getElementById('projectSubmenu1');
+          const submenu2 = document.getElementById('projectSubmenu2');
+          const targetSubmenu = document.getElementById(submenuId);
+          if (!targetSubmenu) return;
+          if (submenuId === 'projectSubmenu1' && submenu2.classList.contains('show')) {
+            submenu2.style.maxHeight = null;
+            submenu2.classList.remove('show');
+          } else if (submenuId === 'projectSubmenu2' && submenu1.classList.contains('show')) {
+            submenu1.style.maxHeight = null;
+            submenu1.classList.remove('show');
+          }
+          if (targetSubmenu.classList.contains('show')) {
+            targetSubmenu.style.maxHeight = null;
+            targetSubmenu.classList.remove('show');
+          } else {
+            targetSubmenu.style.maxHeight = targetSubmenu.scrollHeight + "px";
+            targetSubmenu.classList.add('show');
+          }
+        }
+      });
+
+   const images = Array.from(document.querySelectorAll('.gallery img')).filter(img => img.style.display !== 'none');
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = lightbox.querySelector('img');
+const caption = document.getElementById('caption');
+
+ let fullImageSequence = [];  // 전체 순서
+let currentIndex = 0;
+
+function showImage(index) {
+  currentIndex = index;
+  const img = fullImageSequence[currentIndex];
+  lightboxImg.src = img.src;
+  caption.textContent = img.dataset.caption || '';
+  lightbox.classList.add('show');
+  lightbox.style.display = 'flex';
+  scale = 1;
+  originX = 0;
+  originY = 0;
+  applyTransform();
+}
+
+    images.forEach((img) => {
+     img.addEventListener('click', () => {
+    const clickedIndex = images.indexOf(img);
+    const groupName = img.dataset.group;
+
+    let groupImages = [];
+    if (groupName) {
+      groupImages = images.filter(i => i.dataset.group === groupName);
+    } else {
+      groupImages = [img];
+    }
+
+    const firstGroupIndex = images.indexOf(groupImages[0]);
+
+    fullImageSequence = [
+      ...groupImages,
+      ...images.slice(firstGroupIndex + groupImages.length),
+      ...images.slice(0, firstGroupIndex)
+        .filter(i => !groupImages.includes(i))
+    ];
+
+    currentIndex = 0;
+    showImage(currentIndex);
+  });
+});
+
+let lastTouchTime = 0;
+
+function goToPrevImage(e) {
+  const now = new Date().getTime();
+  if (e.type === 'click' && now - lastTouchTime < 500) return;
+  e.stopPropagation();
+  currentIndex = (currentIndex - 1 + fullImageSequence.length) % fullImageSequence.length;
+  showImage(currentIndex);
+}
+
+function goToNextImage(e) {
+  const now = new Date().getTime();
+  if (e.type === 'click' && now - lastTouchTime < 500) return;
+  e.stopPropagation();
+  currentIndex = (currentIndex + 1) % fullImageSequence.length;
+  showImage(currentIndex);
+}
+
+const prevBtn = document.getElementById('prev');
+const nextBtn = document.getElementById('next');
+
+// touchend에 lastTouchTime 저장 + 실행
+prevBtn.addEventListener('touchend', (e) => {
+  lastTouchTime = new Date().getTime();
+  goToPrevImage(e);
+});
+nextBtn.addEventListener('touchend', (e) => {
+  lastTouchTime = new Date().getTime();
+  goToNextImage(e);
+});
+
+// click에 중복 방지 포함해서 실행
+prevBtn.addEventListener('click', goToPrevImage);
+nextBtn.addEventListener('click', goToNextImage);
+
+   document.addEventListener('keydown', (e) => {
+  if (lightbox.style.display === 'flex') {
+    if (e.key === 'ArrowRight') {
+      currentIndex = (currentIndex + 1) % fullImageSequence.length;
+      showImage(currentIndex);
+    } else if (e.key === 'ArrowLeft') {
+      currentIndex = (currentIndex - 1 + fullImageSequence.length) % fullImageSequence.length;
+      showImage(currentIndex);
+    } else if (e.key === 'Escape') {
+      lightbox.style.display = 'none';
+      lightbox.classList.remove('show');
+    }
+  }
+});
+    
+   ['click', 'touchend'].forEach(evt => {
+  lightbox.addEventListener(evt, (e) => {
+    if (e.target === lightbox) {
+      lightbox.style.display = 'none';
+      lightbox.classList.remove('show');
+    }
+  });
+});
+
+    let startX = 0;
+   lightbox.addEventListener('touchstart', (e) => {
+  startX = e.touches[0].clientX;
+});
+
+lightbox.addEventListener('touchend', (e) => {
+  let endX = e.changedTouches[0].clientX;
+  if (startX - endX > 50) {
+    currentIndex = (currentIndex + 1) % fullImageSequence.length;
+    showImage(currentIndex);
+  } else if (endX - startX > 50) {
+    currentIndex = (currentIndex - 1 + fullImageSequence.length) % fullImageSequence.length;
+    showImage(currentIndex);
+  }
+});
+
+    // 줌 기능
+    let scale = 1;
+    let originX = 0;
+    let originY = 0;
+    let isPanning = false;
+    let startPanX = 0;
+    let startPanY = 0;
+
+    function applyTransform() {
+      lightboxImg.style.position = 'absolute';
+      lightboxImg.style.top = '50%';
+      lightboxImg.style.left = '50%';
+      lightboxImg.style.transform = `translate(calc(-50% + ${originX}px), calc(-50% + ${originY}px)) scale(${scale})`;
+      lightboxImg.style.cursor = scale > 1 ? 'grab' : 'default';
+    }
+
+    lightboxImg.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      const zoomIntensity = 0.1;
+      if (e.deltaY < 0) {
+        scale = Math.min(5, scale + zoomIntensity);
+      } else {
+        scale = Math.max(1, scale - zoomIntensity);
+        if (scale === 1) {
+          originX = 0;
+          originY = 0;
+        }
+      }
+      applyTransform();
+    });
+
+    lightboxImg.addEventListener('mousedown', (e) => {
+      if (scale <= 1) return;
+      isPanning = true;
+      startPanY = e.clientY - originY;
+      lightboxImg.style.cursor = 'grabbing';
+    });
+
+    document.addEventListener('mouseup', () => {
+      isPanning = false;
+      if (scale > 1) lightboxImg.style.cursor = 'grab';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      if (!isPanning) return;
+      originY = e.clientY - startPanY;
+      applyTransform();
+    });
+
+    lightboxImg.addEventListener('dblclick', () => {
+      if (scale === 1) {
+        scale = 2;
+      } else {
+        scale = 1;
+        originX = 0;
+        originY = 0;
+      }
+      applyTransform();
+    });
+
+    // 모바일 핀치 줌
+    let initialDistance = 0;
+    lightboxImg.addEventListener('touchstart', (e) => {
+      if (e.touches.length === 2) {
+        const dx = e.touches[0].clientX - e.touches[1].clientX;
+        const dy = e.touches[0].clientY - e.touches[1].clientY;
+        initialDistance = Math.sqrt(dx * dx + dy * dy);
+      } else if (e.touches.length === 1 && scale > 1) {
+        isPanning = true;
+        startPanX = e.touches[0].clientX - originX * scale;
+        startPanY = e.touches[0].clientY - originY * scale;
+      }
+    });
+
+    lightboxImg.addEventListener('touchmove', (e) => {
+      if (e.touches.length === 2) {
+        e.preventDefault();
+        const dx = e.touches[0].clientX - e.touches[1].clientX;
+        const dy = e.touches[0].clientY - e.touches[1].clientY;
+        const newDistance = Math.sqrt(dx * dx + dy * dy);
+        const zoomFactor = newDistance / initialDistance;
+        scale = Math.min(5, Math.max(1, scale * zoomFactor));
+        initialDistance = newDistance;
+        applyTransform();
+      } else if (e.touches.length === 1 && isPanning) {
+        originX = (e.touches[0].clientX - startPanX) / scale;
+        originY = (e.touches[0].clientY - startPanY) / scale;
+        applyTransform();
+      }
+    });
+
+    lightboxImg.addEventListener('touchend', () => {
+      isPanning = false;
+    });
+  </script>
+</body>
+</html>
