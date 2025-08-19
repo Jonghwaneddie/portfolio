@@ -115,13 +115,48 @@
       }
       
      }
+.lang-toggle {
+  font-size: 10px;
+  margin-left: 12px;
+  display: none; /* 기본은 숨김 */
+}
+
+.lang-toggle button {
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  color: #000;
+}
+
+.lang-toggle button:focus {
+  outline: none;
+  text-decoration: underline;
+}
+
+/* 모바일에서만 표시 */
+@media (max-width: 768px) {
+  .lang-toggle {
+    display: inline-block;
+  }
+}
+    
   </style>
 </head>
 <body>
 
   <div id="menu-container"></div>
 
-  <h1>Information</h1>
+ <h1>
+  Information
+  <span class="lang-toggle">
+    <button onclick="showLang('kor')">KOR</button> /
+    <button onclick="showLang('eng')">ENG</button>
+  </span>
+</h1>
 
   <div class="content-wrapper">
     <div class="left">
@@ -145,10 +180,7 @@
       <div class="line"><div class="year">2025</div><div class="text">Surgical Room, 실린더 2, 서울</div></div>
       <div class="line"><div class="year">2024</div><div class="text"><i>CYLINDER x South Parade</i>, South Parade, 런던, 영국</div></div>
       <div class="line"><div class="year">2023</div><div class="text">좋은 이웃, 스페이스3, 서울</div></div>
-      <div class="line">
-        <div class="year">2022</div>
-        <div class="text">
-          <div>Waiting Room, 수치, 서울</div>
+      <div class="line"><div class="year">2022</div><div class="text"><div>Waiting Room, 수치, 서울</div>
           <div><i>페리지 윈터쇼 2022</i>, 페리지갤러리, 서울</div>
           <div><i>The Wild Bunch</i>, 디스위켄드룸, 서울</div>
           <div>Fonds, 오시선, 서울</div>
@@ -218,10 +250,31 @@
           }
         }
       });
+     function showLang(lang) {
+    const kor = document.querySelector('.left');
+    const eng = document.querySelector('.right');
+
+    if (lang === 'kor') {
+      kor.style.display = 'flex';
+      eng.style.display = 'none';
+    } else {
+      kor.style.display = 'none';
+      eng.style.display = 'flex';
+    }
+  }
+
+  // 페이지 로드 시 모바일이라면 KOR만 보이게
+  window.addEventListener('DOMContentLoaded', () => {
+    if (window.innerWidth <= 768) {
+      showLang('kor');
+    }
+  });
+    
   </script>
 
 </body>
 </html>
+
 
 
 
