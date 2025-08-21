@@ -123,7 +123,7 @@
 .lang-toggle {
   font-size: 10px;
   margin-left: 12px;
-  display: none; /* 기본은 숨김 */
+  display:inline-block;
 }
 
 .lang-toggle button {
@@ -268,17 +268,16 @@
     }
   }
 
-  // 페이지 로드 시 모바일이라면 KOR만 보이게
-  window.addEventListener('DOMContentLoaded', () => {
-    if (window.innerWidth <= 768) {
-      showLang('kor');
-    }
-  });
+// 페이지 로드 시 기본 언어 설정
+window.addEventListener('DOMContentLoaded', () => {
+  showLang('kor'); // 기본은 한국어로 시작 (필요시 'eng'로 변경 가능)
+});
     
   </script>
 
 </body>
 </html>
+
 
 
 
