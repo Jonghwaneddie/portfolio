@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Information</title>
+  <title>texts</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css">
   <style>
     body {
@@ -156,23 +156,19 @@
   <div id="menu-container"></div>
 
  <h1>
-  Information
+  Texts
   <span class="lang-toggle">
     <button onclick="showLang('kor')">KOR</button> /
     <button onclick="showLang('eng')">ENG</button>
   </span>
 </h1>
 
-  <div class="content-wrapper">
-    <div style="display: flex; flex-direction: column; gap: 12px;">
-      <button onclick="location.href='text1.html'" style="font-size: 11px; padding: 8px 12px; cursor: pointer;">
-        텍스트 1
-      </button>
-      <button onclick="location.href='text2.html'" style="font-size: 11px; padding: 8px 12px; cursor: pointer;">
-        텍스트 2
-      </button>
-    </div>
+<div class="content-wrapper">
+  <div style="display: flex; flex-direction: column; gap: 10px; font-size: 11px; line-height: 1.6;">
+    <a href="text1.html" class="text-link">텍스트 1</a>
+    <a href="text2.html" class="text-link">텍스트 2</a>
   </div>
+</div>
 
   <script>
     fetch('menu.html')
