@@ -165,9 +165,15 @@
 
 <div class="content-wrapper">
   <div style="display: flex; flex-direction: column; gap: 10px; font-size: 11px; line-height: 1.6;">
-    <a href="loggiatext.html" class="text-link"><i>나무들은 맞닿아 있지 않고 서로 파고들어 어우러져 있다
-: Loggia에 대한 걷기</i>, 2025, 이수민</a>
-    <a href="paintingn.html" class="text-link"><i>painting n</i>, 2023, 권혁규</a>
+ 
+    <!-- 한국어 텍스트 -->
+    <a href="loggiatext.html" class="text-link lang-kor"><i>나무들은 맞닿아 있지 않고 서로 파고들어 어우러져 있다
+: Loggia에 대한 걷기</i>, 2025, Soomin Lee</a>
+    <a href="paintingn.html" class="text-link lang-kor"><i>painting n</i>, 2023, 권혁규</a>
+
+    <!-- 영어 텍스트 -->
+    <a href="text1.html" class="text-link lang-eng" style="display: none;"><i>Trees do not touch each other but intertwine and merge together: A walk in the Loggia, 2025, Soomon Lee</i></a>
+    <a href="text2.html" class="text-link lang-eng" style="display: none;"><i>painting n</i>, 2023, Hyukgue Kwon</a>
   </div>
 </div>
 
@@ -203,17 +209,17 @@
         }
       });
      function showLang(lang) {
-    const kor = document.querySelector('.left');
-    const eng = document.querySelector('.right');
+  const korElems = document.querySelectorAll('.lang-kor');
+  const engElems = document.querySelectorAll('.lang-eng');
 
-    if (lang === 'kor') {
-      kor.style.display = 'flex';
-      eng.style.display = 'none';
-    } else {
-      kor.style.display = 'none';
-      eng.style.display = 'flex';
-    }
+  if (lang === 'kor') {
+    korElems.forEach(el => el.style.display = 'block');
+    engElems.forEach(el => el.style.display = 'none');
+  } else {
+    korElems.forEach(el => el.style.display = 'none');
+    engElems.forEach(el => el.style.display = 'block');
   }
+}
 
   // 페이지 로드 시 모바일이라면 KOR만 보이게
   window.addEventListener('DOMContentLoaded', () => {
