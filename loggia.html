@@ -6,6 +6,7 @@
   <title>Loggia (2025)</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css">
   <style>
+    
    body {
     font-size: 11px;
     letter-spacing: 0.2px;
@@ -90,7 +91,8 @@
       align-items: flex-start;
     }
 
-    .image-list img {
+    .image-list img,
+    .image-list video.art-video{
       width: 100%;
       height: auto;
       cursor: pointer;
@@ -98,7 +100,8 @@
       transition: transform 0.2s;
     }
 
-    .image-list img:hover {
+    .image-list img:hover,
+    .image-list video.art-video:hover {
       transform: scale(1.02);
     }
 
@@ -173,6 +176,7 @@ Hall1, 8, Yangpyeong-ro 22ma-gil, Yeongdeungpo-gu, Seoul, Korea
     </div>
 
     <div class="image-list">
+      <video src="videos/loggiavideo.mp4" class="art-video" muted playsinline poster="videos/loggia.jpg"></video>
       <img src="loggiaimages/loggia1.jpg" alt="Loggia 1">
       <img src="loggiaimages/loggia2.jpg" alt="Loggia 2">
       <img src="loggiaimages/loggia3.jpg" alt="Loggia 3">
@@ -193,6 +197,7 @@ Hall1, 8, Yangpyeong-ro 22ma-gil, Yeongdeungpo-gu, Seoul, Korea
   <div class="modal" id="imageModal">
     <span class="modal-close" id="modalClose">&times;</span>
     <img id="modalImage" src="" alt="확대 이미지" />
+    <video id="modalVideo" controls muted playsinline style="display:none; max-width:90vw; max-height:90vh; border-radius:5px; box-shadow: 0 0 20px rgba(0,0,0,0.6);"></video>
   </div>
 
   <script>
@@ -229,50 +234,95 @@ Hall1, 8, Yangpyeong-ro 22ma-gil, Yeongdeungpo-gu, Seoul, Korea
 
     const modal = document.getElementById("imageModal");
     const modalImg = document.getElementById("modalImage");
+    const modalVideo = document.getElementById("modalVideo");
     const closeBtn = document.getElementById("modalClose");
 
-    document.querySelectorAll('.image-list img').forEach((img, index) => {
-      img.addEventListener('click', () => {
-        modal.style.display = "flex";
-        modalImg.src = img.src;
-        currentIndex = index;
-      });
-    });
-
-    closeBtn.addEventListener('click', () => modal.style.display = "none");
-    modal.addEventListener('click', e => {
-      if (e.target === modal) modal.style.display = "none";
-    });
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') {
-        modal.style.display = "none";
-      }
-      if (modal.style.display === "flex") {
-        if (e.key === "ArrowRight") {
-          showNextImage();
-        }
-        if (e.key === "ArrowLeft") {
-          showPrevImage();
-        }
-      }
-    });
-
+   const images = document.querySelectorAll('.image-list img');
+    const videos = document.querySelectorAll('.image-list video.art-video');
     let currentIndex = 0;
-    const images = document.querySelectorAll('.image-list img');
 
-    function showNextImage() {
-      currentIndex = (currentIndex + 1) % images.length;
-      modalImg.src = images[currentIndex].src;
-    }
+ videos.forEach((video, index) => {
+  video.addEventListener('click', () => {
+    modal.style.display = "flex";
+    modalImg.style.display = "none";
+    modalVideo.style.display = "block";
+    modalVideo.src = video.src;
+    modalVideo.play();
+    currentIndex = index; // videos가 앞에 있으니 영상은 인덱스 그대로
+  });
+});
 
-    function showPrevImage() {
-      currentIndex = (currentIndex - 1 + images.length) % images.length;
-      modalImg.src = images[currentIndex].src;
-    }
+images.forEach((img, index) => {
+  img.addEventListener('click', () => {
+    modal.style.display = "flex";
+    modalImg.src = img.src;
+    modalImg.style.display = "block";
+    modalVideo.style.display = "none";
+    modalVideo.pause();
+    currentIndex = videos.length + index; // 이미지가 뒤에 있으니 + videos.length
+  });
+});
+
+   closeBtn.addEventListener('click', closeModal);
+modal.addEventListener('click', e => {
+  if (e.target === modal) closeModal();
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModal();
+  if (modal.style.display === "flex") {
+    if (e.key === "ArrowRight") showNext();
+    if (e.key === "ArrowLeft") showPrev();
+  }
+});
+
+function closeModal() {
+  modal.style.display = "none";
+  modalImg.style.display = "none";
+  modalVideo.style.display = "none";
+  modalImg.src = "";
+  modalVideo.pause();
+  modalVideo.src = "";
+}
+
+    
+
+    
+
+    const items = [...videos, ...images]; // 영상 + 이미지 순서에 맞게
+
+function showNext() {
+  currentIndex = (currentIndex + 1) % items.length;
+  triggerModal(items[currentIndex]);
+}
+
+function showPrev() {
+  currentIndex = (currentIndex - 1 + items.length) % items.length;
+  triggerModal(items[currentIndex]);
+}
+
+function triggerModal(item) {
+  const isVideo = item.tagName.toLowerCase() === 'video';
+
+  modal.style.display = "flex";
+
+  if (isVideo) {
+    modalVideo.src = item.src;
+    modalVideo.style.display = "block";
+    modalImg.style.display = "none";
+    modalVideo.play();
+  } else {
+    modalImg.src = item.src;
+    modalImg.style.display = "block";
+    modalVideo.style.display = "none";
+    modalVideo.pause();
+    modalVideo.src = "";
+  }
+}
   </script>
 
 </body>
 </html>
+
 
 
 
