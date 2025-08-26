@@ -2,14 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://jonghwanlee.com/</loc>
+    <lastmod>2025-08-26</lastmod>
+    <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://jonghwanlee.com/works</loc>
+    <loc>https://jonghwanlee.com/information.html</loc>
+    <lastmod>2025-08-26</lastmod>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://jonghwanlee.com/information</loc>
-  </url>
-  <url>
-    <loc>https://jonghwanlee.com/contact</loc>
+    <loc>https://jonghwanlee.com/contact.html</loc>
+    <lastmod>2025-08-26</lastmod>
+    <priority>0.8</priority>
   </url>
 </urlset>
